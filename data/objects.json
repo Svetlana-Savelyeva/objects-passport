@@ -996,9 +996,9 @@
   "rooms": "1",
   "beds": "3",
   "guests": "3",
-  "ceiling": "",
+  "ceiling": "2,7",
   "floorsTotal": "",
-  "view": "",
+  "view": "На улицу. Вид так себе если честно (гостям так не говорим, но как видовой объект точно не продаем)",
   "amenities": {
    "loggia": true,
    "dishwasher": true,
@@ -1010,7 +1010,11 @@
    "hairdryer": true,
    "elevator": true,
    "workspace": true,
-   "bath": true
+   "bath": true,
+   "kettle": true,
+   "vacuum": true,
+   "cmvliqqrp": true,
+   "cmvlirs5z": true
   },
   "provider": "Нева-Линк",
   "contract": "212343",
@@ -1059,10 +1063,24 @@
   ],
   "order": 16,
   "payer": "Дмитрий Дидейкин",
+  "apt": "",
+  "checkIn": "15:00",
+  "checkOut": "12:00",
+  "ukName": "",
+  "ukPhone": "",
+  "ukDispatch": "",
+  "ukEmail": "",
+  "ukApp": "",
+  "ukOffice": "",
+  "ukNotes": "",
+  "sleep": {
+   "bed140": 1,
+   "sofasm": 1
+  },
   "secretFilled": [
    "access"
   ],
-  "enc": "pi2YIO0gDf+iAT7GraCDuU9EFD4U31yDZo9/ZItsMa2b0CX4IqAyGZVGSl9NjbKtsneQ0k8RCgRMhUAwfBWQP3w6CdeZaxaZlueNwzf/PXDw6Zh5ze/6yPkihTZAK3Dui3XLQfjhps02qifbs/SRZL4ibWF7qjd980JltzY3TXUpGddSMRU11g=="
+  "enc": "wROyATNUxVmXeckWRxN5NGHxYQdxT8ATgDrfSYgkfKpoUahhOWCCNj1h9HN/9wdW043debpkmPYXhLyPfUW+ZQ9PVl+eKjOgfp8fp/M4eNNjAn+3gqbK24vkSocORBggC/qRhfrLx9KE/pFDZCQoIrEwQMQP5r+SNj7pqswDILQ9Sg=="
  },
  {
   "id": "o-17",
