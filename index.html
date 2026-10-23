@@ -247,13 +247,13 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
-.stat.tbox{flex:2 1 0;display:flex;align-items:center;gap:18px;margin:-10px 10px -10px 12px;padding:14px 22px;border:0;border-radius:22px;background:var(--g-orange);color:#fff;box-shadow:0 14px 28px -18px rgba(232,144,122,.8)}
+.stat.tbox{flex:0 1 auto;display:flex;align-items:center;gap:22px;margin:-8px 14px -8px 10px;padding:12px 24px;border:0;border-radius:20px;background:var(--g-orange);color:#fff;box-shadow:0 12px 24px -16px rgba(232,144,122,.75)}
 .stat.tbox+.stat{border-left:0}
-.tpart{display:flex;align-items:center;gap:12px;min-width:max-content}
-.tpart .tic{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.26);display:grid;place-items:center;flex:none}
-.tpart b{display:block;font-family:var(--f-display);font-weight:400;font-size:clamp(24px,2.5vw,34px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.tpart span:not(.tic){display:block;font-size:12px;color:rgba(255,255,255,.88);margin-top:6px}
-.tsep{width:1px;align-self:stretch;background:rgba(255,255,255,.4)}
+.tpart{min-width:max-content}
+.tpart b{display:block;font-family:var(--f-display);font-weight:300;font-size:clamp(26px,2.8vw,38px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:#fff}
+.tpart em{display:flex;align-items:center;gap:6px;font-style:normal;font-size:12px;color:rgba(255,255,255,.92);margin-top:8px}
+.tpart em svg{flex:none}
+.tsep{width:1px;align-self:stretch;margin:4px 0;background:rgba(255,255,255,.45)}
 .pill.navbtn{background:var(--g-blue);color:#fff;box-shadow:0 12px 24px -14px rgba(79,99,221,.7)}
 .pill.navbtn .ar{background:rgba(255,255,255,.22)}
 .pill.navbtn:hover{filter:brightness(1.06)}
@@ -815,8 +815,8 @@ function cardHTML(o,dist){const f=fill(o);return `
 
 /* ---------- object page ---------- */
 function timeBox(o){if(!has(o.checkIn)&&!has(o.checkOut))return"";
-  const part=(v,l,ic)=>has(v)?`<div class="tpart"><span class="tic">${ic}</span><div><b>${esc(v)}</b><span>${l}</span></div></div>`:"";
-  return `<div class="stat tbox">${part(o.checkIn,"заезд с",S('<path d="M10 17l5-5-5-5M15 12H3M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/>',20))}${has(o.checkIn)&&has(o.checkOut)?'<i class="tsep"></i>':""}${part(o.checkOut,"выезд до",S('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',20))}</div>`}
+  const part=(v,l,ic)=>has(v)?`<div class="tpart"><b>${esc(v)}</b><em>${ic}${l}</em></div>`:"";
+  return `<div class="stat tbox">${part(o.checkIn,"заезд с",S('<path d="M10 17l5-5-5-5M15 12H3M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/>',14))}${has(o.checkIn)&&has(o.checkOut)?'<i class="tsep"></i>':""}${part(o.checkOut,"выезд до",S('<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',14))}</div>`}
 function stat(v,l,unit){return has(v)?`<div class="stat"><b${/^[\d.,:\s+–-]+$/.test(String(v).trim())?"":' class="word"'}>${esc(v)}${unit?`<small>${unit}</small>`:""}</b><span>${l}</span></div>`:""}
 const LOCKED={locked:1};
 function secretVal(o,key){if(!(o.secretFilled||[]).includes(key))return null;return aes?(secrets[o.id]||{})[key]||"":LOCKED}
