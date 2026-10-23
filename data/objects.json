@@ -46,7 +46,7 @@
   "contract": "780046300856",
   "providerPhone": "",
   "wifiName": "TP_Link_58CD_5G",
-  "nearby": "",
+  "nearby": "Поблизости аэропорт Пулково, ТРЦ Лето, TermoLand (аква-комлекс)",
   "notes": "",
   "custom": [
    {
@@ -76,6 +76,9 @@
   ],
   "order": 1,
   "payer": "Евгений Мокров",
+  "sleep": {
+   "bed160": 1
+  },
   "secretFilled": [
    "access",
    "wifiPass"
