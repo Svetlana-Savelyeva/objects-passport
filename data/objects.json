@@ -45,16 +45,27 @@
   "provider": "Дом.Ру",
   "contract": "780046300856",
   "providerPhone": "",
-  "wifiName": "",
+  "wifiName": "TP_Link_58CD_5G",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": "https://merinohome.ru/i01"
+   },
+   {
+    "label": "Страница на сайте",
+    "value": "https://merinohome.ru/zeus"
+   }
+  ],
   "photos": [],
   "order": 1,
+  "payer": "Евгений Мокров",
   "secretFilled": [
-   "access"
+   "access",
+   "wifiPass"
   ],
-  "enc": "aAHnokdJC5N2kwKy0HCRWBRMgRaTJahhmgiTPrvRpzT4gPPKCk13C23t/WUpKSoZCxHWOc/cZeHY62gPqhS2dcw/XKgRSRzXvj7ME80+CCqOp73zjpra8+yiK25wlsuiYUKUX/F9TkJys0K5L6tf2aacHrGPhUUUZ4Cf1srkNRZ0IkcjkJFj/w=="
+  "enc": "yMNiLHUWmDs30zBiETnS6sKUou8V+s8gaTwdI0urNTr/13lAREpodGc4WIGJmKBtMALHNao6tRQwBJrRMLnuVXA/wTTRfWNbdwjLcnShBP2e3CGn+jIGjKJTZMmaj0lU4NiPUqG2dijp1xFALa1nYC/bhPnJ/8AW8eqT+EtjEq0uTJWeBlv5ksfo2GlJ6sBRADouqH69hyW857P24w=="
  },
  {
   "id": "o-02",
@@ -88,7 +99,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 2,
   "secretFilled": [
@@ -128,7 +148,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 3,
   "secretFilled": [
@@ -168,7 +197,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 4,
   "secretFilled": [
@@ -208,7 +246,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 5,
   "secretFilled": [
@@ -248,7 +295,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 6,
   "secretFilled": [
@@ -288,7 +344,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 7,
   "secretFilled": [
@@ -328,7 +393,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 8,
   "secretFilled": [
@@ -368,7 +442,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 9,
   "secretFilled": [
@@ -408,7 +491,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 10,
   "secretFilled": [
@@ -448,7 +540,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 11,
   "secretFilled": [
@@ -488,7 +589,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 12,
   "secretFilled": [
@@ -528,7 +638,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 13,
   "secretFilled": [
@@ -568,7 +687,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 14,
   "secretFilled": [
@@ -608,7 +736,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 15,
   "secretFilled": [
@@ -648,7 +785,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 16,
   "secretFilled": [
@@ -688,7 +834,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 17,
   "secretFilled": [
@@ -728,7 +883,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 18,
   "secretFilled": [
@@ -768,7 +932,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 19,
   "secretFilled": [
@@ -808,7 +981,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 20,
   "secretFilled": [
@@ -848,7 +1030,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 21,
   "secretFilled": [
@@ -888,7 +1079,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 22,
   "secretFilled": [
@@ -928,7 +1128,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 23,
   "secretFilled": [
@@ -968,7 +1177,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 24,
   "secretFilled": [
@@ -1008,7 +1226,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 25,
   "secretFilled": [
@@ -1048,7 +1275,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 26,
   "secretFilled": [
@@ -1088,7 +1324,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 27,
   "secretFilled": [
@@ -1128,7 +1373,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 28,
   "secretFilled": [
@@ -1168,7 +1422,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 29,
   "secretFilled": [
@@ -1208,7 +1471,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 30,
   "secretFilled": [
@@ -1248,7 +1520,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 31,
   "secretFilled": [
@@ -1288,7 +1569,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 32,
   "secretFilled": [
@@ -1328,7 +1618,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 33,
   "secretFilled": [
@@ -1368,7 +1667,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 34,
   "secretFilled": [
@@ -1408,7 +1716,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 35,
   "secretFilled": [
@@ -1448,7 +1765,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 36,
   "secretFilled": [
@@ -1488,7 +1814,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 37,
   "secretFilled": [
@@ -1528,7 +1863,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 38,
   "secretFilled": [
@@ -1568,7 +1912,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 39,
   "secretFilled": [
@@ -1608,7 +1961,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 40,
   "secretFilled": [
@@ -1648,7 +2010,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 41,
   "secretFilled": [
@@ -1688,7 +2059,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 42,
   "secretFilled": [
@@ -1728,7 +2108,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 43,
   "secretFilled": [
@@ -1768,7 +2157,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 44,
   "secretFilled": [
@@ -1808,7 +2206,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 45,
   "secretFilled": [
@@ -1848,7 +2255,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 46,
   "secretFilled": [
@@ -1888,7 +2304,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 47,
   "secretFilled": [
@@ -1928,7 +2353,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 48,
   "secretFilled": [
@@ -1968,7 +2402,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 49,
   "secretFilled": [
@@ -2008,7 +2451,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 51,
   "secretFilled": [
@@ -2048,7 +2500,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 52,
   "secretFilled": [
@@ -2088,7 +2549,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 53,
   "secretFilled": [
@@ -2128,7 +2598,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 54,
   "secretFilled": [
@@ -2168,7 +2647,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 55,
   "secretFilled": [
@@ -2208,7 +2696,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 56,
   "secretFilled": [
@@ -2248,7 +2745,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 57,
   "secretFilled": [
@@ -2288,7 +2794,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 58,
   "secretFilled": [
@@ -2328,7 +2843,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 59,
   "secretFilled": [
@@ -2368,7 +2892,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 60,
   "secretFilled": [
@@ -2408,7 +2941,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 61,
   "secretFilled": [
@@ -2448,7 +2990,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 62,
   "secretFilled": [
@@ -2488,7 +3039,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 63,
   "secretFilled": [
@@ -2528,7 +3088,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 64,
   "secretFilled": [
@@ -2568,7 +3137,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 65,
   "secretFilled": [
@@ -2608,7 +3186,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 66,
   "secretFilled": [
@@ -2648,7 +3235,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 67,
   "secretFilled": [
@@ -2688,7 +3284,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 68,
   "secretFilled": [
@@ -2728,7 +3333,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 69,
   "secretFilled": [
@@ -2768,7 +3382,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 70,
   "secretFilled": [
@@ -2808,7 +3431,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 71,
   "secretFilled": [
@@ -2848,7 +3480,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 72,
   "secretFilled": [
@@ -2888,7 +3529,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 73,
   "secretFilled": [
@@ -2928,7 +3578,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 74,
   "secretFilled": [
@@ -2968,7 +3627,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 75,
   "secretFilled": [
@@ -3008,7 +3676,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 76,
   "secretFilled": [
@@ -3048,7 +3725,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 77,
   "secretFilled": [
@@ -3088,7 +3774,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 78,
   "secretFilled": [
@@ -3128,7 +3823,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 79,
   "secretFilled": [
@@ -3168,7 +3872,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 80,
   "secretFilled": [
@@ -3208,7 +3921,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 81,
   "secretFilled": [
@@ -3248,7 +3970,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 82,
   "secretFilled": [
@@ -3288,7 +4019,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 83,
   "secretFilled": [
@@ -3328,7 +4068,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 84,
   "secretFilled": [
@@ -3368,7 +4117,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 86,
   "secretFilled": [
@@ -3408,7 +4166,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 87,
   "secretFilled": [
@@ -3448,7 +4215,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 88,
   "secretFilled": [
@@ -3488,7 +4264,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 89,
   "secretFilled": [
@@ -3528,7 +4313,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 1001,
   "secretFilled": [],
@@ -3566,7 +4360,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 2001,
   "secretFilled": [],
@@ -3604,7 +4407,16 @@
   "wifiName": "",
   "nearby": "",
   "notes": "",
-  "custom": [],
+  "custom": [
+   {
+    "label": "Инструкция по заезду",
+    "value": ""
+   },
+   {
+    "label": "Страница на сайте",
+    "value": ""
+   }
+  ],
   "photos": [],
   "order": 2002,
   "secretFilled": [],
