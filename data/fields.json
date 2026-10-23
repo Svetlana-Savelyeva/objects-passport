@@ -16,5 +16,12 @@
       "label": "Среднесрок (да/нет)",
       "secret": false
     }
+  ],
+  "amenities": [
+    {
+      "key": "cmvliqqrp",
+      "label": "Питьевой фильтр встроенный",
+      "icon": "drop"
+    }
   ]
 }
