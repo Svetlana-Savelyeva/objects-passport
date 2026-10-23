@@ -193,6 +193,49 @@ section.sec{margin-top:64px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--inv);padding:10px 18px;border-radius:999px;font-size:14px;z-index:60}
 footer{margin-top:80px;padding-block:28px calc(28px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);color:var(--muted);font-size:12.5px}
 
+/* editing */
+.form{display:grid;gap:18px;margin-top:28px}
+.fs{background:var(--surface);border:0;border-radius:var(--r);padding:24px 26px;margin:0;min-width:0}
+.fs legend{float:left;width:100%;font:500 10.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);padding:0;margin-bottom:18px}
+.grid{clear:both;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px 16px}
+.grid .wide{grid-column:1/-1}
+label.f{display:grid;gap:6px;font-size:12.5px;color:var(--muted);min-width:0}
+label.f .sec{display:inline-flex;align-items:center;gap:4px}
+textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
+.field:disabled{opacity:.55}
+.amedit{clear:both;display:flex;flex-wrap:wrap;gap:8px}
+.am3{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer;font-size:13.5px;background:var(--bg)}
+.am3 .ic{width:28px;height:28px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--muted)}
+.am3 .st{font-size:10.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.am3[data-v="yes"]{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 10%,var(--surface))}
+.am3[data-v="yes"] .st{color:var(--ok)}
+.am3[data-v="no"]{border-color:var(--no);background:color-mix(in srgb,var(--no) 8%,var(--surface))}
+.am3[data-v="no"] .st{color:var(--no)}
+.crow{clear:both;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) auto auto;gap:10px;margin-bottom:10px;align-items:center}
+.lockt{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+.lockt[aria-pressed="true"]{background:var(--ink);color:var(--inv);border-color:var(--ink)}
+.lockt:disabled{opacity:.4;cursor:not-allowed}
+.savebar{position:sticky;bottom:0;display:flex;gap:12px;flex-wrap:wrap;align-items:center;padding:16px 0 calc(16px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,var(--bg) 35%)}
+.banner{background:var(--soft);border-radius:var(--r);padding:16px 20px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;font-size:14px;color:var(--muted)}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13.5px}
+.btn.danger{color:var(--no)}
+.drop{border:1.5px dashed var(--line);border-radius:var(--r);padding:26px;text-align:center;color:var(--muted);font-size:14px;margin-top:16px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.drop.over{border-color:var(--ink);background:var(--soft)}
+.status{font-size:13px;color:var(--muted)}
+.status.err{color:var(--no)}
+.file .cap input{flex:1;min-width:0;border:1px solid transparent;background:transparent;border-radius:10px;padding:5px 8px;font-size:13.5px;font-weight:500}
+.file .cap input:hover,.file .cap input:focus{border-color:var(--line);background:var(--bg)}
+.file .more{display:flex;gap:6px;flex-wrap:wrap;padding:0 12px 12px}
+.modal form.wide{width:min(560px,100%)}
+.modal ol{margin:0;padding-left:20px;color:var(--ink);font-size:14px;display:grid;gap:6px}
+.modal ol b{font-weight:600}
+.modal .rows{display:flex;flex-wrap:wrap;gap:6px}
+.modal .rows span{background:var(--soft);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500}
+.busy{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--inv);padding:10px 18px;border-radius:999px;font-size:14px;z-index:61;display:flex;gap:10px;align-items:center}
+.busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hdr{display:flex;gap:8px;align-items:center}
+
 @media (max-width:900px){
   .hero,.ohero{grid-template-columns:1fr}
   .bigcover{min-height:260px;order:-1}
@@ -211,6 +254,9 @@ footer{margin-top:80px;padding-block:28px calc(28px + env(safe-area-inset-bottom
   .fbar{padding:20px}
   .rt{min-width:72px;padding:12px 8px 10px}
   .fillcard{grid-template-columns:1fr;gap:16px}
+  .crow{grid-template-columns:1fr auto auto}
+  .crow input:first-child{grid-column:1/-1}
+  .topin{gap:10px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -220,17 +266,26 @@ footer{margin-top:80px;padding-block:28px calc(28px + env(safe-area-inset-bottom
   <button class="logo" data-act="home">Паспорта объектов</button>
   <nav class="navl" id="navl" aria-label="Город"></nav>
   <span class="grow"></span>
-  <button class="pill sm light lockbtn" id="lockBtn" data-act="unlock"><span class="lbl">Показать коды</span><span class="ar" id="lockIc"></span></button>
+  <div class="hdr">
+    <button class="pill sm" id="newBtn" data-act="new" hidden><span class="lbl">Новый объект</span><span class="ar"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></button>
+    <button class="pill sm light lockbtn" id="lockBtn" data-act="unlock"><span class="lbl">Показать коды</span><span class="ar" id="lockIc"></span></button>
+    <button class="pill sm light lockbtn" id="editBtn" data-act="login"><span class="lbl">Войти для правок</span><span class="ar" id="editIc"></span></button>
+  </div>
 </div></header>
 <main class="shell" id="view"><div class="empty" style="margin-top:40px"><h2>Загружаю паспорта</h2>Сейчас появятся все объекты.</div></main>
-<footer><div class="shell">Данные хранятся в репозитории objects-passport на GitHub. Коды доступа и пароли зашифрованы — без пароля их не видно.</div></footer>
+<footer><div class="shell">Данные хранятся в репозитории objects-passport на GitHub. Коды доступа и пароли зашифрованы — без пароля их не видно. Правка на сайте — по ключу доступа GitHub.</div></footer>
+<input type="file" id="fileIn" accept="image/*,application/pdf" multiple hidden>
 
 <script>
+const GH={owner:"Svetlana-Savelyeva",repo:"objects-passport",branch:"main"};
 const LINES={"Красный":"#d6083b","Синий":"#0078c9","Зеленый":"#009a49","Оранжевый":"#ea7125","Фиолетовый":"#702785","Коричневый":"#9a6b2b","Желтый":"#f2b600"};
 const S=(d,w=18)=>`<svg width="${w}" height="${w}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 const ICON={
  arrow:'<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>',
  arrowl:'<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4L3 8l4 4"/></svg>',
+ plus:'<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg>',
+ pencil:'<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M10.5 2.5l3 3L6 13H3v-3z"/></svg>',
+ exit:S('<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>',14),
  lock:S('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',14),
  unlock:S('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/>',14),
  door:S('<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17M3 21h18M14 12h.01"/>'),
@@ -268,22 +323,38 @@ const AM=[["balcony","Балкон"],["loggia","Лоджия"],["boiler","Бой
 const AM_FILTER=["ac","dishwasher","boiler","balcony","washer","elevator","pets","crib"];
 const ROOMS=[["","Все"],["Студия","Студия"],["1","1-комн."],["2","2-комн."],["3","3-комн."],["4+","4+ комн."]];
 const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["nearby","Поблизости"]];
+const SECRET=["access","wifiPass","account"];
+const SECTIONS=[
+ {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["photoLink","Фото-инструкция (ссылка)","wide"],["extraLink","Доп. ссылка","wide"]]},
+ {t:"Квартира",f:[["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
+ {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"]]},
+ {t:"Поблизости и заметки",f:[["nearby","Объекты поблизости (магазины, кафе, аптеки…)","area"],["notes","Заметки","area"]]}
+];
+const SECRET_HINT=/код|кейбокс|замок|калитк|пароль|сейф|домофон|pin/i;
 
 const $=s=>document.querySelector(s);
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const safeUrl=u=>/^https?:\/\//i.test(u||"")?u:"";
 const lineColor=l=>LINES[(l||"").trim()]||"#bbb";
 const safeColor=c=>/^#[0-9a-f]{3,8}$/i.test(c||"")?c:"#bbb";
-const filePath=p=>String(p||"").split("/").map(encodeURIComponent).join("/");
-const coverOf=o=>(o.photos||[]).find(p=>p.type!=="application/pdf");
 const has=v=>String(v??"").trim()!=="";
+const coverOf=o=>(o.photos||[]).find(p=>p.type!=="application/pdf");
+const previews={};
+const filePath=p=>previews[p]||String(p||"").split("/").map(encodeURIComponent).join("/");
+const stable=v=>JSON.stringify(v,(k,x)=>x&&typeof x==="object"&&!Array.isArray(x)?Object.keys(x).sort().reduce((a,k2)=>(a[k2]=x[k2],a),{}):x);
 
-let objs=[],cfg=null,aes=null,secrets={},selId=null,homeScroll=0;
+let token=null;try{token=localStorage.getItem("passport-token")}catch(_){}
+let objs=[],fieldsCfg={rows:[]},cfg=null,aes=null,secrets={},selId=null,homeScroll=0;
+let editing=false,draft=null,confirmDel=false,pendingDel=null,busyCount=0;
 let q="",fCity="",fRooms="",fAm={};
 
-function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}
+function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
+function busy(on,text){
+  busyCount+=on?1:-1;let el=$("#busy");
+  if(busyCount>0){if(!el){el=document.createElement("div");el.id="busy";el.className="busy";document.body.appendChild(el)}el.innerHTML=`<i></i>${esc(text||"Сохраняю…")}`}
+  else if(el)el.remove();
+}
 function roomsKey(o){const r=String(o.rooms||"").trim();if(!r)return"";if(/студ/i.test(r))return"Студия";const n=parseInt(r,10);if(isNaN(n))return"";return n>=4?"4+":String(n)}
-
 function fill(o){
   const missing=[];let total=0,done=0;
   for(const [k,l] of FILL){total++;const sec=k.endsWith("*");const key=sec?k.slice(0,-1):k;
@@ -294,7 +365,6 @@ function fill(o){
   return{pct:Math.round(done/total*100),done,total,missing};
 }
 function fillColor(p){return p>=80?"var(--ok)":p>=45?"#c08a2c":"var(--muted)"}
-
 function filtered(){
   const s=q.trim().toLowerCase();
   return objs.filter(o=>{
@@ -306,39 +376,147 @@ function filtered(){
   });
 }
 
-/* ---------- crypto ---------- */
-const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+/* ---------- base64 / crypto ---------- */
+const unb64=s=>Uint8Array.from(atob(s.replace(/\s/g,"")),c=>c.charCodeAt(0));
+function b64(bytes){let s="";const ch=0x8000;for(let i=0;i<bytes.length;i+=ch)s+=String.fromCharCode.apply(null,bytes.subarray(i,i+ch));return btoa(s)}
+const utf8b64=t=>b64(new TextEncoder().encode(t));
+const b64utf8=s=>new TextDecoder().decode(unb64(s));
 async function deriveKey(pass){
   const base=await crypto.subtle.importKey("raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]);
-  return crypto.subtle.deriveKey({name:"PBKDF2",hash:"SHA-256",salt:unb64(cfg.salt),iterations:cfg.iterations},base,{name:"AES-GCM",length:256},false,["decrypt"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2",hash:"SHA-256",salt:unb64(cfg.salt),iterations:cfg.iterations},base,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);
 }
 async function decrypt(key,s){const raw=unb64(s);const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},key,raw.slice(12));return JSON.parse(new TextDecoder().decode(pt))}
+async function encrypt(obj){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},aes,new TextEncoder().encode(stable(obj))));const out=new Uint8Array(12+ct.length);out.set(iv);out.set(ct,12);return b64(out)}
+async function decryptAll(){secrets={};if(!aes)return;await Promise.all(objs.filter(o=>o.enc).map(async o=>{try{secrets[o.id]=await decrypt(aes,o.enc)}catch(e){}}))}
 async function unlock(pass){
   const key=await deriveKey(pass);
   try{if(await decrypt(key,cfg.check)!=="passport-ok")throw 0}catch(e){return false}
-  aes=key;secrets={};
-  await Promise.all(objs.filter(o=>o.enc).map(async o=>{try{secrets[o.id]=await decrypt(key,o.enc)}catch(e){}}));
-  return true;
+  aes=key;await decryptAll();return true;
 }
-function lockState(){
+
+/* ---------- GitHub ---------- */
+async function gh(path,opts={}){
+  const r=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}/${path}`,{...opts,cache:"no-store",headers:{Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(token?{Authorization:"Bearer "+token}:{}),...(opts.headers||{})}});
+  if(r.status===401){logout(true);throw{code:"auth",message:"Ключ доступа больше не действует. Войдите заново."}}
+  return r;
+}
+async function getFile(path){
+  const r=await gh(`contents/${path}?ref=${GH.branch}`);
+  if(r.status===404)return null;
+  if(!r.ok)throw{code:"http",status:r.status,message:"GitHub ответил ошибкой "+r.status};
+  return r.json();
+}
+async function putFile(path,b64content,message,sha){
+  const r=await gh(`contents/${path}`,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,content:b64content,branch:GH.branch,...(sha?{sha}:{})})});
+  if(r.status===409||r.status===422)throw{code:"conflict"};
+  if(r.status===403||r.status===404)throw{code:"perm",message:"У ключа нет права записи в репозиторий."};
+  if(!r.ok)throw{code:"http",message:"Не удалось сохранить в GitHub ("+r.status+")"};
+  return r.json();
+}
+async function deleteFile(path,message){
+  const f=await getFile(path);if(!f)return;
+  const r=await gh(`contents/${path}`,{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({message,sha:f.sha,branch:GH.branch})});
+  if(!r.ok&&r.status!==404)throw{code:"http",message:"Не удалось удалить файл ("+r.status+")"};
+}
+async function commitJSON(path,mutate,message,indent){
+  for(let attempt=0;attempt<3;attempt++){
+    const f=await getFile(path);
+    const cur=f?JSON.parse(b64utf8(f.content)):null;
+    const next=await mutate(cur);
+    try{await putFile(path,utf8b64(JSON.stringify(next,null,indent)),message,f&&f.sha);return next}
+    catch(e){if(e.code!=="conflict"||attempt===2)throw e}
+  }
+}
+async function commitObjects(mutate,message){
+  const next=await commitJSON("data/objects.json",async arr=>{arr=arr||[];await mutate(arr);arr.sort((a,b)=>(a.order??9999)-(b.order??9999)||a.id.localeCompare(b.id));return arr},message,1);
+  objs=next;await decryptAll();return next;
+}
+function logout(expired){token=null;try{localStorage.removeItem("passport-token")}catch(_){}editing=false;draft=null;headerState();if(expired)toast("Ключ доступа больше не действует. Войдите заново.");render(true)}
+
+/* ---------- seal ---------- */
+function plainOf(o){
+  const s=secrets[o.id]||{};const p=JSON.parse(JSON.stringify(o));
+  for(const f of SECRET)p[f]=aes?(s[f]||""):"";
+  p.custom=(p.custom||[]).map(r=>r.secret?{label:r.label,secret:true,value:aes?((s.custom||{})[r.label]||""):"",filled:r.filled}:r);
+  delete p.enc;delete p.secretFilled;return p;
+}
+async function seal(plain,old){
+  const pub=JSON.parse(JSON.stringify(plain));
+  if(!aes){
+    for(const f of SECRET)delete pub[f];
+    pub.custom=(pub.custom||[]).map(r=>r.secret?{label:r.label,secret:true,filled:!!((old?.custom||[]).find(c=>c.label===r.label)?.filled)}:{label:r.label,value:r.value||""});
+    pub.secretFilled=old?.secretFilled||[];pub.enc=old?.enc||"";
+    return{pub,payload:secrets[old?.id]};
+  }
+  const payload={};
+  for(const f of SECRET){const v=String(pub[f]||"").trim();delete pub[f];if(v)payload[f]=v}
+  const cv={};
+  pub.custom=(pub.custom||[]).map(r=>{if(r.secret){const v=String(r.value||"").trim();if(v)cv[r.label]=v;return{label:r.label,secret:true,filled:!!v}}return{label:r.label,value:r.value||""}});
+  if(Object.keys(cv).length)payload.custom=cv;
+  pub.secretFilled=SECRET.filter(f=>payload[f]);
+  const oldP=old?secrets[old.id]:null;
+  pub.enc=!Object.keys(payload).length?"":(old?.enc&&oldP&&stable(oldP)===stable(payload)?old.enc:await encrypt(payload));
+  return{pub,payload};
+}
+
+/* ---------- header / modals ---------- */
+function headerState(){
   $("#lockIc").innerHTML=aes?ICON.unlock:ICON.lock;
   $("#lockBtn .lbl").textContent=aes?"Скрыть коды":"Показать коды";
+  $("#editBtn .lbl").textContent=token?"Выйти из правок":"Войти для правок";
+  $("#editIc").innerHTML=token?ICON.exit:ICON.pencil;
+  $("#newBtn").hidden=!token;
 }
-function openUnlock(){
-  const m=document.createElement("div");m.className="modal";
-  m.innerHTML=`<form id="uf"><span class="eyebrow">Защищённые данные</span><h2>Введите пароль</h2><p>Коды парадных, кейбоксов и пароли Wi-Fi зашифрованы. Пароль расшифрует их только на этом устройстве.</p>
+function modal(html,cls){const m=document.createElement("div");m.className="modal";m.innerHTML=`<form class="${cls||""}">${html}</form>`;document.body.appendChild(m);m.addEventListener("click",e=>{if(e.target===m||e.target.closest("[data-close]"))m.remove()});return m}
+function openUnlock(after){
+  const m=modal(`<span class="eyebrow">Защищённые данные</span><h2>Введите пароль</h2><p>Коды парадных, кейбоксов и пароли Wi-Fi зашифрованы. Пароль расшифрует их только на этом устройстве.</p>
   <input class="field" id="pw" type="password" autocomplete="current-password" placeholder="Пароль" required>
   <label class="chk"><input type="checkbox" id="rem"> Запомнить на этом устройстве</label>
   <div class="err" id="perr"></div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="pill" type="submit">Показать коды<span class="ar">${ICON.arrow}</span></button><button class="btn" type="button" id="pcancel">Отмена</button></div></form>`;
-  document.body.appendChild(m);$("#pw").focus();
-  const close=()=>m.remove();
-  m.addEventListener("click",e=>{if(e.target===m||e.target.id==="pcancel")close()});
-  $("#uf").addEventListener("submit",async e=>{e.preventDefault();$("#perr").textContent="Проверяю…";
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="pill" type="submit">Показать коды<span class="ar">${ICON.arrow}</span></button><button class="btn" type="button" data-close>Отмена</button></div>`);
+  $("#pw").focus();
+  m.querySelector("form").addEventListener("submit",async e=>{e.preventDefault();$("#perr").textContent="Проверяю…";
     const pass=$("#pw").value;const ok=await unlock(pass);
     if(!ok){$("#perr").textContent="Пароль не подошёл. Проверьте раскладку и регистр.";return}
     try{if($("#rem").checked)localStorage.setItem("passport-pw",pass)}catch(_){}
-    close();lockState();render(true);toast("Коды открыты")});
+    m.remove();headerState();
+    if(after)after();else{render(true);toast("Коды открыты")}});
+}
+function openLogin(){
+  const m=modal(`<span class="eyebrow">Правка на сайте</span><h2>Ключ доступа GitHub</h2>
+  <p>Ключ нужен один раз на каждом устройстве. Он даёт право менять только паспорта объектов.</p>
+  <ol>
+    <li>Откройте <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener"><b>github.com → новый ключ</b></a> (вы должны быть вошедши в GitHub).</li>
+    <li><b>Token name</b> — «Паспорта объектов», <b>Expiration</b> — например, 1 год.</li>
+    <li><b>Repository access</b> → <b>Only select repositories</b> → <b>objects-passport</b>.</li>
+    <li><b>Permissions</b> → <b>Repository permissions</b> → <b>Contents</b> → <b>Read and write</b>.</li>
+    <li><b>Generate token</b> и скопируйте ключ (начинается с github_pat_).</li>
+  </ol>
+  <input class="field" id="tk" type="password" autocomplete="off" placeholder="github_pat_…" required>
+  <div class="err" id="terr"></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="pill" type="submit">Войти<span class="ar">${ICON.arrow}</span></button><button class="btn" type="button" data-close>Отмена</button></div>`,"wide");
+  $("#tk").focus();
+  m.querySelector("form").addEventListener("submit",async e=>{e.preventDefault();
+    const t=$("#tk").value.trim();$("#terr").textContent="Проверяю ключ…";
+    try{
+      const r=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}`,{headers:{Authorization:"Bearer "+t,Accept:"application/vnd.github+json"}});
+      if(r.status===401){$("#terr").textContent="Ключ не подошёл. Скопируйте его целиком.";return}
+      const d=await r.json();
+      if(!r.ok){$("#terr").textContent="У ключа нет доступа к objects-passport. Проверьте шаг 3.";return}
+      if(d.permissions&&d.permissions.push===false){$("#terr").textContent="Ключ только для чтения. На шаге 4 выберите Contents: Read and write.";return}
+    }catch(_){$("#terr").textContent="Нет связи с GitHub. Попробуйте ещё раз.";return}
+    token=t;try{localStorage.setItem("passport-token",t)}catch(_){}
+    m.remove();headerState();await reload();toast("Правка включена");
+  });
+}
+function askAll(rows){
+  return new Promise(res=>{
+    const m=modal(`<span class="eyebrow">Новые строки</span><h2>Добавить ко всем объектам?</h2>
+    <div class="rows">${rows.map(r=>`<span>${r.secret?"🔒 ":""}${esc(r.label)}</span>`).join("")}</div>
+    <p>Строки появятся во всех остальных паспортах с пустым значением. Где они не нужны — удалите крестиком в правке объекта.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="pill" type="button" data-ans="all">Ко всем объектам<span class="ar">${ICON.arrow}</span></button><button class="btn" type="button" data-ans="one">Только к этому</button></div>`,"wide");
+    m.addEventListener("click",e=>{const a=e.target.closest("[data-ans]");if(a){m.remove();res(a.dataset.ans==="all")}else if(e.target===m){m.remove();res(null)}});
+  });
 }
 
 /* ---------- home ---------- */
@@ -374,7 +552,7 @@ function renderHome(){
     <div class="cards" id="cards"></div>
   </section>`;
   renderFilters();renderCards();
-  $("#q").addEventListener("input",e=>{q=e.target.value;renderFilters();renderCards()});
+  $("#q").addEventListener("input",e=>{q=e.target.value;renderCards()});
 }
 function renderFilters(){
   const base=objs.filter(o=>!fCity||o.city===fCity);
@@ -396,9 +574,9 @@ function renderCards(){
   const el=$("#cards");if(!el)return;
   const list=filtered();
   $("#count").textContent=`Показано ${list.length} из ${objs.length}`;
-  if(!list.length){el.innerHTML='<div class="empty"><h2>Ничего не найдено</h2>Под эти фильтры пока нет объектов. Возможно, удобства у квартир ещё не заполнены.</div>';return}
+  if(!list.length){el.innerHTML=`<div class="empty"><h2>Ничего не найдено</h2>Под эти фильтры пока нет объектов. Возможно, удобства у квартир ещё не заполнены.</div>`;return}
   el.innerHTML=list.map(o=>{const f=fill(o);return `
-    <a class="card" href="#${esc(o.id)}" data-open="${esc(o.id)}">
+    <a class="card" href="#${esc(o.id)}">
       <span class="cover">${coverHTML(o)}<span class="tags">${o.metro?`<span class="ctag"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}${o.rooms?`<span class="ctag">${/студ/i.test(o.rooms)?"Студия":esc(o.rooms)+"-комн."}</span>`:""}${o.district?`<span class="ctag">${esc(o.district)}</span>`:""}</span></span>
       <span class="body"><span class="t"><span class="nm">${esc(o.name)}</span><span class="ad">№ ${esc(o.num)} · ${esc(o.address)}</span>
         <span class="meter"><i><b style="width:${f.pct}%;background:${fillColor(f.pct)}"></b></i>Паспорт заполнен на ${f.pct}%</span></span>
@@ -409,10 +587,11 @@ function renderCards(){
 /* ---------- object page ---------- */
 function stat(v,l,unit){return has(v)?`<div class="stat"><b>${esc(v)}${unit?`<small>${unit}</small>`:""}</b><span>${l}</span></div>`:""}
 function secretVal(o,key){if(!(o.secretFilled||[]).includes(key))return null;return aes?(secrets[o.id]||{})[key]||"":undefined}
-function lockedHTML(){return `<span class="locked">${ICON.lock}Скрыто паролем <button class="btn" data-act="unlock">Показать</button></span>`}
+function lockedHTML(){return `<span class="locked">${ICON.lock}Скрыто паролем <button class="btn" type="button" data-act="unlock">Показать</button></span>`}
 function kv(rows){rows=rows.filter(r=>r[1]!==null&&(r[1]===undefined||has(r[1])));if(!rows.length)return"";
   return`<div class="kv">${rows.map(([k,v,m])=>`<div class="k">${esc(k)}</div><div class="${m?"mono":""}">${v===undefined?lockedHTML():esc(v)}</div>`).join("")}</div>`}
-function sect(eb,title,inner,emptyText){return`<section class="sec"><div class="secthead"><div><span class="eyebrow">${eb}</span><h2>${title}</h2></div></div>${inner||`<div class="missing">${emptyText}</div>`}</section>`}
+function editBtnSm(){return token?`<button class="pill sm light" data-act="edit">Заполнить<span class="ar">${ICON.pencil}</span></button>`:""}
+function sect(eb,title,inner,emptyText){return`<section class="sec"><div class="secthead"><div><span class="eyebrow">${eb}</span><h2>${title}</h2></div></div>${inner||`<div class="missing" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><span>${emptyText}</span>${editBtnSm()}</div>`}</section>`}
 
 function renderObject(o){
   const nav=safeUrl(o.nav),ph=safeUrl(o.photoLink),ex=safeUrl(o.extraLink);
@@ -435,6 +614,7 @@ function renderObject(o){
         ${nav?`<a class="pill" href="${esc(nav)}" target="_blank" rel="noopener">Открыть навигатор<span class="ar">${ICON.arrow}</span></a>`:""}
         ${ph?`<a class="link" href="${esc(ph)}" target="_blank" rel="noopener">Фото-инструкция<span class="circ">${ICON.arrow}</span></a>`:""}
         ${ex?`<a class="link" href="${esc(ex)}" target="_blank" rel="noopener">Доп. ссылка<span class="circ">${ICON.arrow}</span></a>`:""}
+        ${token?`<button class="link" data-act="edit">Редактировать<span class="circ">${ICON.pencil}</span></button>`:""}
       </div>
     </div>
     <div class="bigcover">${c?`<img src="${filePath(c.path)}" alt="${esc(c.caption)}">`:`<span class="tint" style="background:${safeColor(o.districtColor)}"></span><span class="ph">${esc(o.num)}</span>`}</div>
@@ -442,41 +622,180 @@ function renderObject(o){
   ${stats?`<div class="stats">${stats}</div>`:""}
   <div class="fillcard">
     <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="42" fill="none" stroke="var(--soft)" stroke-width="7"/><circle cx="48" cy="48" r="42" fill="none" stroke="${fillColor(f.pct)}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C*f.pct/100} ${C}"/></svg><b>${f.pct}%</b></div>
-    <div><h3>Паспорт заполнен: ${f.done} из ${f.total}</h3>${f.missing.length?`<p>Не хватает:</p><div class="miss">${f.missing.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`:"<p>Все пункты заполнены.</p>"}</div>
+    <div><h3>Паспорт заполнен: ${f.done} из ${f.total}</h3>${f.missing.length?`<p>Не хватает:</p><div class="miss">${f.missing.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`:"<p>Все пункты заполнены.</p>"}${token&&f.missing.length?`<div style="margin-top:14px">${editBtnSm()}</div>`:""}</div>
   </div>`;
   const acc=secretVal(o,"access");
   const route=[acc!==null?`<div class="panel"><h3><span class="ic">${ICON.door}</span>Доступ в парадную</h3>${acc===undefined?lockedHTML():`<p>${esc(acc)}</p>`}</div>`:"",o.parking?`<div class="panel"><h3><span class="ic">${ICON.car}</span>Парковка</h3><p>${esc(o.parking)}</p></div>`:""].join("");
   h+=sect("Навигация","Как добраться",route?`<div class="two">${route}</div>`:"","Инструкция по доступу и парковке не заполнена.");
   const amTiles=ams.map(([k,l])=>`<div class="tile"><span class="ic">${AMI[k]||ICON.check}</span><b>${esc(l)}</b></div>`).join("")+noAms.map(([k,l])=>`<div class="tile no"><span class="ic">${ICON.cross}</span><b>Нет: ${esc(l.toLowerCase())}</b></div>`).join("");
-  h+=sect("Качество в деталях","Удобства в квартире",amTiles?`<div class="tiles">${amTiles}</div>`:"","Удобства не заполнены. Напишите Claude, что есть и чего нет в квартире.");
+  h+=sect("Качество в деталях","Удобства в квартире",amTiles?`<div class="tiles">${amTiles}</div>`:"","Удобства не заполнены: отметьте, что есть и чего нет в квартире.");
   const flat=kv([["Площадь",o.area?o.area+" м²":""],["Комнат",o.rooms],["Спальных мест",o.beds],["Макс. гостей",o.guests],["Потолки",o.ceiling?o.ceiling+" м":""],["Этажей в доме",o.floorsTotal],["Вид из окна",o.view]]);
   const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
   h+=sect("Характеристики","Квартира и интернет",(flat||net)?`<div class="two">${flat?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}</div>`:""}${net?`<div class="panel"><h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}</div>`:""}</div>`:"","Площадь, планировка и данные провайдера не заполнены.");
   const custom=o.custom||[];
   const crows=custom.map(c=>{let v;if(c.secret)v=c.filled?(aes?((secrets[o.id]||{}).custom||{})[c.label]||"":undefined):"";else v=c.value||"";
     return `<div class="k">${c.secret?ICON.key:""}${esc(c.label)}</div><div class="${c.secret?"mono":""}">${v===undefined?lockedHTML():has(v)?esc(v):'<span class="nil">не заполнено</span>'}</div>`}).join("");
-  const extra=[custom.length?`<div class="panel"><h3><span class="ic">${ICON.key}</span>Дополнительно</h3><div class="kv">${crows}</div></div>`:"",o.nearby?`<div class="panel"><h3><span class="ic">${ICON.pin}</span>Поблизости</h3><p>${esc(o.nearby)}</p></div>`:"",o.notes?`<div class="panel"><h3><span class="ic">${ICON.note}</span>Заметки</h3><p>${esc(o.notes)}</p></div>`:""].join("");
-  h+=sect("Свои строки и окружение","Дополнительно",extra?`<div class="two">${extra}</div>`:"","Своих строк пока нет. Например: умный замок, кейбокс, код калитки — попросите Claude добавить.");
-  const ps=o.photos||[];
-  h+=sect("Фото и документы","Файлы объекта",ps.length?`<div class="files">${ps.map((p,i)=>{const isPdf=p.type==="application/pdf";const src=filePath(p.path);
-    return `<div class="file">${isPdf?`<a class="thumb" href="${src}" target="_blank" rel="noopener">PDF</a>`:`<button class="thumb" data-act="lb" data-i="${i}" aria-label="Открыть ${esc(p.caption)}"><img src="${src}" alt="${esc(p.caption)}" loading="lazy"></button>`}
-      <div class="cap"><span>${esc(p.caption)}</span><a class="circ" href="${src}" target="_blank" rel="noopener" aria-label="Открыть">${ICON.arrow}</a></div></div>`}).join("")}</div>`:"","Файлов пока нет. Пришлите Claude фото или договор провайдера — они появятся здесь.");
-  h+=`<section class="sec"><div class="howto"><span class="eyebrow">Как изменить паспорт</span><p>Напишите Claude в чат, например: <code>${esc(o.name)}: площадь 42 м², есть кондиционер и ПММ, нет бойлера</code> или <code>Добавь строку «Кейбокс» в ${esc(o.name)}</code>. Изменения появятся здесь через минуту.</p></div></section>`;
+  const extra=[custom.length?`<div class="panel"><h3><span class="ic">${ICON.key}</span>Свои строки</h3><div class="kv">${crows}</div></div>`:"",o.nearby?`<div class="panel"><h3><span class="ic">${ICON.pin}</span>Поблизости</h3><p>${esc(o.nearby)}</p></div>`:"",o.notes?`<div class="panel"><h3><span class="ic">${ICON.note}</span>Заметки</h3><p>${esc(o.notes)}</p></div>`:""].join("");
+  h+=sect("Свои строки и окружение","Дополнительно",extra?`<div class="two">${extra}</div>`:"","Своих строк пока нет. Например: умный замок, кейбокс, код калитки.");
+  h+=`<section class="sec" id="files"><div class="secthead"><div><span class="eyebrow">Фото и документы</span><h2>Файлы объекта</h2></div></div>${filesHTML(o)}</section>`;
+  if(!token)h+=`<section class="sec"><div class="howto"><span class="eyebrow">Как изменить паспорт</span><p>Нажмите «Войти для правок» вверху страницы — откроется редактирование полей, своих строк и загрузка фото. Или напишите Claude в чат, например: <code>${esc(o.name)}: площадь 42 м², есть кондиционер</code>.</p><div><button class="pill sm light" data-act="login" style="margin-top:6px">Войти для правок<span class="ar">${ICON.pencil}</span></button></div></div></section>`;
   return h;
 }
+function filesHTML(o){
+  const ps=o.photos||[];
+  let h=ps.length?`<div class="files">${ps.map((p,i)=>{const isPdf=p.type==="application/pdf";const src=filePath(p.path);
+    return `<div class="file">${isPdf?`<a class="thumb" href="${src}" target="_blank" rel="noopener">PDF</a>`:`<button class="thumb" data-act="lb" data-i="${i}" aria-label="Открыть ${esc(p.caption)}"><img src="${src}" alt="${esc(p.caption)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('появится через минуту'))"></button>`}
+      <div class="cap">${token?`<input id="cap-${i}" value="${esc(p.caption)}" data-act="cap" data-i="${i}" aria-label="Подпись">`:`<span>${esc(p.caption)}</span>`}<a class="circ" href="${src}" target="_blank" rel="noopener" aria-label="Открыть">${ICON.arrow}</a></div>
+      ${token?`<div class="more">${!isPdf&&coverOf(o)!==p?`<button class="btn" data-act="cover" data-i="${i}">Сделать обложкой</button>`:""}${pendingDel===p.path?`<span class="confirm">Удалить? <button class="btn danger" data-act="delfile-yes" data-i="${i}">Да</button><button class="btn" data-act="delfile-no">Нет</button></span>`:`<button class="btn ghost" data-act="delfile" data-i="${i}">Удалить</button>`}</div>`:""}
+    </div>`}).join("")}</div>`:`<div class="missing">Файлов пока нет. Сюда удобно класть договор провайдера, акты, фото квартиры и счётчиков.</div>`;
+  if(token)h+=`<div class="drop" id="drop"><span>Перетащите фото или PDF сюда</span><button class="pill sm" data-act="upload">Выбрать файлы<span class="ar">${ICON.arrow}</span></button><span class="status" id="upStatus">Фото уменьшаются до 2000 px автоматически · PDF до 20 МБ</span></div>`;
+  return h;
+}
+
+/* ---------- edit form ---------- */
+function field([k,l,kind],o){
+  const v=o[k]??"";const id="f-"+k;const cls=kind==="wide"||kind==="area"?"f wide":"f";
+  const sec=SECRET.includes(k);const dis=sec&&!aes?" disabled":"";
+  const lbl=sec?`<span class="sec">${ICON.lock}${esc(l)}</span>`:esc(l);
+  let inp;
+  if(kind==="area")inp=`<textarea class="field" id="${id}" data-f="${k}" rows="3"${dis}>${esc(v)}</textarea>`;
+  else if(kind==="line")inp=`<select class="field" id="${id}" data-f="${k}"><option value=""></option>${Object.keys(LINES).map(n=>`<option${n===String(v).trim()?" selected":""}>${n}</option>`).join("")}</select>`;
+  else if(kind==="rooms")inp=`<select class="field" id="${id}" data-f="${k}">${["","Студия","1","2","3","4","5+"].map(n=>`<option${n===String(v)?" selected":""}>${n}</option>`).join("")}</select>`;
+  else if(kind==="color")inp=`<input class="field" id="${id}" data-f="${k}" type="color" value="${/^#[0-9a-f]{6}$/i.test(v)?esc(v):"#cccccc"}" style="height:48px;padding:4px">`;
+  else inp=`<input class="field" id="${id}" data-f="${k}" value="${esc(v)}"${dis}>`;
+  return `<label class="${cls}">${lbl}${inp}</label>`;
+}
+let crowSeq=0;
+function crow(c={}){
+  const n=crowSeq++;const sec=!!c.secret;const lockedVal=sec&&!aes;
+  return`<div class="crow" data-manual="${c.label?"1":""}"><input class="field" id="cl-${n}" data-cl placeholder="Название, напр. «Кейбокс»" value="${esc(c.label||"")}"${lockedVal?" readonly":""}>
+  <input class="field" id="cv-${n}" data-cv placeholder="${lockedVal?"Скрыто — введите пароль":"Значение"}" value="${esc(lockedVal?"":c.value||"")}"${lockedVal?" disabled":""}>
+  <button type="button" class="lockt" data-act="sectoggle" aria-pressed="${sec}" title="Секретная строка (шифруется)"${!aes&&!sec?" disabled":""}${lockedVal?" disabled":""}>${ICON.lock}</button>
+  <button type="button" class="circ" data-act="delrow" aria-label="Удалить строку">✕</button></div>`;
+}
+function renderEdit(o){
+  const amState=k=>{const v=(o.amenities||{})[k];return v===true?"yes":v===false?"no":""};
+  const stl={"":"не указано","yes":"есть","no":"нет"};
+  return `<button class="link back" data-act="cancel"><span class="circ">${ICON.arrowl}</span>Отмена</button>
+  <div style="margin-top:26px"><span class="tagpill">Паспорт № ${esc(o.num||"новый")}</span><h1 style="margin-top:18px">${o.name?esc(o.name):"Новый объект"}</h1></div>
+  <form class="form" id="form">
+    ${aes?"":`<div class="banner"><span>${ICON.lock} Коды скрыты. Чтобы менять доступ в парадную, пароль Wi-Fi и секретные строки, откройте коды.</span><button class="pill sm light" type="button" data-act="unlock-edit">Показать коды<span class="ar">${ICON.arrow}</span></button></div>`}
+    ${SECTIONS.map((s,si)=>`<fieldset class="fs"><legend>${s.t}</legend><div class="grid">${s.f.map(f=>field(f,o)).join("")}</div></fieldset>${si===1?`<fieldset class="fs"><legend>Удобства — нажимайте: есть → нет → не указано</legend><div class="amedit">${AM.map(([k,l])=>{const s=amState(k);return`<button type="button" class="am3" data-am3="${k}" data-v="${s}"><span class="ic">${AMI[k]}</span>${esc(l)}<span class="st">${stl[s]}</span></button>`}).join("")}</div></fieldset>`:""}`).join("")}
+    <fieldset class="fs"><legend>Свои строки</legend>
+      <div id="crows">${(o.custom||[]).map(c=>crow(c)).join("")}</div>
+      <button type="button" class="btn" data-act="addrow">+ Добавить строку</button>
+      <p class="status" style="margin:10px 0 0">Например: «Умный замок», «Кейбокс», «Код калитки», «Управляющая компания». Замок 🔒 — строка шифруется паролем; для кодов включается сам.</p>
+    </fieldset>
+    <div class="savebar">
+      <button class="pill" type="submit">Сохранить<span class="ar">${ICON.arrow}</span></button>
+      <button class="btn" type="button" data-act="cancel">Отмена</button>
+      <span class="grow"></span>
+      ${draft?"":(confirmDel?`<span class="confirm">Удалить паспорт целиком? <button type="button" class="btn danger" data-act="del-yes">Удалить</button><button type="button" class="btn" data-act="del-no">Нет</button></span>`:`<button class="btn danger" type="button" data-act="del">Удалить объект</button>`)}
+    </div>
+  </form>`;
+}
+function collect(){
+  const f=$("#form");const base=draft||plainOf(objs.find(o=>o.id===selId));
+  const p=JSON.parse(JSON.stringify(base));
+  f.querySelectorAll("[data-f]").forEach(el=>{if(!el.disabled)p[el.dataset.f]=el.value.trim()});
+  p.amenities={};f.querySelectorAll("[data-am3]").forEach(el=>{const v=el.dataset.v;if(v==="yes")p.amenities[el.dataset.am3]=true;if(v==="no")p.amenities[el.dataset.am3]=false});
+  const oldCustom=base.custom||[];
+  p.custom=[...f.querySelectorAll(".crow")].map(r=>{
+    const label=r.querySelector("[data-cl]").value.trim();const secret=r.querySelector("[data-act=sectoggle]").getAttribute("aria-pressed")==="true";
+    const vi=r.querySelector("[data-cv]");
+    let value=vi.disabled?((oldCustom.find(c=>c.label===label)||{}).value||""):vi.value.trim();
+    return {label,value,secret};
+  }).filter(c=>c.label);
+  const n=parseInt(p.num,10);if(p.order==null||p.order==="")p.order=isNaN(n)?9999:n;
+  return p;
+}
+async function save(){
+  const plain=collect();
+  if(!plain.name){toast("Укажите название");return}
+  const old=objs.find(o=>o.id===plain.id);
+  const known=new Set((old?.custom||[]).map(r=>r.label.toLowerCase()));
+  const newRows=plain.custom.filter(r=>!known.has(r.label.toLowerCase())).map(r=>({label:r.label,secret:!!r.secret}));
+  let toAll=false;
+  if(newRows.length&&objs.length>(old?1:0)){toAll=await askAll(newRows);if(toAll===null)return}
+  busy(true,"Сохраняю в GitHub…");
+  try{
+    const {pub}=await seal(plain,old);
+    await commitObjects(arr=>{
+      const i=arr.findIndex(o=>o.id===pub.id);if(i>=0)arr[i]=pub;else arr.push(pub);
+      if(toAll)for(const o of arr){if(o.id===pub.id)continue;o.custom=o.custom||[];
+        for(const r of newRows)if(!o.custom.some(c=>c.label.toLowerCase()===r.label.toLowerCase()))o.custom.push(r.secret?{label:r.label,secret:true,filled:false}:{label:r.label,value:""})}
+    },`${pub.name}: правка паспорта${toAll?" (+ строки ко всем объектам)":""}`);
+    if(toAll)await commitJSON("data/fields.json",cur=>{cur=cur||{rows:[]};cur.rows=cur.rows||[];for(const r of newRows)if(!cur.rows.some(x=>x.label.toLowerCase()===r.label.toLowerCase()))cur.rows.push(r);fieldsCfg=cur;return cur},"Строки для всех объектов: "+newRows.map(r=>r.label).join(", "),2);
+    editing=false;draft=null;confirmDel=false;
+    if(location.hash.slice(1)!==pub.id){selId=pub.id;history.replaceState(null,"","#"+pub.id)}
+    renderNav();render();scrollTo(0,0);
+    toast(toAll?"Сохранено, строки добавлены ко всем":"Сохранено");
+  }catch(e){toast(e.message||"Не удалось сохранить. Попробуйте ещё раз.")}
+  finally{busy(false)}
+}
+function newObject(){
+  const nums=objs.filter(o=>/^o-/.test(o.id)).map(o=>parseInt(o.num,10)).filter(n=>!isNaN(n));
+  const next=(nums.length?Math.max(...nums):0)+1;let id="o-"+String(next).padStart(2,"0");
+  if(objs.some(o=>o.id===id))id="o-"+Date.now().toString(36);
+  draft={id,num:String(next).padStart(2,"0"),name:"",city:"Санкт-Петербург",order:next,amenities:{},photos:[],
+    custom:(fieldsCfg.rows||[]).map(r=>({label:r.label,value:"",secret:!!r.secret}))};
+  for(const f of SECRET)draft[f]="";
+  if(!selId)homeScroll=scrollY;
+  selId=id;editing=true;confirmDel=false;render();scrollTo(0,0);
+}
+
+/* ---------- files ---------- */
+function slug(name){const base=name.replace(/\.[^.]+$/,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");return base.slice(0,40)||"file"}
+async function prepImage(file){
+  try{
+    const bmp=await createImageBitmap(file);const max=2000;const k=Math.min(1,max/Math.max(bmp.width,bmp.height));
+    const c=document.createElement("canvas");c.width=Math.round(bmp.width*k);c.height=Math.round(bmp.height*k);
+    c.getContext("2d").drawImage(bmp,0,0,c.width,c.height);
+    return await new Promise(r=>c.toBlob(r,"image/jpeg",0.85));
+  }catch(e){return null}
+}
+async function blobB64(blob){return b64(new Uint8Array(await blob.arrayBuffer()))}
+async function uploadFiles(files){
+  const o=objs.find(x=>x.id===selId);if(!o||!token)return;
+  const st=()=>$("#upStatus");const added=[],errs=[];
+  busy(true,"Загружаю файлы…");
+  try{
+    for(const [i,file] of [...files].entries()){
+      if(st()){st().className="status";st().textContent=`Загружаю ${i+1} из ${files.length}: ${file.name}`}
+      let blob,type,ext;
+      if(file.type==="application/pdf"||/\.pdf$/i.test(file.name)){if(file.size>20*1024*1024){errs.push(file.name+": больше 20 МБ");continue}blob=file;type="application/pdf";ext="pdf"}
+      else{blob=await prepImage(file);if(!blob){errs.push(file.name+": не удалось открыть изображение (нужны JPG, PNG, WEBP, HEIC на iPhone)");continue}type="image/jpeg";ext="jpg"}
+      const path=`files/${o.id}/${Date.now()}-${slug(file.name)}.${ext}`;
+      try{await putFile(path,await blobB64(blob),`${o.name}: файл ${file.name}`);previews[path]=URL.createObjectURL(blob);added.push({path,caption:file.name.replace(/\.[^.]+$/,""),type})}
+      catch(e){errs.push(file.name+": "+(e.message||"ошибка загрузки"))}
+    }
+    if(added.length){await commitObjects(arr=>{const x=arr.find(a=>a.id===o.id);if(x)x.photos=[...(x.photos||[]),...added]},`${o.name}: добавлены файлы (${added.length})`);render(true);toast(added.length===1?"Файл добавлен":`Добавлено файлов: ${added.length}`)}
+  }catch(e){errs.push(e.message||"Не удалось обновить паспорт")}
+  finally{busy(false)}
+  if(st()&&errs.length){st().className="status err";st().textContent=errs.join("; ")}
+}
+function bindDrop(){
+  const d=$("#drop");if(!d)return;
+  d.addEventListener("dragover",e=>{e.preventDefault();d.classList.add("over")});
+  d.addEventListener("dragleave",()=>d.classList.remove("over"));
+  d.addEventListener("drop",e=>{e.preventDefault();d.classList.remove("over");if(e.dataTransfer.files.length)uploadFiles(e.dataTransfer.files)});
+}
+async function photosCommit(o,fn,msg){busy(true);try{await commitObjects(arr=>{const x=arr.find(a=>a.id===o.id);if(x)x.photos=fn([...(x.photos||[])])},msg);render(true)}catch(e){toast(e.message||"Не удалось сохранить")}finally{busy(false)}}
 
 /* ---------- routing ---------- */
 function render(keepScroll){
   const y=scrollY;
-  const o=objs.find(x=>x.id===selId);
-  if(!o){selId=null;renderHome()}else $("#view").innerHTML=renderObject(o);
+  const o=draft&&draft.id===selId?draft:objs.find(x=>x.id===selId);
+  if(!o){selId=null;editing=false;renderHome()}
+  else{$("#view").innerHTML=editing?renderEdit(editing&&!draft?plainOf(o):o):renderObject(o);if(!editing)bindDrop()}
   if(keepScroll)scrollTo(0,y);
 }
 function route(){
   const h=decodeURIComponent((location.hash||"").slice(1));
   const id=objs.some(o=>o.id===h)?h:null;
+  if(id===selId&&!draft)return;
   if(id&&!selId)homeScroll=scrollY;
-  const wasObj=!!selId;selId=id;render();
+  const wasObj=!!selId;selId=id;editing=false;draft=null;confirmDel=false;pendingDel=null;render();
   scrollTo(0,id?0:(wasObj?homeScroll:0));
 }
 function lightbox(o,i){
@@ -493,28 +812,60 @@ function lightbox(o,i){
 }
 
 document.addEventListener("click",async e=>{
+  if(e.target.closest(".modal"))return;
   const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;renderNav();if(selId)location.hash="";else{renderFilters();renderCards()}return}
   const rt=e.target.closest("[data-rooms]");if(rt){fRooms=rt.dataset.rooms;renderFilters();renderCards();return}
   const at=e.target.closest("[data-am]");if(at){const k=at.dataset.am;const s=fAm[k]||"";const n=s===""?"yes":s==="yes"?"no":"";if(n)fAm[k]=n;else delete fAm[k];renderFilters();renderCards();return}
+  const a3=e.target.closest("[data-am3]");if(a3){const n={"":"yes","yes":"no","no":""}[a3.dataset.v||""];a3.dataset.v=n;a3.querySelector(".st").textContent={"":"не указано","yes":"есть","no":"нет"}[n];return}
   const b=e.target.closest("[data-act]");if(!b)return;
   const a=b.dataset.act,o=objs.find(x=>x.id===selId);
   if(a==="home"){if(selId)location.hash="";else scrollTo(0,0)}
   else if(a==="reset"){fRooms="";fAm={};renderFilters();renderCards()}
   else if(a==="copy"){try{await navigator.clipboard.writeText(b.dataset.v);toast("Скопировано")}catch(_){toast("Скопируйте вручную: "+b.dataset.v)}}
-  else if(a==="unlock"){if(aes&&b.id==="lockBtn"){aes=null;secrets={};try{localStorage.removeItem("passport-pw")}catch(_){}lockState();render(true);toast("Коды скрыты")}else openUnlock()}
+  else if(a==="unlock"){if(aes&&b.id==="lockBtn"){aes=null;secrets={};try{localStorage.removeItem("passport-pw")}catch(_){}headerState();render(true);toast("Коды скрыты")}else openUnlock()}
+  else if(a==="unlock-edit"){const keep=collect();openUnlock(()=>{const base=draft?keep:{...plainOf(objs.find(x=>x.id===selId)),...keep,...Object.fromEntries(SECRET.map(f=>[f,(secrets[selId]||{})[f]||""]))};
+      if(!draft)base.custom=keep.custom.map(c=>c.secret?{...c,value:((secrets[selId]||{}).custom||{})[c.label]||c.value}:c);
+      $("#view").innerHTML=renderEdit(base);toast("Коды открыты")})}
+  else if(a==="login"){if(token&&b.id==="editBtn"){logout()}else openLogin()}
+  else if(a==="new")newObject();
+  else if(a==="edit"){editing=true;confirmDel=false;render();scrollTo(0,0)}
+  else if(a==="cancel"){if(draft){draft=null;editing=false;selId=null;history.replaceState(null,"",location.pathname);render();scrollTo(0,homeScroll)}else{editing=false;render();scrollTo(0,0)}}
+  else if(a==="addrow"){$("#crows").insertAdjacentHTML("beforeend",crow({}));const r=$("#crows").lastElementChild;r.dataset.manual="";r.querySelector("[data-cl]").focus()}
+  else if(a==="delrow")b.closest(".crow").remove();
+  else if(a==="sectoggle"){const on=b.getAttribute("aria-pressed")!=="true";b.setAttribute("aria-pressed",on);b.closest(".crow").dataset.manual="1"}
+  else if(a==="del"||a==="del-no"){confirmDel=a==="del";const y=scrollY;const keep=collect();$("#view").innerHTML=renderEdit(keep);scrollTo(0,y)}
+  else if(a==="del-yes"){busy(true,"Удаляю…");try{await commitObjects(arr=>{const i=arr.findIndex(x=>x.id===selId);if(i>=0)arr.splice(i,1)},`${o.name}: паспорт удалён`);editing=false;selId=null;history.replaceState(null,"",location.pathname);renderNav();render();toast("Паспорт удалён")}catch(err){toast(err.message||"Не удалось удалить")}finally{busy(false)}}
+  else if(a==="upload")$("#fileIn").click();
   else if(a==="lb")lightbox(o,+b.dataset.i);
+  else if(a==="cover"){const i=+b.dataset.i;await photosCommit(o,ps=>{const [p]=ps.splice(i,1);ps.unshift(p);return ps},`${o.name}: новая обложка`)}
+  else if(a==="delfile"){pendingDel=o.photos[+b.dataset.i].path;render(true)}
+  else if(a==="delfile-no"){pendingDel=null;render(true)}
+  else if(a==="delfile-yes"){const p=o.photos[+b.dataset.i];pendingDel=null;busy(true,"Удаляю файл…");try{await deleteFile(p.path,`${o.name}: удалён файл`)}catch(err){toast(err.message)}finally{busy(false)}await photosCommit(o,ps=>ps.filter(x=>x.path!==p.path),`${o.name}: файл убран из паспорта`)}
 });
+document.addEventListener("input",e=>{const t=e.target;if(t.matches("[data-cl]")){const r=t.closest(".crow");if(r.dataset.manual)return;const lk=r.querySelector("[data-act=sectoggle]");if(lk.disabled)return;lk.setAttribute("aria-pressed",SECRET_HINT.test(t.value))}});
+document.addEventListener("change",async e=>{const t=e.target;if(t.dataset.act==="cap"){const o=objs.find(x=>x.id===selId);const i=+t.dataset.i;const v=t.value.trim();await photosCommit(o,ps=>{if(ps[i])ps[i]={...ps[i],caption:v};return ps},`${o.name}: подпись к файлу`)}});
+document.addEventListener("submit",e=>{if(e.target.id==="form"){e.preventDefault();save()}});
+$("#fileIn").addEventListener("change",e=>{if(e.target.files.length)uploadFiles(e.target.files);e.target.value=""});
 addEventListener("hashchange",route);
 
+async function reload(){
+  if(token){
+    try{
+      const [f,fl]=await Promise.all([getFile("data/objects.json"),getFile("data/fields.json")]);
+      if(f){objs=JSON.parse(b64utf8(f.content));if(fl)fieldsCfg=JSON.parse(b64utf8(fl.content));await decryptAll();renderNav();render(true);return}
+    }catch(e){}
+  }
+}
 (async function boot(){
-  lockState();
+  headerState();
   try{
-    const [d,c]=await Promise.all([fetch("data/objects.json",{cache:"no-cache"}).then(r=>r.json()),fetch("data/crypto.json",{cache:"no-cache"}).then(r=>r.json())]);
-    objs=d;cfg=c;
+    const [d,c,fl]=await Promise.all([fetch("data/objects.json",{cache:"no-cache"}).then(r=>r.json()),fetch("data/crypto.json",{cache:"no-cache"}).then(r=>r.json()),fetch("data/fields.json",{cache:"no-cache"}).then(r=>r.json()).catch(()=>({rows:[]}))]);
+    objs=d;cfg=c;fieldsCfg=fl;
   }catch(e){$("#view").innerHTML='<div class="empty" style="margin-top:40px"><h2>Не удалось загрузить данные</h2>Обновите страницу через минуту.</div>';return}
   renderNav();route();
   let saved=null;try{saved=localStorage.getItem("passport-pw")}catch(_){}
-  if(saved&&await unlock(saved)){lockState();render(true)}
+  if(saved&&await unlock(saved)){headerState();render(true)}
+  if(token)await reload();
 })();
 </script>
 </body>

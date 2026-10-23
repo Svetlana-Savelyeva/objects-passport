@@ -8,7 +8,9 @@
 - Если пароля нет в разговоре — попросить его у пользователя.
 
 ## Рабочий цикл
+Правки приходят и с сайта (коммиты через GitHub API по ключу пользователя), поэтому ВСЕГДА начинать с `git pull --rebase origin main`.
 ```bash
+git pull --rebase origin main
 export PASSPORT_KEY='<пароль из разговора>'
 python3 tools/passport.py open    # -> .secrets/objects.plain.json
 # править .secrets/objects.plain.json (скриптом на Python, не вручную целиком)
