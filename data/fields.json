@@ -7,6 +7,10 @@
     {
       "label": "Страница на сайте",
       "secret": false
+    },
+    {
+      "label": "Счетчики",
+      "secret": false
     }
   ]
 }
