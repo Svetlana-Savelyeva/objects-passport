@@ -260,7 +260,7 @@ input[type=color].field::-moz-color-swatch{border:0;border-radius:0}
 .ic.gi-o{background:var(--g-orange)!important;color:#fff!important}.ic.gi-b{background:var(--g-blue)!important;color:#fff!important}.ic.gi-t{background:var(--g-teal)!important;color:#fff!important}.ic.gi-g{background:var(--g-green)!important;color:#fff!important}
 .am3[data-v=""] .ic[class*=gi-],.am3:not([data-v]) .ic[class*=gi-]{opacity:.55}
 .gal{background:transparent;perspective:1500px;outline:none;min-height:0;aspect-ratio:100/64;border-radius:0;overflow:visible;align-self:center;width:100%}
-.ohero{overflow-x:clip}
+html,body{overflow-x:clip}
 .gal:focus-visible{box-shadow:inset 0 0 0 2px var(--ink);border-radius:var(--r-lg)}
 .gal .stage{position:absolute;inset:0;transform-style:preserve-3d;touch-action:pan-y;user-select:none;-webkit-user-select:none}
 .gcard{position:absolute;left:50%;top:7%;width:60%;height:75%;margin-left:-30%;padding:0;border:0;border-radius:26px;overflow:hidden;cursor:pointer;background:rgba(255,255,255,.35);transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .45s,box-shadow .45s;box-shadow:0 34px 60px -26px rgba(40,30,20,.45),0 0 0 1px rgba(255,255,255,.55) inset;transform-origin:50% 50%}
@@ -768,7 +768,7 @@ function galleryHTML(o){
 }
 function layoutGal(){
   const g=$("#gal");if(!g)return;const cards=[...g.querySelectorAll(".gcard")];const n=cards.length;
-  const X={1:47,2:80},Z={1:-140,2:-280},R={1:46,2:58},SC={1:.82,2:.7};
+  const X={1:47,2:74},Z={1:-140,2:-280},R={1:46,2:58},SC={1:.82,2:.7};
   cards.forEach((el,k)=>{let d=k-galIdx;if(d>n/2)d-=n;if(d<-n/2)d+=n;const ad=Math.abs(d),sg=Math.sign(d);
     el.dataset.depth=String(Math.min(ad,3));
     el.style.transform=ad===0?"none":ad>2?`translateX(${sg*110}%) translateZ(-400px) rotateY(${-sg*62}deg) scale(.55)`:`translateX(${sg*X[ad]}%) translateZ(${Z[ad]}px) rotateY(${-sg*R[ad]}deg) scale(${SC[ad]})`;
