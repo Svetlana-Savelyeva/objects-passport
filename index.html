@@ -223,7 +223,7 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .am3[data-v="yes"] .st{color:var(--ok)}
 .am3[data-v="no"]{border-color:var(--no);background:color-mix(in srgb,var(--no) 8%,var(--surface))}
 .am3[data-v="no"] .st{color:var(--no)}
-.crow{clear:both;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) auto auto;gap:10px;margin-bottom:10px;align-items:center}
+.crow{clear:both;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) auto auto auto;gap:10px;margin-bottom:10px;align-items:center}
 .lockt{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);display:grid;place-items:center;cursor:pointer;color:var(--muted)}
 .lockt[aria-pressed="true"]{background:var(--ink);color:var(--inv);border-color:var(--ink)}
 .lockt:disabled{opacity:.4;cursor:not-allowed}
@@ -247,6 +247,15 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.crow .rfile{grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.crow .rfile:empty{display:none}
+a.lnk{color:#4f63dd;text-decoration:underline;text-decoration-color:rgba(79,99,221,.35);text-underline-offset:3px;overflow-wrap:anywhere}
+a.lnk:hover{text-decoration-color:currentColor}
+.fwrap{margin-top:8px}
+.fchip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:12px;padding:6px 12px;font-size:13px;text-decoration:none;background:var(--bg);color:var(--ink);max-width:100%}
+.fchip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fchip.img{padding:0;overflow:hidden;width:72px;height:58px;border-radius:12px}
+.fchip.img img{width:100%;height:100%;object-fit:cover;display:block}
 .stat.tbox{flex:0 1 auto;display:flex;align-items:center;gap:22px;margin:-8px 14px -8px 10px;padding:12px 24px;border:0;border-radius:20px;background:var(--g-orange);color:#fff;box-shadow:0 12px 24px -16px rgba(232,144,122,.75)}
 .stat.tbox+.stat{border-left:0}
 .tpart{min-width:max-content}
@@ -364,7 +373,7 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
   .tiles4{gap:10px}
   .gt{padding:18px 16px;min-height:150px}
   .gt .gl{font-size:13px}
-  .crow{grid-template-columns:1fr auto auto}
+  .crow{grid-template-columns:1fr auto auto auto}
   .crow input:first-child{grid-column:1/-1}
   .topin{gap:10px}
 }
@@ -385,6 +394,7 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
 <main class="shell" id="view"><div class="empty" style="margin-top:40px"><h2>Загружаю паспорта</h2>Сейчас появятся все объекты.</div></main>
 <footer><div class="shell">Данные хранятся в репозитории objects-passport на GitHub. Коды доступа и пароли зашифрованы — без пароля их не видно. Правка на сайте — по ключу доступа GitHub.</div></footer>
 <input type="file" id="fileIn" accept="image/*,application/pdf" multiple hidden>
+<input type="file" id="rowFileIn" hidden>
 
 <script>
 const GH={owner:"Svetlana-Savelyeva",repo:"objects-passport",branch:"main"};
@@ -520,7 +530,7 @@ function fill(o){
     const ok=sec?(o.secretFilled||[]).includes(key):has(o[key]);if(ok)done++;else missing.push(l)}
   total++;if(Object.keys(o.amenities||{}).length)done++;else missing.push("Удобства");
   total++;if((o.photos||[]).length)done++;else missing.push("Фото");
-  for(const c of o.custom||[]){total++;const ok=c.secret?c.filled:has(c.value);if(ok)done++;else missing.push(c.label||"Своя строка")}
+  for(const c of o.custom||[]){total++;const ok=c.secret?c.filled:(has(c.value)||!!c.file);if(ok)done++;else missing.push(c.label||"Своя строка")}
   return{pct:Math.round(done/total*100),done,total,missing};
 }
 function fillColor(p){return p>=80?"var(--g-green)":p>=45?"var(--g-blue)":"var(--g-orange)"}
@@ -604,14 +614,14 @@ async function seal(plain,old){
   const pub=JSON.parse(JSON.stringify(plain));
   if(!aes){
     for(const f of SECRET)delete pub[f];
-    pub.custom=(pub.custom||[]).map(r=>r.secret?{label:r.label,secret:true,filled:!!((old?.custom||[]).find(c=>c.label===r.label)?.filled)}:{label:r.label,value:r.value||""});
+    pub.custom=(pub.custom||[]).map(r=>r.secret?{label:r.label,secret:true,filled:!!((old?.custom||[]).find(c=>c.label===r.label)?.filled)}:{label:r.label,value:r.value||"",...(r.file?{file:r.file}:{})});
     pub.secretFilled=old?.secretFilled||[];pub.enc=old?.enc||"";
     return{pub,payload:secrets[old?.id]};
   }
   const payload={};
   for(const f of SECRET){const v=String(pub[f]||"").trim();delete pub[f];if(v)payload[f]=v}
   const cv={};
-  pub.custom=(pub.custom||[]).map(r=>{if(r.secret){const v=String(r.value||"").trim();if(v)cv[r.label]=v;return{label:r.label,secret:true,filled:!!v}}return{label:r.label,value:r.value||""}});
+  pub.custom=(pub.custom||[]).map(r=>{if(r.secret){const v=String(r.value||"").trim();if(v)cv[r.label]=v;return{label:r.label,secret:true,filled:!!v}}return{label:r.label,value:r.value||"",...(r.file?{file:r.file}:{})}});
   if(Object.keys(cv).length)payload.custom=cv;
   pub.secretFilled=SECRET.filter(f=>payload[f]);
   const oldP=old?secrets[old.id]:null;
@@ -796,6 +806,9 @@ function bindGal(o){
   g.addEventListener("click",e=>{const c=e.target.closest(".gcard");if(!c)return;if(moved){moved=false;return}const k=+c.dataset.gk;if(k===galIdx)lightbox(o,+c.dataset.pi);else{galIdx=k;layoutGal()}});
   g.addEventListener("keydown",e=>{if(e.key==="ArrowRight"){e.preventDefault();stepGal(1)}if(e.key==="ArrowLeft"){e.preventDefault();stepGal(-1)}});
 }
+function linkify(t){return esc(t).replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)\]»"'])/g,u=>`<a class="lnk" href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"")}</a>`)}
+function fileChip(f){if(!f||!f.path)return"";const src=filePath(f.path);const img=/^image\//.test(f.type||"");
+  return img?`<a class="fchip img" href="${src}" target="_blank" rel="noopener" title="${esc(f.name||"")}"><img src="${src}" alt="${esc(f.name||"")}" loading="lazy"></a>`:`<a class="fchip" href="${src}" target="_blank" rel="noopener">${S('<path d="M6 3h8l5 5v13H6zM14 3v5h5"/>',15)}<span>${esc(f.name||"файл")}</span></a>`}
 function fullAddr(o){const a=String(o.address||"");return has(o.apt)&&!/кв|апарт/i.test(a)?a+", кв "+String(o.apt).trim():a}
 function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
@@ -822,7 +835,7 @@ const LOCKED={locked:1};
 function secretVal(o,key){if(!(o.secretFilled||[]).includes(key))return null;return aes?(secrets[o.id]||{})[key]||"":LOCKED}
 function lockedHTML(){return `<span class="locked">${ICON.lock}Скрыто паролем <button class="btn" type="button" data-act="unlock">Показать</button></span>`}
 function kv(rows){rows=rows.filter(r=>r[1]===LOCKED||has(r[1]));if(!rows.length)return"";
-  return`<div class="kv">${rows.map(([k,v,m])=>`<div class="k">${esc(k)}</div><div class="${m?"mono":""}">${v===LOCKED?lockedHTML():esc(v)}</div>`).join("")}</div>`}
+  return`<div class="kv">${rows.map(([k,v,m])=>`<div class="k">${esc(k)}</div><div class="${m?"mono":""}">${v===LOCKED?lockedHTML():linkify(v)}</div>`).join("")}</div>`}
 function editBtnSm(){return token?`<button class="pill sm light" data-act="edit">Заполнить<span class="ar">${ICON.pencil}</span></button>`:""}
 function sect(eb,title,inner,emptyText){return`<section class="sec"><div class="secthead"><div><span class="eyebrow">${eb}</span><h2>${title}</h2></div></div>${inner||`<div class="missing" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><span>${emptyText}</span>${editBtnSm()}</div>`}</section>`}
 
@@ -876,8 +889,8 @@ function renderObject(o){
   h+=sect("Характеристики","Квартира, интернет и УК",(flat||net||sv||uk)?`<div class="two">${flat||sv?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}${sv}</div>`:""}${net||uk?`<div class="panel">${net?`<h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}`:""}${uk?`<h3${net?' class="sub"':""}><span class="ic">${S('<path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/>')}</span>Управляющая компания</h3>${uk}`:""}</div>`:""}</div>`:"","Площадь, планировка, провайдер и управляющая компания не заполнены.");
   const custom=o.custom||[];
   const crows=custom.map(c=>{let v;if(c.secret)v=c.filled?(aes?((secrets[o.id]||{}).custom||{})[c.label]||"":undefined):"";else v=c.value||"";
-    return `<div class="k">${c.secret?ICON.key:""}${esc(c.label)}</div><div class="${c.secret?"mono":""}">${v===undefined?lockedHTML():has(v)?esc(v):'<span class="nil">не заполнено</span>'}</div>`}).join("");
-  const extra=[custom.length?`<div class="panel"><h3><span class="ic">${ICON.key}</span>Свои строки</h3><div class="kv">${crows}</div></div>`:"",o.nearby?`<div class="panel"><h3><span class="ic">${ICON.pin}</span>Поблизости</h3><p>${esc(o.nearby)}</p></div>`:"",o.notes?`<div class="panel"><h3><span class="ic">${ICON.note}</span>Заметки</h3><p>${esc(o.notes)}</p></div>`:""].join("");
+    return `<div class="k">${c.secret?ICON.key:""}${esc(c.label)}</div><div class="${c.secret?"mono":""}">${v===undefined?lockedHTML():has(v)?linkify(v):(c.file?"":'<span class="nil">не заполнено</span>')}${c.file?`<div class="fwrap">${fileChip(c.file)}</div>`:""}</div>`}).join("");
+  const extra=[custom.length?`<div class="panel"><h3><span class="ic">${ICON.key}</span>Свои строки</h3><div class="kv">${crows}</div></div>`:"",o.nearby?`<div class="panel"><h3><span class="ic">${ICON.pin}</span>Поблизости</h3><p>${linkify(o.nearby)}</p></div>`:"",o.notes?`<div class="panel"><h3><span class="ic">${ICON.note}</span>Заметки</h3><p>${linkify(o.notes)}</p></div>`:""].join("");
   h+=sect("Свои строки и окружение","Дополнительно",extra?`<div class="two">${extra}</div>`:"","Своих строк пока нет. Например: умный замок, кейбокс, код калитки.");
   h+=`<section class="sec" id="files"><div class="secthead"><div><span class="eyebrow">Фото и документы</span><h2>Файлы объекта</h2></div></div>${filesHTML(o)}</section>`;
   if(!token)h+=`<section class="sec"><div class="howto"><span class="eyebrow">Как изменить паспорт</span><p>Нажмите «Войти для правок» вверху страницы — откроется редактирование полей, своих строк и загрузка фото. Или напишите Claude в чат, например: <code>${esc(o.name)}: площадь 42 м², есть кондиционер</code>.</p><div><button class="pill sm light" data-act="login" style="margin-top:6px">Войти для правок<span class="ar">${ICON.pencil}</span></button></div></div></section>`;
@@ -912,10 +925,25 @@ function field([k,l,kind],o){
 let crowSeq=0;
 function crow(c={}){
   const n=crowSeq++;const sec=!!c.secret;const lockedVal=sec&&!aes;
-  return`<div class="crow" data-manual="${c.label?"1":""}"><input class="field" id="cl-${n}" data-cl placeholder="Название, напр. «Кейбокс»" value="${esc(c.label||"")}"${lockedVal?" readonly":""}>
+  return`<div class="crow" data-manual="${c.label?"1":""}" data-file="${c.file?esc(JSON.stringify(c.file)):""}"><input class="field" id="cl-${n}" data-cl placeholder="Название, напр. «Кейбокс»" value="${esc(c.label||"")}"${lockedVal?" readonly":""}>
   <input class="field" id="cv-${n}" data-cv placeholder="${lockedVal?"Скрыто — введите пароль":"Значение"}" value="${esc(lockedVal?"":c.value||"")}"${lockedVal?" disabled":""}>
   <button type="button" class="lockt" data-act="sectoggle" aria-pressed="${sec}" title="Секретная строка (шифруется)"${!aes&&!sec?" disabled":""}${lockedVal?" disabled":""}>${ICON.lock}</button>
-  <button type="button" class="circ" data-act="delrow" aria-label="Удалить строку">✕</button></div>`;
+  <button type="button" class="lockt" data-act="rowfile" title="Прикрепить фото или файл"${sec?" disabled":""}>${S('<path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7-7L13 4.5a3.3 3.3 0 0 1 4.7 4.7l-8.2 8.2a1.7 1.7 0 0 1-2.4-2.4l7.5-7.5"/>',16)}</button>
+  <button type="button" class="circ" data-act="delrow" aria-label="Удалить строку">✕</button>
+  <div class="rfile">${c.file?rowFileHTML(c.file):""}</div></div>`;
+}
+function rowFileHTML(f){return `${fileChip(f)}<button type="button" class="btn ghost" data-act="rowfile-del">Открепить</button>`}
+async function rowUpload(row,file){
+  const o=draft&&draft.id===selId?draft:objs.find(x=>x.id===selId);if(!o||!token)return;
+  let blob,type,ext;const isImg=/^image\//.test(file.type)||/\.(jpe?g|png|webp|heic|heif|gif)$/i.test(file.name);
+  if(isImg){blob=await prepImage(file);if(!blob){toast("Не удалось открыть изображение");return}type="image/jpeg";ext="jpg"}
+  else{if(file.size>20*1024*1024){toast("Файл больше 20 МБ");return}blob=file;type=file.type||"application/octet-stream";ext=(file.name.match(/\.([a-z0-9]{1,6})$/i)||[,"bin"])[1].toLowerCase()}
+  const path=`files/${o.id}/${Date.now()}-${slug(file.name)}.${ext}`;
+  busy(true,"Загружаю файл…");
+  try{await putFile(path,await blobB64(blob),`${o.name||"Новый объект"}: файл к строке ${file.name}`);previews[path]=URL.createObjectURL(blob);
+    const f={path,name:file.name,type};row.dataset.file=JSON.stringify(f);row.querySelector(".rfile").innerHTML=rowFileHTML(f);toast("Файл прикреплён — не забудьте «Сохранить»")}
+  catch(e){if(e.code==="perm")permHelp();else toast(e.message||"Не удалось загрузить файл")}
+  finally{busy(false)}
 }
 function am3HTML(k,l,s){return`<button type="button" class="am3" data-am3="${esc(k)}" data-v="${s}"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span>${esc(l)}<span class="st">${{"":"не указано","yes":"есть","no":"нет"}[s]}</span></button>`}
 function openAddAmenity(){
@@ -968,7 +996,8 @@ function collect(){
     const label=r.querySelector("[data-cl]").value.trim();const secret=r.querySelector("[data-act=sectoggle]").getAttribute("aria-pressed")==="true";
     const vi=r.querySelector("[data-cv]");
     let value=vi.disabled?((oldCustom.find(c=>c.label===label)||{}).value||""):vi.value.trim();
-    return {label,value,secret};
+    const fd=r.dataset.file;const fobj=fd?JSON.parse(fd):null;
+    return fobj&&!secret?{label,value,secret,file:fobj}:{label,value,secret};
   }).filter(c=>c.label);
   const n=parseInt(p.num,10);if(p.order==null||p.order==="")p.order=isNaN(n)?9999:n;
   return p;
@@ -1106,6 +1135,8 @@ document.addEventListener("click",async e=>{
   else if(a==="cancel"){if(draft){draft=null;editing=false;selId=null;history.replaceState(null,"",location.pathname);render();scrollTo(0,homeScroll)}else{editing=false;render();scrollTo(0,0)}}
   else if(a==="slm"||a==="slp"){const el=b.closest("[data-sleep]");let n=(+el.dataset.n||0)+(a==="slp"?1:-1);n=Math.max(0,Math.min(9,n));el.dataset.n=n;el.querySelector("b").textContent=n;el.classList.toggle("on",n>0);
     const bi=$("#f-beds");if(bi&&!bi.dataset.manual){const sl={};document.querySelectorAll("[data-sleep]").forEach(x=>sl[x.dataset.sleep]=+x.dataset.n||0);const t=sleepTotal(sl);bi.value=t?String(t):""}}
+  else if(a==="rowfile"){rowTarget=b.closest(".crow");$("#rowFileIn").click()}
+  else if(a==="rowfile-del"){const r=b.closest(".crow");r.dataset.file="";r.querySelector(".rfile").innerHTML=""}
   else if(a==="addam")openAddAmenity();
   else if(a==="addrow"){$("#crows").insertAdjacentHTML("beforeend",crow({}));const r=$("#crows").lastElementChild;r.dataset.manual="";r.querySelector("[data-cl]").focus()}
   else if(a==="delrow")b.closest(".crow").remove();
@@ -1123,6 +1154,8 @@ document.addEventListener("input",e=>{const t=e.target;if(t.id==="f-beds")t.data
 document.addEventListener("change",async e=>{const t=e.target;if(t.dataset.act==="cap"){const o=objs.find(x=>x.id===selId);const i=+t.dataset.i;const v=t.value.trim();await photosCommit(o,ps=>{if(ps[i])ps[i]={...ps[i],caption:v};return ps},`${o.name}: подпись к файлу`)}});
 document.addEventListener("submit",e=>{if(e.target.id==="form"){e.preventDefault();save()}});
 $("#fileIn").addEventListener("change",e=>{if(e.target.files.length)uploadFiles(e.target.files);e.target.value=""});
+let rowTarget=null;
+$("#rowFileIn").addEventListener("change",e=>{const f=e.target.files[0];if(f&&rowTarget)rowUpload(rowTarget,f);e.target.value=""});
 addEventListener("hashchange",route);
 
 async function reload(){
