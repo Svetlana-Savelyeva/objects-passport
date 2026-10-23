@@ -130,7 +130,8 @@ section.sec{margin-top:64px}
 .back{margin-top:22px}
 
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));background:var(--surface);border-radius:var(--r-lg);margin-top:28px;padding:26px 8px}
-.stat{padding:0 24px;border-left:1px solid var(--line)}
+.stat{padding:0 24px;border-left:1px solid var(--line);min-width:0}
+.stat b.word{font-size:clamp(20px,2.1vw,27px);line-height:1.15;padding-top:.35em;overflow-wrap:anywhere}
 .stat:first-child{border-left:0}
 .stat b{display:block;font-family:var(--f-display);font-weight:300;font-size:clamp(30px,3.4vw,42px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .stat b small{font-size:.45em;letter-spacing:0;margin-left:4px}
@@ -644,7 +645,7 @@ function cardHTML(o,dist){const f=fill(o);return `
     </a>`}
 
 /* ---------- object page ---------- */
-function stat(v,l,unit){return has(v)?`<div class="stat"><b>${esc(v)}${unit?`<small>${unit}</small>`:""}</b><span>${l}</span></div>`:""}
+function stat(v,l,unit){return has(v)?`<div class="stat"><b${/^[\d.,\s+–-]+$/.test(String(v).trim())?"":' class="word"'}>${esc(v)}${unit?`<small>${unit}</small>`:""}</b><span>${l}</span></div>`:""}
 function secretVal(o,key){if(!(o.secretFilled||[]).includes(key))return null;return aes?(secrets[o.id]||{})[key]||"":undefined}
 function lockedHTML(){return `<span class="locked">${ICON.lock}Скрыто паролем <button class="btn" type="button" data-act="unlock">Показать</button></span>`}
 function kv(rows){rows=rows.filter(r=>r[1]!==null&&(r[1]===undefined||has(r[1])));if(!rows.length)return"";
@@ -657,7 +658,7 @@ function renderObject(o){
   const near=nearby(o);
   const ams=amList().filter(([k])=>(o.amenities||{})[k]===true),noAms=amList().filter(([k])=>(o.amenities||{})[k]===false);
   const c=coverOf(o),f=fill(o);
-  const stats=[stat(o.floor,"этаж"),stat(o.entrance,"парадная"),stat(o.area,"площадь","м²"),stat(o.rooms,"комнат"),stat(o.beds,"спальных мест"),stat(o.guests,"гостей максимум"),stat(o.metroWalk,"до метро пешком","мин")].join("");
+  const stats=[stat(o.floor,"этаж"),stat(o.entrance,"парадная"),stat(o.area,"площадь","м²"),stat(o.rooms,/студ/i.test(o.rooms||"")?"тип квартиры":"комнат"),stat(o.beds,"спальных мест"),stat(o.guests,"гостей максимум"),stat(o.metroWalk,"до метро пешком","мин")].join("");
   const C=2*Math.PI*42;
   let h=`<button class="link back" data-act="home"><span class="circ">${ICON.arrowl}</span>Все объекты</button>
   <div class="ohero">
