@@ -247,6 +247,10 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+input[type=color].field{-webkit-appearance:none;appearance:none;padding:0;height:48px;border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;background:none}
+input[type=color].field::-webkit-color-swatch-wrapper{padding:0}
+input[type=color].field::-webkit-color-swatch{border:0;border-radius:0}
+input[type=color].field::-moz-color-swatch{border:0;border-radius:0}
 .ic.gi-o{background:var(--g-orange)!important;color:#fff!important}.ic.gi-b{background:var(--g-blue)!important;color:#fff!important}.ic.gi-t{background:var(--g-teal)!important;color:#fff!important}.ic.gi-g{background:var(--g-green)!important;color:#fff!important}
 .am3[data-v=""] .ic[class*=gi-],.am3:not([data-v]) .ic[class*=gi-]{opacity:.55}
 .gal{background:transparent;perspective:1500px;outline:none;min-height:0;aspect-ratio:100/64;border-radius:0;overflow:visible;align-self:center;width:100%}
@@ -883,7 +887,7 @@ function field([k,l,kind],o){
   else if(kind==="rooms")inp=`<select class="field" id="${id}" data-f="${k}">${["","Студия","1","2","3","4","5+"].map(n=>`<option${n===String(v)?" selected":""}>${n}</option>`).join("")}</select>`;
   else if(kind==="payer")inp=`<input class="field" id="${id}" data-f="${k}" value="${esc(v)}" list="payerList" placeholder="Выберите или впишите"><datalist id="payerList"><option value="Собственник"><option value="Мы"><option value="Гость"><option value="Включено в квартплату"></datalist>`;
   else if(kind==="time")inp=`<input class="field" id="${id}" data-f="${k}" type="time" step="900" value="${esc(v)}">`;
-  else if(kind==="color")inp=`<input class="field" id="${id}" data-f="${k}" type="color" value="${/^#[0-9a-f]{6}$/i.test(v)?esc(v):"#cccccc"}" style="height:48px;padding:4px">`;
+  else if(kind==="color")inp=`<input class="field" id="${id}" data-f="${k}" type="color" value="${/^#[0-9a-f]{6}$/i.test(v)?esc(v):"#cccccc"}">`;
   else inp=`<input class="field" id="${id}" data-f="${k}" value="${esc(v)}"${dis}>`;
   return `<label class="${cls}">${lbl}${inp}</label>`;
 }
