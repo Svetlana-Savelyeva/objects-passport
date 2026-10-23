@@ -247,6 +247,7 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.panel h3.sub{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
 .slgrid{clear:both;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
 .sl{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:16px;padding:10px 10px 10px 12px;background:var(--bg)}
 .sl .ic{width:42px;height:42px;border-radius:12px;background:var(--surface);display:grid;place-items:center;color:var(--muted);flex:none}
@@ -395,12 +396,13 @@ const GEN={
 const AM=[["balcony","Балкон"],["loggia","Лоджия"],["boiler","Бойлер"],["dishwasher","ПММ"],["ac","Кондиционер"],["washer","Стиральная машина"],["dryer","Сушильная машина"],["oven","Духовка"],["microwave","Микроволновка"],["tv","Телевизор"],["iron","Утюг"],["hairdryer","Фен"],["crib","Детская кроватка"],["pets","Можно с животными"],["elevator","Лифт"],["storage","Кладовка"],["workspace","Рабочее место"],["bath","Ванна"],["shower","Душевая"],["flowheater","Проточный водонагреватель"],["steamer","Отпариватель"],["coffee","Кофемашина"],["kettle","Чайник"],["mosquito","Москитные сетки"],["blackout","Блэкаут-шторы"],["heatedfloor","Тёплый пол"],["vacuum","Пылесос"]];
 const AM_FILTER=["ac","dishwasher","boiler","balcony","washer","elevator","pets","crib"];
 const ROOMS=[["","Все"],["Студия","Студия"],["1","1-комн."],["2","2-комн."],["3","3-комн."],["4+","4+ комн."]];
-const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит за интернет"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["nearby","Поблизости"]];
+const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит за интернет"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["ukName","Управляющая компания"],["ukPhone","Телефон УК"],["nearby","Поблизости"]];
 const SECRET=["access","wifiPass","account"];
 const SECTIONS=[
  {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["extraLink","Доп. ссылка","wide"]]},
  {t:"Квартира",f:[["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
  {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит","payer"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"]]},
+ {t:"Управляющая компания",f:[["ukName","Название УК"],["ukPhone","Телефон УК"],["ukDispatch","Аварийная / диспетчерская"],["ukEmail","Email"],["ukApp","Приложение / личный кабинет"],["ukOffice","Адрес офиса","wide"],["ukNotes","Заметки по УК","area"]]},
  {t:"Поблизости и заметки",f:[["nearby","Объекты поблизости (магазины, кафе, аптеки…)","area"],["notes","Заметки","area"]]}
 ];
 function amList(){return [...AM,...((fieldsCfg&&fieldsCfg.amenities)||[]).map(a=>[a.key,a.label])]}
@@ -756,7 +758,8 @@ function renderObject(o){
   const flat=kv([["Площадь",o.area?o.area+" м²":""],["Комнат",o.rooms],["Спальных мест",o.beds],["Макс. гостей",o.guests],["Потолки",o.ceiling?o.ceiling+" м":""],["Этажей в доме",o.floorsTotal],["Вид из окна",o.view]]);
   const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Кто платит",o.payer],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
   const sv=sleepView(o);
-  h+=sect("Характеристики","Квартира и интернет",(flat||net||sv)?`<div class="two">${flat||sv?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}${sv}</div>`:""}${net?`<div class="panel"><h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}</div>`:""}</div>`:"","Площадь, планировка и данные провайдера не заполнены.");
+  const uk=kv([["Название",o.ukName],["Телефон",o.ukPhone,1],["Аварийная / диспетчерская",o.ukDispatch,1],["Email",o.ukEmail,1],["Приложение / кабинет",o.ukApp],["Адрес офиса",o.ukOffice],["Заметки",o.ukNotes]]);
+  h+=sect("Характеристики","Квартира, интернет и УК",(flat||net||sv||uk)?`<div class="two">${flat||sv?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}${sv}</div>`:""}${net||uk?`<div class="panel">${net?`<h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}`:""}${uk?`<h3${net?' class="sub"':""}><span class="ic">${S('<path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/>')}</span>Управляющая компания</h3>${uk}`:""}</div>`:""}</div>`:"","Площадь, планировка, провайдер и управляющая компания не заполнены.");
   const custom=o.custom||[];
   const crows=custom.map(c=>{let v;if(c.secret)v=c.filled?(aes?((secrets[o.id]||{}).custom||{})[c.label]||"":undefined):"";else v=c.value||"";
     return `<div class="k">${c.secret?ICON.key:""}${esc(c.label)}</div><div class="${c.secret?"mono":""}">${v===undefined?lockedHTML():has(v)?esc(v):'<span class="nil">не заполнено</span>'}</div>`}).join("");
