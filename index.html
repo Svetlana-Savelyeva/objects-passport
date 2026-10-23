@@ -513,6 +513,21 @@ function openUnlock(after){
     m.remove();headerState();
     if(after)after();else{render(true);toast("Коды открыты")}});
 }
+async function canWrite(t){
+  try{const r=await fetch(`https://api.github.com/repos/${GH.owner}/${GH.repo}/git/blobs`,{method:"POST",headers:{Authorization:"Bearer "+t,Accept:"application/vnd.github+json","Content-Type":"application/json"},body:JSON.stringify({content:"write-check",encoding:"utf-8"})});return r.status===201}catch(_){return false}
+}
+function permHelp(){
+  const m=modal(`<span class="eyebrow">Нет права записи</span><h2>Ключ только для чтения</h2>
+  <p>Сохранить не получилось: GitHub разрешает этому ключу только читать. Это исправляется в настройках ключа, вставлять его заново не нужно.</p>
+  <ol>
+    <li>Откройте <a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener"><b>свои ключи на GitHub</b></a> и нажмите на ключ «Паспорта объектов».</li>
+    <li>Нажмите <b>Edit</b>.</li>
+    <li><b>Repository access</b> → <b>Only select repositories</b> → должен быть <b>objects-passport</b>.</li>
+    <li><b>Permissions</b> → <b>Repository permissions</b> → <b>Contents</b> → <b>Read and write</b>.</li>
+    <li>Нажмите <b>Update</b> внизу и вернитесь сюда — нажмите «Сохранить» ещё раз. Форма не потеряется.</li>
+  </ol>
+  <div><button class="pill" type="button" data-close>Понятно<span class="ar">${ICON.arrow}</span></button></div>`,"wide");
+}
 function openLogin(){
   const m=modal(`<span class="eyebrow">Правка на сайте</span><h2>Ключ доступа GitHub</h2>
   <p>Ключ нужен один раз на каждом устройстве. Он даёт право менять только паспорта объектов.</p>
@@ -520,7 +535,7 @@ function openLogin(){
     <li>Откройте <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener"><b>github.com → новый ключ</b></a> (вы должны быть вошедши в GitHub).</li>
     <li><b>Token name</b> — «Паспорта объектов», <b>Expiration</b> — например, 1 год.</li>
     <li><b>Repository access</b> → <b>Only select repositories</b> → <b>objects-passport</b>.</li>
-    <li><b>Permissions</b> → <b>Repository permissions</b> → <b>Contents</b> → <b>Read and write</b>.</li>
+    <li><b>Permissions</b> → <b>Repository permissions</b> → <b>Contents</b> → переключите на <b>Read and write</b> (по умолчанию стоит Read-only).</li>
     <li><b>Generate token</b> и скопируйте ключ (начинается с github_pat_).</li>
   </ol>
   <input class="field" id="tk" type="password" autocomplete="off" placeholder="github_pat_…" required>
@@ -535,6 +550,8 @@ function openLogin(){
       const d=await r.json();
       if(!r.ok){$("#terr").textContent="У ключа нет доступа к objects-passport. Проверьте шаг 3.";return}
       if(d.permissions&&d.permissions.push===false){$("#terr").textContent="Ключ только для чтения. На шаге 4 выберите Contents: Read and write.";return}
+      const w=await canWrite(t);
+      if(!w){$("#terr").textContent="Ключ только для чтения. Откройте ключ на GitHub → Edit → Contents: Read and write → Update, затем нажмите «Войти» ещё раз.";return}
     }catch(_){$("#terr").textContent="Нет связи с GitHub. Попробуйте ещё раз.";return}
     token=t;try{localStorage.setItem("passport-token",t)}catch(_){}
     m.remove();headerState();await reload();toast("Правка включена");
@@ -720,7 +737,7 @@ function openAddAmenity(){
     const icon=m.querySelector("input[name=amIc]:checked").value;const key="c"+Date.now().toString(36);
     $("#amErr").textContent="Сохраняю…";
     try{await commitJSON("data/fields.json",cur=>{cur=cur||{rows:[]};cur.amenities=cur.amenities||[];cur.amenities.push({key,label,icon});fieldsCfg=cur;return cur},"Новое удобство: "+label,2)}
-    catch(err){$("#amErr").textContent=err.message||"Не удалось сохранить. Попробуйте ещё раз.";return}
+    catch(err){if(err.code==="perm"){m.remove();permHelp();return}$("#amErr").textContent=err.message||"Не удалось сохранить. Попробуйте ещё раз.";return}
     m.remove();const add=document.querySelector("[data-act=addam]");if(add)add.insertAdjacentHTML("beforebegin",am3HTML(key,label,"yes"));toast("Удобство «"+label+"» добавлено ко всем паспортам")});
 }
 function renderEdit(o){
@@ -780,7 +797,7 @@ async function save(){
     if(location.hash.slice(1)!==pub.id){selId=pub.id;history.replaceState(null,"","#"+pub.id)}
     renderNav();render();scrollTo(0,0);
     toast(toAll?"Сохранено, строки добавлены ко всем":"Сохранено");
-  }catch(e){toast(e.message||"Не удалось сохранить. Попробуйте ещё раз.")}
+  }catch(e){if(e.code==="perm")permHelp();else toast(e.message||"Не удалось сохранить. Попробуйте ещё раз.")}
   finally{busy(false)}
 }
 function newObject(){
@@ -817,7 +834,7 @@ async function uploadFiles(files){
       else{blob=await prepImage(file);if(!blob){errs.push(file.name+": не удалось открыть изображение (нужны JPG, PNG, WEBP, HEIC на iPhone)");continue}type="image/jpeg";ext="jpg"}
       const path=`files/${o.id}/${Date.now()}-${slug(file.name)}.${ext}`;
       try{await putFile(path,await blobB64(blob),`${o.name}: файл ${file.name}`);previews[path]=URL.createObjectURL(blob);added.push({path,caption:file.name.replace(/\.[^.]+$/,""),type})}
-      catch(e){errs.push(file.name+": "+(e.message||"ошибка загрузки"))}
+      catch(e){if(e.code==="perm"){permHelp();break}errs.push(file.name+": "+(e.message||"ошибка загрузки"))}
     }
     if(added.length){await commitObjects(arr=>{const x=arr.find(a=>a.id===o.id);if(x)x.photos=[...(x.photos||[]),...added]},`${o.name}: добавлены файлы (${added.length})`);render(true);toast(added.length===1?"Файл добавлен":`Добавлено файлов: ${added.length}`)}
   }catch(e){errs.push(e.message||"Не удалось обновить паспорт")}
@@ -830,7 +847,7 @@ function bindDrop(){
   d.addEventListener("dragleave",()=>d.classList.remove("over"));
   d.addEventListener("drop",e=>{e.preventDefault();d.classList.remove("over");if(e.dataTransfer.files.length)uploadFiles(e.dataTransfer.files)});
 }
-async function photosCommit(o,fn,msg){busy(true);try{await commitObjects(arr=>{const x=arr.find(a=>a.id===o.id);if(x)x.photos=fn([...(x.photos||[])])},msg);render(true)}catch(e){toast(e.message||"Не удалось сохранить")}finally{busy(false)}}
+async function photosCommit(o,fn,msg){busy(true);try{await commitObjects(arr=>{const x=arr.find(a=>a.id===o.id);if(x)x.photos=fn([...(x.photos||[])])},msg);render(true)}catch(e){if(e.code==="perm")permHelp();else toast(e.message||"Не удалось сохранить")}finally{busy(false)}}
 
 /* ---------- routing ---------- */
 function render(keepScroll){
