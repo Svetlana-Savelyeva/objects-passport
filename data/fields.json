@@ -22,6 +22,11 @@
       "key": "cmvliqqrp",
       "label": "Питьевой фильтр встроенный",
       "icon": "drop"
+    },
+    {
+      "key": "cmvlirc9b",
+      "label": "Фильтр Кувшин",
+      "icon": "sparkle"
     }
   ]
 }
