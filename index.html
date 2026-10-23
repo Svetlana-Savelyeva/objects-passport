@@ -8,13 +8,14 @@
 <title>Паспорта объектов</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231c1a17'/%3E%3Cpath d='M9 24V13l7-5 7 5v11h-5v-6h-4v6z' fill='%23f6f4f1'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500;600&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap">
 <style>
 /* Layout: showroom catalog — hero + stats, icon filter bar, grid of rounded cover cards; object page with hero, stats, completeness, detail panels */
 :root{
   --bg:#f6f4f1; --surface:#ffffff; --soft:#efebe6; --line:#e5e0d9;
   --ink:#1c1a17; --muted:#8a847b; --inv:#ffffff; --wood1:#8a7360; --wood2:#3b3029;
   --ok:#2f7a4f; --no:#b4233c;
+  --f-display:"Unbounded","Manrope",system-ui,sans-serif;
   --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
   --r-lg:28px; --r:20px;
@@ -54,10 +55,10 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 
 .eyebrow{font:500 10.5px/1 var(--f-body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 .tagpill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font:500 10.5px/1 var(--f-body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);background:var(--surface)}
-h1,h2{font-weight:400;letter-spacing:-.025em;text-wrap:balance;margin:0}
-h1{font-size:clamp(34px,5vw,56px);line-height:1.05}
+h1,h2{font-family:var(--f-display);font-weight:500;letter-spacing:-.03em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,4.4vw,50px);line-height:1.08}
 h1 .lt{font-weight:300}
-h2{font-size:clamp(24px,3vw,32px);line-height:1.15}
+h2{font-size:clamp(21px,2.6vw,28px);line-height:1.2}
 .lead{color:var(--muted);max-width:46ch;margin:18px 0 0;font-size:15px}
 .secthead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 .secthead .eyebrow{display:block;margin-bottom:12px}
@@ -70,7 +71,7 @@ section.sec{margin-top:64px}
 .search input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:14.5px;padding:8px 0}
 .statcard{border-radius:var(--r-lg);background:linear-gradient(150deg,var(--wood1),var(--wood2));color:#f6efe7;padding:34px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;min-height:360px;position:relative;overflow:hidden}
 .statcard::after{content:"";position:absolute;inset:auto -10% -40% 30%;height:80%;background:radial-gradient(closest-side,rgba(255,236,210,.22),transparent);pointer-events:none}
-.statcard .big{font-weight:300;font-size:clamp(64px,9vw,104px);line-height:.9;letter-spacing:-.04em}
+.statcard .big{font-family:var(--f-display);font-weight:300;font-size:clamp(64px,9vw,104px);line-height:.9;letter-spacing:-.04em}
 .statcard .cap{color:rgba(246,239,231,.72);font-size:14px;max-width:30ch}
 .statcard .row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;border-top:1px solid rgba(246,239,231,.2);padding-top:22px;position:relative;z-index:1}
 .statcard .row b{display:block;font-weight:400;font-size:28px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
@@ -113,11 +114,11 @@ section.sec{margin-top:64px}
 .meter i{flex:1;height:4px;border-radius:2px;background:var(--soft);max-width:120px;position:relative;overflow:hidden}
 .meter i b{position:absolute;inset:0 auto 0 0;border-radius:2px}
 .empty{grid-column:1/-1;background:var(--surface);border-radius:var(--r-lg);padding:48px 28px;text-align:center;color:var(--muted)}
-.empty h2{color:var(--ink);font-size:22px;margin-bottom:8px}
+.empty h2{color:var(--ink);font-size:20px;margin-bottom:8px}
 
 .ohero{display:grid;grid-template-columns:1fr 1.15fr;gap:32px;padding-block:22px 0;align-items:stretch}
 .ohero .txt{display:flex;flex-direction:column;justify-content:center;min-width:0;padding-block:12px}
-.ohero h1{margin-top:22px;font-size:clamp(34px,4.6vw,54px)}
+.ohero h1{margin-top:22px;font-size:clamp(30px,4.2vw,48px)}
 .addr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px;color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13px;background:var(--surface)}
@@ -131,14 +132,14 @@ section.sec{margin-top:64px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));background:var(--surface);border-radius:var(--r-lg);margin-top:28px;padding:26px 8px}
 .stat{padding:0 24px;border-left:1px solid var(--line)}
 .stat:first-child{border-left:0}
-.stat b{display:block;font-weight:300;font-size:clamp(30px,3.4vw,42px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat b{display:block;font-family:var(--f-display);font-weight:300;font-size:clamp(30px,3.4vw,42px);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .stat b small{font-size:.45em;letter-spacing:0;margin-left:4px}
 .stat span{display:block;font-size:12px;color:var(--muted);margin-top:8px}
 
 .fillcard{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;background:var(--surface);border-radius:var(--r-lg);padding:26px 30px;margin-top:18px}
 .ring{width:96px;height:96px;position:relative}
 .ring svg{width:96px;height:96px;transform:rotate(-90deg)}
-.ring b{position:absolute;inset:0;display:grid;place-items:center;font-weight:300;font-size:26px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--f-display);font-weight:400;font-size:22px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .fillcard h3{margin:0 0 6px;font-weight:500;font-size:16px}
 .fillcard p{margin:0 0 12px;color:var(--muted);font-size:13.5px}
 .miss{display:flex;flex-wrap:wrap;gap:6px}
@@ -180,7 +181,7 @@ section.sec{margin-top:64px}
 
 .modal{position:fixed;inset:0;background:rgba(14,12,10,.55);z-index:40;display:grid;place-items:center;padding:20px max(16px,env(safe-area-inset-right,0px)) 20px max(16px,env(safe-area-inset-left,0px))}
 .modal form{background:var(--surface);border-radius:var(--r-lg);padding:30px;width:min(420px,100%);display:grid;gap:14px}
-.modal h2{font-size:24px}
+.modal h2{font-size:22px}
 .modal p{margin:0;color:var(--muted);font-size:14px}
 .field{width:100%;border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px 14px;font-size:15px;color:var(--ink)}
 .chk{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--muted)}
