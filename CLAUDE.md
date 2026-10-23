@@ -20,7 +20,7 @@ git add data files index.html && git commit && git push
 
 ## Модель объекта (в plain-файле)
 - Навигация: num, name, address, city, district, districtColor, entrance, floor, coords, nav, metroLine, metro, metroWalk, access*, parking, photoLink, extraLink, order
-- Квартира: area, rooms ("Студия", "1", "2", "3", "4", "5+"), beds, guests, ceiling, floorsTotal, view
+- Квартира: area, rooms ("Студия", "1", "2", "3", "4", "5+"), beds, guests, sleep (состав спальных мест: `{bed140|bed160|bed180|single|sofa|sofasm|chair|bunk: количество}`; beds = сумма мест), ceiling, floorsTotal, view
 - Удобства: `amenities` — `{key: true}` есть, `{key: false}` нет, ключа нет — не заполнено. Ключи: balcony, loggia, boiler, dishwasher (ПММ), ac, washer, dryer, oven, microwave, tv, iron, hairdryer, crib, pets, elevator, storage, workspace, bath, shower, flowheater (проточный водонагреватель), steamer (отпариватель), coffee (кофемашина), kettle, mosquito (москитные сетки), blackout (блэкаут-шторы), heatedfloor (тёплый пол), vacuum (пылесос). Свои удобства — в `data/fields.json` → `amenities: [{key: "c…", label, icon}]`, иконка из набора GEN в index.html
 - Интернет: provider, contract, payer (кто платит: «Собственник», «Мы», «Гость», «Включено в квартплату» или свой текст), account*, providerPhone, wifiName, wifiPass*
 - nearby, notes

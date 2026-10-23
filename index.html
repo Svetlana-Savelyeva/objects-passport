@@ -238,6 +238,22 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.slgrid{clear:both;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.sl{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:16px;padding:10px 10px 10px 12px;background:var(--bg)}
+.sl .ic{width:42px;height:42px;border-radius:12px;background:var(--surface);display:grid;place-items:center;color:var(--muted);flex:none}
+.sl .t{flex:1;min-width:0;font-size:13.5px;font-weight:500;line-height:1.3}
+.sl .t small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.sl .stp{display:flex;align-items:center;gap:6px}
+.sl .stp button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-size:16px;line-height:1;display:grid;place-items:center}
+.sl .stp b{min-width:16px;text-align:center;font-variant-numeric:tabular-nums;font-weight:600}
+.sl.on{border-color:transparent;background:var(--g-blue);color:#fff}
+.sl.on .ic{background:rgba(255,255,255,.25);color:#fff}
+.sl.on .t small{color:rgba(255,255,255,.8)}
+.sl.on .stp button{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.4);color:#fff}
+.sleeps{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding-top:16px;border-top:1px solid var(--line)}
+.slv{display:inline-flex;align-items:center;gap:10px;background:var(--soft);border-radius:14px;padding:6px 14px 6px 6px;font-size:13.5px;font-weight:500}
+.slv .ic{width:36px;height:36px;border-radius:10px;background:var(--surface);display:grid;place-items:center}
+.slv b{font-weight:600;color:var(--muted)}
 .tiles4{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:stretch}
 .gt{border-radius:var(--r-lg);padding:24px 24px 22px;color:#fff;display:flex;flex-direction:column;gap:6px;min-height:170px;box-shadow:0 14px 30px -20px rgba(40,40,80,.45)}
 .gt .gi{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.28);display:grid;place-items:center;margin-bottom:auto}
@@ -380,6 +396,23 @@ const SECTIONS=[
 ];
 function amList(){return [...AM,...((fieldsCfg&&fieldsCfg.amenities)||[]).map(a=>[a.key,a.label])]}
 function amIcon(k){if(AMI[k])return AMI[k];const c=((fieldsCfg&&fieldsCfg.amenities)||[]).find(a=>a.key===k);return GEN[c&&c.icon]||GEN.star}
+const BED=(x,w,p2)=>S(`<rect x="${x}" y="4" width="${w}" height="16" rx="2"/><path d="M${x} 12h${w}"/>`+(p2?`<rect x="${x+1.8}" y="6.3" width="${w/2-2.6}" height="3.4" rx="1"/><rect x="${x+w/2+0.8}" y="6.3" width="${w/2-2.6}" height="3.4" rx="1"/>`:`<rect x="${x+1.8}" y="6.3" width="${w-3.6}" height="3.4" rx="1"/>`),22);
+const SLEEP=[
+ ["bed140","Кровать 140×200",2,BED(5,14,1)],
+ ["bed160","Кровать 160×200",2,BED(4,16,1)],
+ ["bed180","Кровать 180×200",2,BED(3,18,1)],
+ ["single","Односпальная 90×200",1,BED(7,10,0)],
+ ["sofa","Раскладной диван",2,S('<path d="M4 10V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2M2 12a2 2 0 0 1 4 0v3h12v-3a2 2 0 0 1 4 0v5H2zM4 17v2M20 17v2"/>',22)],
+ ["sofasm","Малый раскладной диван",1,S('<path d="M6 10V8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2M4 12a2 2 0 0 1 4 0v3h8v-3a2 2 0 0 1 4 0v5H4zM6 17v2M18 17v2"/>',22)],
+ ["chair","Раскладное кресло",1,S('<path d="M8 10V8a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M6 12a2 2 0 0 1 3 0v3h6v-3a2 2 0 0 1 3 0v5H6zM8 17v2M16 17v2"/>',22)],
+ ["bunk","Двухъярусная кровать",2,S('<path d="M4 3v18M20 3v18M4 7h16M4 11h16M4 15h16M4 19h16M7 5.5h4M7 13.5h4"/>',22)]
+];
+function sleepTotal(sl){return SLEEP.reduce((n,[k,,pl])=>n+(+((sl||{})[k])||0)*pl,0)}
+function sleepView(o){const sl=o.sleep||{};const items=SLEEP.filter(([k])=>+sl[k]>0);if(!items.length)return"";
+  return `<div class="sleeps">${items.map(([k,l,,ic])=>`<div class="slv"><span class="ic">${ic}</span><span>${esc(l)}</span>${+sl[k]>1?`<b>× ${+sl[k]}</b>`:""}</div>`).join("")}</div>`}
+function sleepFieldset(o){const sl=o.sleep||{};
+  return `<fieldset class="fs"><legend>Спальные места — состав</legend><div class="slgrid">${SLEEP.map(([k,l,pl,ic])=>{const n=+sl[k]||0;return `<div class="sl${n?" on":""}" data-sleep="${k}" data-n="${n}"><span class="ic">${ic}</span><span class="t">${esc(l)}<small>${pl} ${plural(pl,"место","места","мест")}</small></span><span class="stp"><button type="button" data-act="slm" aria-label="Меньше">−</button><b>${n}</b><button type="button" data-act="slp" aria-label="Больше">+</button></span></div>`}).join("")}</div>
+  <p class="status" style="margin:12px 0 0">«Спальных мест» в блоке выше считается само по составу — при желании поправьте вручную.</p></fieldset>`}
 const SECRET_HINT=/код|кейбокс|замок|калитк|пароль|сейф|домофон|pin/i;
 
 const $=s=>document.querySelector(s);
@@ -713,7 +746,8 @@ function renderObject(o){
   h+=sect("Качество в деталях","Удобства в квартире",amTiles?`<div class="tiles">${amTiles}</div>`:"","Удобства не заполнены: отметьте, что есть и чего нет в квартире.");
   const flat=kv([["Площадь",o.area?o.area+" м²":""],["Комнат",o.rooms],["Спальных мест",o.beds],["Макс. гостей",o.guests],["Потолки",o.ceiling?o.ceiling+" м":""],["Этажей в доме",o.floorsTotal],["Вид из окна",o.view]]);
   const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Кто платит",o.payer],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
-  h+=sect("Характеристики","Квартира и интернет",(flat||net)?`<div class="two">${flat?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}</div>`:""}${net?`<div class="panel"><h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}</div>`:""}</div>`:"","Площадь, планировка и данные провайдера не заполнены.");
+  const sv=sleepView(o);
+  h+=sect("Характеристики","Квартира и интернет",(flat||net||sv)?`<div class="two">${flat||sv?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}${sv}</div>`:""}${net?`<div class="panel"><h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}</div>`:""}</div>`:"","Площадь, планировка и данные провайдера не заполнены.");
   const custom=o.custom||[];
   const crows=custom.map(c=>{let v;if(c.secret)v=c.filled?(aes?((secrets[o.id]||{}).custom||{})[c.label]||"":undefined):"";else v=c.value||"";
     return `<div class="k">${c.secret?ICON.key:""}${esc(c.label)}</div><div class="${c.secret?"mono":""}">${v===undefined?lockedHTML():has(v)?esc(v):'<span class="nil">не заполнено</span>'}</div>`}).join("");
@@ -782,7 +816,7 @@ function renderEdit(o){
   <div style="margin-top:26px"><span class="tagpill">Паспорт № ${esc(o.num||"новый")}</span><h1 style="margin-top:18px">${o.name?esc(o.name):"Новый объект"}</h1></div>
   <form class="form" id="form">
     ${aes?"":`<div class="banner"><span>${ICON.lock} Коды скрыты. Чтобы менять доступ в парадную, пароль Wi-Fi и секретные строки, откройте коды.</span><button class="pill sm light" type="button" data-act="unlock-edit">Показать коды<span class="ar">${ICON.arrow}</span></button></div>`}
-    ${SECTIONS.map((s,si)=>`<fieldset class="fs"><legend>${s.t}</legend><div class="grid">${s.f.map(f=>field(f,o)).join("")}</div></fieldset>${si===1?`<fieldset class="fs"><legend>Удобства — нажимайте: есть → нет → не указано</legend><div class="amedit" id="amedit">${amList().map(([k,l])=>am3HTML(k,l,amState(k))).join("")}<button type="button" class="am3 add" data-act="addam">${ICON.plus} Добавить удобство</button></div></fieldset>`:""}`).join("")}
+    ${SECTIONS.map((s,si)=>`<fieldset class="fs"><legend>${s.t}</legend><div class="grid">${s.f.map(f=>field(f,o)).join("")}</div></fieldset>${si===1?sleepFieldset(o)+`<fieldset class="fs"><legend>Удобства — нажимайте: есть → нет → не указано</legend><div class="amedit" id="amedit">${amList().map(([k,l])=>am3HTML(k,l,amState(k))).join("")}<button type="button" class="am3 add" data-act="addam">${ICON.plus} Добавить удобство</button></div></fieldset>`:""}`).join("")}
     <fieldset class="fs"><legend>Свои строки</legend>
       <div id="crows">${(o.custom||[]).map(c=>crow(c)).join("")}</div>
       <button type="button" class="btn" data-act="addrow">+ Добавить строку</button>
@@ -800,6 +834,7 @@ function collect(){
   const f=$("#form");const base=draft||plainOf(objs.find(o=>o.id===selId));
   const p=JSON.parse(JSON.stringify(base));
   f.querySelectorAll("[data-f]").forEach(el=>{if(!el.disabled)p[el.dataset.f]=el.value.trim()});
+  p.sleep={};f.querySelectorAll("[data-sleep]").forEach(el=>{const n=+el.dataset.n||0;if(n>0)p.sleep[el.dataset.sleep]=n});
   p.amenities={};f.querySelectorAll("[data-am3]").forEach(el=>{const v=el.dataset.v;if(v==="yes")p.amenities[el.dataset.am3]=true;if(v==="no")p.amenities[el.dataset.am3]=false});
   const oldCustom=base.custom||[];
   p.custom=[...f.querySelectorAll(".crow")].map(r=>{
@@ -933,6 +968,8 @@ document.addEventListener("click",async e=>{
   else if(a==="new")newObject();
   else if(a==="edit"){editing=true;confirmDel=false;render();scrollTo(0,0)}
   else if(a==="cancel"){if(draft){draft=null;editing=false;selId=null;history.replaceState(null,"",location.pathname);render();scrollTo(0,homeScroll)}else{editing=false;render();scrollTo(0,0)}}
+  else if(a==="slm"||a==="slp"){const el=b.closest("[data-sleep]");let n=(+el.dataset.n||0)+(a==="slp"?1:-1);n=Math.max(0,Math.min(9,n));el.dataset.n=n;el.querySelector("b").textContent=n;el.classList.toggle("on",n>0);
+    const bi=$("#f-beds");if(bi&&!bi.dataset.manual){const sl={};document.querySelectorAll("[data-sleep]").forEach(x=>sl[x.dataset.sleep]=+x.dataset.n||0);const t=sleepTotal(sl);bi.value=t?String(t):""}}
   else if(a==="addam")openAddAmenity();
   else if(a==="addrow"){$("#crows").insertAdjacentHTML("beforeend",crow({}));const r=$("#crows").lastElementChild;r.dataset.manual="";r.querySelector("[data-cl]").focus()}
   else if(a==="delrow")b.closest(".crow").remove();
@@ -946,7 +983,7 @@ document.addEventListener("click",async e=>{
   else if(a==="delfile-no"){pendingDel=null;render(true)}
   else if(a==="delfile-yes"){const p=o.photos[+b.dataset.i];pendingDel=null;busy(true,"Удаляю файл…");try{await deleteFile(p.path,`${o.name}: удалён файл`)}catch(err){toast(err.message)}finally{busy(false)}await photosCommit(o,ps=>ps.filter(x=>x.path!==p.path),`${o.name}: файл убран из паспорта`)}
 });
-document.addEventListener("input",e=>{const t=e.target;if(t.matches("[data-cl]")){const r=t.closest(".crow");if(r.dataset.manual)return;const lk=r.querySelector("[data-act=sectoggle]");if(lk.disabled)return;lk.setAttribute("aria-pressed",SECRET_HINT.test(t.value))}});
+document.addEventListener("input",e=>{const t=e.target;if(t.id==="f-beds")t.dataset.manual="1";if(t.matches("[data-cl]")){const r=t.closest(".crow");if(r.dataset.manual)return;const lk=r.querySelector("[data-act=sectoggle]");if(lk.disabled)return;lk.setAttribute("aria-pressed",SECRET_HINT.test(t.value))}});
 document.addEventListener("change",async e=>{const t=e.target;if(t.dataset.act==="cap"){const o=objs.find(x=>x.id===selId);const i=+t.dataset.i;const v=t.value.trim();await photosCommit(o,ps=>{if(ps[i])ps[i]={...ps[i],caption:v};return ps},`${o.name}: подпись к файлу`)}});
 document.addEventListener("submit",e=>{if(e.target.id==="form"){e.preventDefault();save()}});
 $("#fileIn").addEventListener("change",e=>{if(e.target.files.length)uploadFiles(e.target.files);e.target.value=""});
