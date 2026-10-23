@@ -97,6 +97,8 @@
   "ukApp": "",
   "ukOffice": "",
   "ukNotes": "ЖК Триумф Парк",
+  "checkIn": "15:00",
+  "checkOut": "12:00",
   "secretFilled": [
    "access",
    "wifiPass"
