@@ -27,6 +27,11 @@
       "key": "cmvlirc9b",
       "label": "Фильтр Кувшин",
       "icon": "sparkle"
+    },
+    {
+      "key": "cmvlirs5z",
+      "label": "Умный замок",
+      "icon": "key"
     }
   ]
 }
