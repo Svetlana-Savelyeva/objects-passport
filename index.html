@@ -235,6 +235,11 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.bigcover .over{position:absolute;right:18px;bottom:18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.bigcover .over .pill{background:rgba(255,255,255,.92);color:#1c1a17}
+.bigcover .over .pill .ar{background:rgba(28,26,23,.08)}
+.ctag.dist{background:#1c1a17;color:#fff}
+.ctag svg{width:12px;height:12px}
 .am3.add{border-style:dashed;color:var(--muted);padding:6px 16px;gap:6px}
 .am3.add:hover{border-color:var(--ink);color:var(--ink)}
 .icgrid{display:flex;flex-wrap:wrap;gap:8px}
@@ -354,7 +359,7 @@ const ROOMS=[["","Все"],["Студия","Студия"],["1","1-комн."],[
 const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит за интернет"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["nearby","Поблизости"]];
 const SECRET=["access","wifiPass","account"];
 const SECTIONS=[
- {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["photoLink","Фото-инструкция (ссылка)","wide"],["extraLink","Доп. ссылка","wide"]]},
+ {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["extraLink","Доп. ссылка","wide"]]},
  {t:"Квартира",f:[["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
  {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит","payer"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"]]},
  {t:"Поблизости и заметки",f:[["nearby","Объекты поблизости (магазины, кафе, аптеки…)","area"],["notes","Заметки","area"]]}
@@ -623,14 +628,20 @@ function renderCards(){
   const list=filtered();
   $("#count").textContent=`Показано ${list.length} из ${objs.length}`;
   if(!list.length){el.innerHTML=`<div class="empty"><h2>Ничего не найдено</h2>Под эти фильтры пока нет объектов. Возможно, удобства у квартир ещё не заполнены.</div>`;return}
-  el.innerHTML=list.map(o=>{const f=fill(o);return `
+  el.innerHTML=list.map(o=>cardHTML(o)).join("");
+}
+function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
+function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
+function distKm(a,b){const R=6371,t=Math.PI/180,dLat=(b[0]-a[0])*t,dLon=(b[1]-a[1])*t;const s=Math.sin(dLat/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(s))}
+function nearby(o){const c=coordsOf(o);if(!c)return[];return objs.filter(x=>x.id!==o.id).map(x=>{const k=coordsOf(x);return k?[x,distKm(c,k)]:null}).filter(v=>v&&v[1]<=3).sort((a,b)=>a[1]-b[1])}
+function distLabel(d){return d<0.1?"в этом же доме":d<1?Math.round(d*1000/10)*10+" м":d.toFixed(1).replace(".",",")+" км"}
+function cardHTML(o,dist){const f=fill(o);return `
     <a class="card" href="#${esc(o.id)}">
-      <span class="cover">${coverHTML(o)}<span class="tags">${o.metro?`<span class="ctag"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}${o.rooms?`<span class="ctag">${/студ/i.test(o.rooms)?"Студия":esc(o.rooms)+"-комн."}</span>`:""}${o.district?`<span class="ctag">${esc(o.district)}</span>`:""}</span></span>
+      <span class="cover">${coverHTML(o)}<span class="tags">${dist!=null?`<span class="ctag dist">${ICON.pin}${distLabel(dist)}</span>`:""}${o.metro?`<span class="ctag"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}${o.rooms?`<span class="ctag">${/студ/i.test(o.rooms)?"Студия":esc(o.rooms)+"-комн."}</span>`:""}${o.district?`<span class="ctag">${esc(o.district)}</span>`:""}</span></span>
       <span class="body"><span class="t"><span class="nm">${esc(o.name)}</span><span class="ad">№ ${esc(o.num)} · ${esc(o.address)}</span>
         <span class="meter"><i><b style="width:${f.pct}%;background:${fillColor(f.pct)}"></b></i>Паспорт заполнен на ${f.pct}%</span></span>
         <span class="circ" aria-hidden="true">${ICON.arrow}</span></span>
-    </a>`}).join("");
-}
+    </a>`}
 
 /* ---------- object page ---------- */
 function stat(v,l,unit){return has(v)?`<div class="stat"><b>${esc(v)}${unit?`<small>${unit}</small>`:""}</b><span>${l}</span></div>`:""}
@@ -642,7 +653,8 @@ function editBtnSm(){return token?`<button class="pill sm light" data-act="edit"
 function sect(eb,title,inner,emptyText){return`<section class="sec"><div class="secthead"><div><span class="eyebrow">${eb}</span><h2>${title}</h2></div></div>${inner||`<div class="missing" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><span>${emptyText}</span>${editBtnSm()}</div>`}</section>`}
 
 function renderObject(o){
-  const nav=safeUrl(o.nav),ph=safeUrl(o.photoLink),ex=safeUrl(o.extraLink);
+  const nav=safeUrl(o.nav),ex=safeUrl(o.extraLink);
+  const near=nearby(o);
   const ams=amList().filter(([k])=>(o.amenities||{})[k]===true),noAms=amList().filter(([k])=>(o.amenities||{})[k]===false);
   const c=coverOf(o),f=fill(o);
   const stats=[stat(o.floor,"этаж"),stat(o.entrance,"парадная"),stat(o.area,"площадь","м²"),stat(o.rooms,"комнат"),stat(o.beds,"спальных мест"),stat(o.guests,"гостей максимум"),stat(o.metroWalk,"до метро пешком","мин")].join("");
@@ -660,18 +672,22 @@ function renderObject(o){
       </div>
       <div class="acts">
         ${nav?`<a class="pill" href="${esc(nav)}" target="_blank" rel="noopener">Открыть навигатор<span class="ar">${ICON.arrow}</span></a>`:""}
-        ${ph?`<a class="link" href="${esc(ph)}" target="_blank" rel="noopener">Фото-инструкция<span class="circ">${ICON.arrow}</span></a>`:""}
+        ${near.length?`<a class="link" href="#nearby" data-act="tonear">Квартиры поблизости<span class="circ">${ICON.pin}</span></a>`:""}
+        ${token?`<button class="link" data-act="upload">Добавить фото<span class="circ">${ICON.plus}</span></button>`:""}
         ${ex?`<a class="link" href="${esc(ex)}" target="_blank" rel="noopener">Доп. ссылка<span class="circ">${ICON.arrow}</span></a>`:""}
         ${token?`<button class="link" data-act="edit">Редактировать<span class="circ">${ICON.pencil}</span></button>`:""}
       </div>
     </div>
-    <div class="bigcover">${c?`<img src="${filePath(c.path)}" alt="${esc(c.caption)}">`:`<span class="tint" style="background:${safeColor(o.districtColor)}"></span><span class="ph">${esc(o.num)}</span>`}</div>
+    <div class="bigcover">${c?`<img src="${filePath(c.path)}" alt="${esc(c.caption)}">`:`<span class="tint" style="background:${safeColor(o.districtColor)}"></span><span class="ph">${esc(o.num)}</span>`}
+      <div class="over">${c?`<button class="pill sm" data-act="lb" data-i="${(o.photos||[]).indexOf(c)}">Все фото<span class="ar">${ICON.arrow}</span></button>`:""}${token?`<button class="pill sm" data-act="upload">${c?"Ещё фото":"Добавить фото"}<span class="ar">${ICON.plus}</span></button>`:""}</div>
+    </div>
   </div>
   ${stats?`<div class="stats">${stats}</div>`:""}
   <div class="fillcard">
     <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="42" fill="none" stroke="var(--soft)" stroke-width="7"/><circle cx="48" cy="48" r="42" fill="none" stroke="${fillColor(f.pct)}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C*f.pct/100} ${C}"/></svg><b>${f.pct}%</b></div>
     <div><h3>Паспорт заполнен: ${f.done} из ${f.total}</h3>${f.missing.length?`<p>Не хватает:</p><div class="miss">${f.missing.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`:"<p>Все пункты заполнены.</p>"}${token&&f.missing.length?`<div style="margin-top:14px">${editBtnSm()}</div>`:""}</div>
   </div>`;
+  if(near.length)h+=`<section class="sec" id="nearby"><div class="secthead"><div><span class="eyebrow">В радиусе 3 км</span><h2>Квартиры поблизости</h2></div><span class="eyebrow" style="letter-spacing:.08em">${near.length} ${plural(near.length,"объект","объекта","объектов")}</span></div><div class="cards">${near.map(([x,d])=>cardHTML(x,d)).join("")}</div></section>`;
   const acc=secretVal(o,"access");
   const route=[acc!==null?`<div class="panel"><h3><span class="ic">${ICON.door}</span>Доступ в парадную</h3>${acc===undefined?lockedHTML():`<p>${esc(acc)}</p>`}</div>`:"",o.parking?`<div class="panel"><h3><span class="ic">${ICON.car}</span>Парковка</h3><p>${esc(o.parking)}</p></div>`:""].join("");
   h+=sect("Навигация","Как добраться",route?`<div class="two">${route}</div>`:"","Инструкция по доступу и парковке не заполнена.");
@@ -888,6 +904,7 @@ document.addEventListener("click",async e=>{
   const b=e.target.closest("[data-act]");if(!b)return;
   const a=b.dataset.act,o=objs.find(x=>x.id===selId);
   if(a==="home"){if(selId)location.hash="";else scrollTo(0,0)}
+  else if(a==="tonear"){e.preventDefault();const s=$("#nearby");if(s)s.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
   else if(a==="reset"){fRooms="";fAm={};renderFilters();renderCards()}
   else if(a==="copy"){try{await navigator.clipboard.writeText(b.dataset.v);toast("Скопировано")}catch(_){toast("Скопируйте вручную: "+b.dataset.v)}}
   else if(a==="unlock"){if(aes&&b.id==="lockBtn"){aes=null;secrets={};try{localStorage.removeItem("passport-pw")}catch(_){}headerState();render(true);toast("Коды скрыты")}else openUnlock()}
