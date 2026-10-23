@@ -247,6 +247,13 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+details.cut{margin-top:6px;border-top:1px solid var(--line)}
+details.cut summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:12px 0 4px;font-size:13.5px;font-weight:500;color:var(--muted)}
+details.cut summary::-webkit-details-marker{display:none}
+details.cut summary::after{content:"";width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
+details.cut[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
+details.cut summary:hover{color:var(--ink)}
+details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
 .addrmeta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .addrmeta span{font-size:13px;font-weight:500;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
 .addrmeta span.warn{border-style:dashed;color:var(--muted);font-weight:400}
@@ -711,10 +718,11 @@ function cardHTML(o,dist){const f=fill(o);return `
 
 /* ---------- object page ---------- */
 function stat(v,l,unit){return has(v)?`<div class="stat"><b${/^[\d.,\s+–-]+$/.test(String(v).trim())?"":' class="word"'}>${esc(v)}${unit?`<small>${unit}</small>`:""}</b><span>${l}</span></div>`:""}
-function secretVal(o,key){if(!(o.secretFilled||[]).includes(key))return null;return aes?(secrets[o.id]||{})[key]||"":undefined}
+const LOCKED={locked:1};
+function secretVal(o,key){if(!(o.secretFilled||[]).includes(key))return null;return aes?(secrets[o.id]||{})[key]||"":LOCKED}
 function lockedHTML(){return `<span class="locked">${ICON.lock}Скрыто паролем <button class="btn" type="button" data-act="unlock">Показать</button></span>`}
-function kv(rows){rows=rows.filter(r=>r[1]!==null&&(r[1]===undefined||has(r[1])));if(!rows.length)return"";
-  return`<div class="kv">${rows.map(([k,v,m])=>`<div class="k">${esc(k)}</div><div class="${m?"mono":""}">${v===undefined?lockedHTML():esc(v)}</div>`).join("")}</div>`}
+function kv(rows){rows=rows.filter(r=>r[1]===LOCKED||has(r[1]));if(!rows.length)return"";
+  return`<div class="kv">${rows.map(([k,v,m])=>`<div class="k">${esc(k)}</div><div class="${m?"mono":""}">${v===LOCKED?lockedHTML():esc(v)}</div>`).join("")}</div>`}
 function editBtnSm(){return token?`<button class="pill sm light" data-act="edit">Заполнить<span class="ar">${ICON.pencil}</span></button>`:""}
 function sect(eb,title,inner,emptyText){return`<section class="sec"><div class="secthead"><div><span class="eyebrow">${eb}</span><h2>${title}</h2></div></div>${inner||`<div class="missing" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><span>${emptyText}</span>${editBtnSm()}</div>`}</section>`}
 
@@ -756,14 +764,15 @@ function renderObject(o){
   </div>`;
   if(near.length)h+=`<section class="sec" id="nearby"><div class="secthead"><div><span class="eyebrow">В радиусе 3 км</span><h2>Квартиры поблизости</h2></div><span class="eyebrow" style="letter-spacing:.08em">${near.length} ${plural(near.length,"объект","объекта","объектов")}</span></div><div class="cards">${near.map(([x,d])=>cardHTML(x,d)).join("")}</div></section>`;
   const acc=secretVal(o,"access");
-  const route=[acc!==null?`<div class="panel"><h3><span class="ic">${ICON.door}</span>Доступ в парадную</h3>${acc===undefined?lockedHTML():`<p>${esc(acc)}</p>`}</div>`:"",o.parking?`<div class="panel"><h3><span class="ic">${ICON.car}</span>Парковка</h3><p>${esc(o.parking)}</p></div>`:""].join("");
+  const route=[acc!==null?`<div class="panel"><h3><span class="ic">${ICON.door}</span>Доступ в парадную</h3>${acc===LOCKED?lockedHTML():`<p>${esc(acc)}</p>`}</div>`:"",o.parking?`<div class="panel"><h3><span class="ic">${ICON.car}</span>Парковка</h3><p>${esc(o.parking)}</p></div>`:""].join("");
   h+=sect("Навигация","Как добраться",route?`<div class="two">${route}</div>`:"","Инструкция по доступу и парковке не заполнена.");
   const amTiles=ams.map(([k,l])=>`<div class="tile"><span class="ic">${amIcon(k)}</span><b>${esc(l)}</b></div>`).join("")+noAms.map(([k,l])=>`<div class="tile no"><span class="ic">${ICON.cross}</span><b>Нет: ${esc(l.toLowerCase())}</b></div>`).join("");
   h+=sect("Качество в деталях","Удобства в квартире",amTiles?`<div class="tiles">${amTiles}</div>`:"","Удобства не заполнены: отметьте, что есть и чего нет в квартире.");
   const flat=kv([["Площадь",o.area?o.area+" м²":""],["Комнат",o.rooms],["Спальных мест",o.beds],["Макс. гостей",o.guests],["Потолки",o.ceiling?o.ceiling+" м":""],["Этажей в доме",o.floorsTotal],["Вид из окна",o.view]]);
   const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Кто платит",o.payer],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
   const sv=sleepView(o);
-  const uk=kv([["Название",o.ukName],["Телефон",o.ukPhone,1],["Аварийная / диспетчерская",o.ukDispatch,1],["Email",o.ukEmail,1],["Приложение / кабинет",o.ukApp],["Адрес офиса",o.ukOffice],["Заметки",o.ukNotes]]);
+  const ukMain=kv([["Название",o.ukName],["Телефон",o.ukPhone,1]]),ukMore=kv([["Аварийная / диспетчерская",o.ukDispatch,1],["Email",o.ukEmail,1],["Приложение / кабинет",o.ukApp],["Адрес офиса",o.ukOffice],["Заметки",o.ukNotes]]);
+  const uk=ukMain||ukMore?ukMain+(ukMore?`<details class="cut"><summary>Подробнее об УК</summary>${ukMore}</details>`:""):"";
   h+=sect("Характеристики","Квартира, интернет и УК",(flat||net||sv||uk)?`<div class="two">${flat||sv?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}${sv}</div>`:""}${net||uk?`<div class="panel">${net?`<h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}`:""}${uk?`<h3${net?' class="sub"':""}><span class="ic">${S('<path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/>')}</span>Управляющая компания</h3>${uk}`:""}</div>`:""}</div>`:"","Площадь, планировка, провайдер и управляющая компания не заполнены.");
   const custom=o.custom||[];
   const crows=custom.map(c=>{let v;if(c.secret)v=c.filled?(aes?((secrets[o.id]||{}).custom||{})[c.label]||"":undefined):"";else v=c.value||"";
