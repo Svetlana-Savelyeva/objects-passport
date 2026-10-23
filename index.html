@@ -254,9 +254,10 @@ details.cut summary::after{content:"";width:7px;height:7px;border-right:1.5px so
 details.cut[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
 details.cut summary:hover{color:var(--ink)}
 details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
-.addrmeta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.addrmeta span{font-size:13px;font-weight:500;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
-.addrmeta span.warn{border-style:dashed;color:var(--muted);font-weight:400}
+.addrmeta{display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:8px;color:var(--muted)}
+.addrmeta span{display:inline-flex;align-items:center;gap:7px}
+.addrmeta span svg{opacity:.85}
+.addrmeta span.warn{font-style:italic}
 .panel h3.sub{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
 .slgrid{clear:both;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
 .sl{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:16px;padding:10px 10px 10px 12px;background:var(--bg)}
@@ -739,7 +740,7 @@ function renderObject(o){
       <span class="tagpill" style="align-self:flex-start">Паспорт № ${esc(o.num)}${o.district?" · "+esc(o.district):""}</span>
       <h1>${esc(o.name)}</h1>
       <div class="addr"><span>${esc(fullAddr(o))}</span><button class="btn ghost" data-act="copy" data-v="${esc(fullAddr(o))}">Копировать</button></div>
-      ${(has(o.entrance)&&o.entrance!=="-")||has(o.floor)?`<div class="addrmeta">${has(o.entrance)&&o.entrance!=="-"?`<span>${/^\d+$/.test(o.entrance)?"Парадная "+esc(o.entrance):esc(o.entrance)}</span>`:""}${has(o.floor)?`<span>Этаж ${esc(o.floor)}</span>`:""}${has(o.apt)||/кв|апарт/i.test(o.address||"")?"":`<span class="warn">номер квартиры не указан</span>`}</div>`:""}
+      ${(has(o.entrance)&&o.entrance!=="-")||has(o.floor)?`<div class="addrmeta">${has(o.entrance)&&o.entrance!=="-"?`<span>${S('<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17M3 21h18M14 12h.01"/>',16)}${/^\d+$/.test(o.entrance)?"Парадная "+esc(o.entrance):esc(o.entrance)}</span>`:""}${has(o.floor)?`<span>${S('<path d="M3 20h5v-4h4v-4h4V8h5"/>',16)}Этаж ${esc(o.floor)}</span>`:""}${has(o.apt)||/кв|апарт/i.test(o.address||"")?"":`<span class="warn">номер квартиры не указан</span>`}</div>`:""}
       <div class="chips">
         ${o.metro?`<span class="chip"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}
         ${o.city?`<span class="chip">${esc(o.city)}</span>`:""}
