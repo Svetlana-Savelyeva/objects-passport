@@ -806,7 +806,13 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-16/1792791103876-100.jpg",
+    "caption": "100",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 16,
   "secretFilled": [
    "access"
