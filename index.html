@@ -247,6 +247,8 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.ic.gi-o{background:var(--g-orange)!important;color:#fff!important}.ic.gi-b{background:var(--g-blue)!important;color:#fff!important}.ic.gi-t{background:var(--g-teal)!important;color:#fff!important}.ic.gi-g{background:var(--g-green)!important;color:#fff!important}
+.am3[data-v=""] .ic[class*=gi-],.am3:not([data-v]) .ic[class*=gi-]{opacity:.55}
 .gal{background:transparent;perspective:1500px;outline:none;min-height:0;aspect-ratio:100/64;border-radius:0;overflow:visible;align-self:center;width:100%}
 .ohero{overflow-x:clip}
 .gal:focus-visible{box-shadow:inset 0 0 0 2px var(--ink);border-radius:var(--r-lg)}
@@ -415,8 +417,14 @@ const AMI={
  kettle:S('<path d="M6 20h12l-1.5-9a4.5 4.5 0 0 0-9 0zM9 6h6M12 6V4M17 12l3-2v5"/>'),
  vacuum:S('<circle cx="8" cy="17" r="3"/><path d="M11 17h5a3 3 0 0 0 3-3V4h-3M3 21h10"/>'),
  heatedfloor:S('<path d="M3 20h18M6 16c0-2 2-2 2-4s-2-2-2-4M12 16c0-2 2-2 2-4s-2-2-2-4M18 16c0-2 2-2 2-4s-2-2-2-4"/>'),
- blackout:S('<path d="M3 3h18M5 3v18c3 0 4-1 4-3V3M19 3v18c-3 0-4-1-4-3V3"/>')
+ blackout:S('<path d="M3 3h18M5 3v18c3 0 4-1 4-3V3M19 3v18c-3 0-4-1-4-3V3"/>'),
+ alice:S('<ellipse cx="12" cy="5.5" rx="6" ry="2.2"/><path d="M6 5.5v12.5c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2V5.5M6 9c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2"/>'),
+ videocall:S('<rect x="7" y="2" width="10" height="20" rx="3"/><circle cx="12" cy="8" r="2.6"/><circle cx="12" cy="8" r=".6"/><circle cx="12" cy="16.5" r="2"/>'),
+ cctv:S('<path d="M3 6.5l12.5-2.5 1.6 5.6L4.6 12.1zM16.6 7.8l4 .9-.9 4.3-4.1-1M8 11.5l1.2 4.2H5.5M5.5 13.5v6"/>')
 };
+const AM_GROUP={o:["dishwasher","oven","microwave","coffee","kettle"],t:["ac","boiler","flowheater","heatedfloor","bath","shower","washer","dryer"],b:["tv","alice","videocall","cctv","iron","steamer","hairdryer","vacuum"],g:["balcony","loggia","workspace","storage","blackout","mosquito","crib","pets","elevator"]};
+const GEN_GROUP={key:"b",plug:"b",bolt:"b",drop:"t",star:"o",sparkle:"o",box:"o",leaf:"g",sun:"g",home:"g",heart:"g",baby:"g"};
+function amGroup(k){for(const [g,l] of Object.entries(AM_GROUP))if(l.includes(k))return g;const c=((fieldsCfg&&fieldsCfg.amenities)||[]).find(a=>a.key===k);return GEN_GROUP[c&&c.icon]||"g"}
 const GEN={
  star:S('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'),
  sparkle:S('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>'),
@@ -431,7 +439,7 @@ const GEN={
  key:S('<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/>'),
  baby:S('<circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0M10.5 8h.01M13.5 8h.01"/>')
 };
-const AM=[["balcony","Балкон"],["loggia","Лоджия"],["boiler","Бойлер"],["dishwasher","ПММ"],["ac","Кондиционер"],["washer","Стиральная машина"],["dryer","Сушильная машина"],["oven","Духовка"],["microwave","Микроволновка"],["tv","Телевизор"],["iron","Утюг"],["hairdryer","Фен"],["crib","Детская кроватка"],["pets","Можно с животными"],["elevator","Лифт"],["storage","Кладовка"],["workspace","Рабочее место"],["bath","Ванна"],["shower","Душевая"],["flowheater","Проточный водонагреватель"],["steamer","Отпариватель"],["coffee","Кофемашина"],["kettle","Чайник"],["mosquito","Москитные сетки"],["blackout","Блэкаут-шторы"],["heatedfloor","Тёплый пол"],["vacuum","Пылесос"]];
+const AM=[["balcony","Балкон"],["loggia","Лоджия"],["boiler","Бойлер"],["dishwasher","ПММ"],["ac","Кондиционер"],["washer","Стиральная машина"],["dryer","Сушильная машина"],["oven","Духовка"],["microwave","Микроволновка"],["tv","Телевизор"],["iron","Утюг"],["hairdryer","Фен"],["crib","Детская кроватка"],["pets","Можно с животными"],["elevator","Лифт"],["storage","Кладовка"],["workspace","Рабочее место"],["bath","Ванна"],["shower","Душевая"],["flowheater","Проточный водонагреватель"],["steamer","Отпариватель"],["coffee","Кофемашина"],["kettle","Чайник"],["mosquito","Москитные сетки"],["blackout","Блэкаут-шторы"],["heatedfloor","Тёплый пол"],["vacuum","Пылесос"],["alice","Колонка Алиса"],["videocall","Видеозвонок"],["cctv","Камера видеонаблюдения"]];
 const AM_FILTER=["ac","dishwasher","boiler","balcony","washer","elevator","pets","crib"];
 const ROOMS=[["","Все"],["Студия","Студия"],["1","1-комн."],["2","2-комн."],["3","3-комн."],["4+","4+ комн."]];
 const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["checkIn","Время заезда"],["checkOut","Время выезда"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит за интернет"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["ukName","Управляющая компания"],["ukPhone","Телефон УК"],["nearby","Поблизости"]];
@@ -715,7 +723,7 @@ function renderFilters(){
   const active=fRooms||Object.keys(fAm).length;
   $("#fbar").innerHTML=`
    <div class="fgroup"><span class="eyebrow">Тип объекта</span><div class="ftiles">${ROOMS.map(([k,l])=>`<button class="rt" data-rooms="${k}" aria-pressed="${fRooms===k}">${roomIcon(k)}${l}<span class="n">${cnt(k)}</span></button>`).join("")}</div></div>
-   <div class="fgroup"><span class="eyebrow">Удобства</span><div class="ftiles">${AM_FILTER.map(k=>{const l=AM.find(a=>a[0]===k)[1];const s=fAm[k]||"";return `<button class="at" data-am="${k}" data-state="${s}" title="Есть: ${amCnt(k,true)} · Нет: ${amCnt(k,false)}"><span class="ic">${AMI[k]}</span>${l}<span class="st">${st[s]}</span></button>`}).join("")}</div></div>
+   <div class="fgroup"><span class="eyebrow">Удобства</span><div class="ftiles">${AM_FILTER.map(k=>{const l=AM.find(a=>a[0]===k)[1];const s=fAm[k]||"";return `<button class="at" data-am="${k}" data-state="${s}" title="Есть: ${amCnt(k,true)} · Нет: ${amCnt(k,false)}"><span class="ic gi-${amGroup(k)}">${AMI[k]}</span>${l}<span class="st">${st[s]}</span></button>`}).join("")}</div></div>
    <div class="fhint"><span>Нажмите на удобство: первый раз — «есть», второй — «нет», третий — сбросить. Объекты, где пункт не заполнен, при фильтре не показываются.</span>${active?'<button class="btn" data-act="reset">Сбросить фильтры</button>':""}</div>`;
 }
 function coverHTML(o){
@@ -836,7 +844,7 @@ function renderObject(o){
   const acc=secretVal(o,"access");
   const route=[acc!==null?`<div class="panel"><h3><span class="ic">${ICON.door}</span>Доступ в парадную</h3>${acc===LOCKED?lockedHTML():`<p>${esc(acc)}</p>`}</div>`:"",o.parking?`<div class="panel"><h3><span class="ic">${ICON.car}</span>Парковка</h3><p>${esc(o.parking)}</p></div>`:""].join("");
   h+=sect("Навигация","Как добраться",route?`<div class="two">${route}</div>`:"","Инструкция по доступу и парковке не заполнена.");
-  const amTiles=ams.map(([k,l])=>`<div class="tile"><span class="ic">${amIcon(k)}</span><b>${esc(l)}</b></div>`).join("")+noAms.map(([k,l])=>`<div class="tile no"><span class="ic">${ICON.cross}</span><b>Нет: ${esc(l.toLowerCase())}</b></div>`).join("");
+  const amTiles=ams.map(([k,l])=>`<div class="tile"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span><b>${esc(l)}</b></div>`).join("")+noAms.map(([k,l])=>`<div class="tile no"><span class="ic">${ICON.cross}</span><b>Нет: ${esc(l.toLowerCase())}</b></div>`).join("");
   h+=sect("Качество в деталях","Удобства в квартире",amTiles?`<div class="tiles">${amTiles}</div>`:"","Удобства не заполнены: отметьте, что есть и чего нет в квартире.");
   const flat=kv([["Заезд / выезд",has(o.checkIn)||has(o.checkOut)?[has(o.checkIn)?"заезд с "+o.checkIn:"",has(o.checkOut)?"выезд до "+o.checkOut:""].filter(Boolean).join(", "):""],["Площадь",o.area?o.area+" м²":""],["Комнат",o.rooms],["Спальных мест",o.beds],["Макс. гостей",o.guests],["Потолки",o.ceiling?o.ceiling+" м":""],["Этажей в доме",o.floorsTotal],["Вид из окна",o.view]]);
   const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Кто платит",o.payer],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
@@ -887,7 +895,7 @@ function crow(c={}){
   <button type="button" class="lockt" data-act="sectoggle" aria-pressed="${sec}" title="Секретная строка (шифруется)"${!aes&&!sec?" disabled":""}${lockedVal?" disabled":""}>${ICON.lock}</button>
   <button type="button" class="circ" data-act="delrow" aria-label="Удалить строку">✕</button></div>`;
 }
-function am3HTML(k,l,s){return`<button type="button" class="am3" data-am3="${esc(k)}" data-v="${s}"><span class="ic">${amIcon(k)}</span>${esc(l)}<span class="st">${{"":"не указано","yes":"есть","no":"нет"}[s]}</span></button>`}
+function am3HTML(k,l,s){return`<button type="button" class="am3" data-am3="${esc(k)}" data-v="${s}"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span>${esc(l)}<span class="st">${{"":"не указано","yes":"есть","no":"нет"}[s]}</span></button>`}
 function openAddAmenity(){
   const names=Object.keys(GEN);
   const m=modal(`<span class="eyebrow">Новое удобство</span><h2>Добавить удобство</h2><p>Пункт появится во всех паспортах. В этой квартире он сразу отмечен как «есть».</p>
