@@ -16,7 +16,7 @@
   "metroWalk": "15",
   "parking": "Бесплатная, нужно поискать место поблизости",
   "photoLink": "https://drive.google.com/file/d/1XSkwbgQd-YPHQw96YcbfjdW9gVS2gN_p/view?usp=drive_link",
-  "extraLink": "https://disk.yandex.ru/d/3946xctcs0bFMA",
+  "extraLink": "",
   "area": "25",
   "rooms": "Студия",
   "beds": "2",
@@ -79,6 +79,14 @@
   "sleep": {
    "bed160": 1
   },
+  "apt": "183",
+  "ukName": "",
+  "ukPhone": "",
+  "ukDispatch": "",
+  "ukEmail": "",
+  "ukApp": "",
+  "ukOffice": "",
+  "ukNotes": "",
   "secretFilled": [
    "access",
    "wifiPass"
