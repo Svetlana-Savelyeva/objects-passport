@@ -351,12 +351,12 @@ const GEN={
 const AM=[["balcony","Балкон"],["loggia","Лоджия"],["boiler","Бойлер"],["dishwasher","ПММ"],["ac","Кондиционер"],["washer","Стиральная машина"],["dryer","Сушильная машина"],["oven","Духовка"],["microwave","Микроволновка"],["tv","Телевизор"],["iron","Утюг"],["hairdryer","Фен"],["crib","Детская кроватка"],["pets","Можно с животными"],["elevator","Лифт"],["storage","Кладовка"],["workspace","Рабочее место"],["bath","Ванна"],["shower","Душевая"],["flowheater","Проточный водонагреватель"],["steamer","Отпариватель"],["coffee","Кофемашина"],["kettle","Чайник"],["mosquito","Москитные сетки"],["blackout","Блэкаут-шторы"],["heatedfloor","Тёплый пол"],["vacuum","Пылесос"]];
 const AM_FILTER=["ac","dishwasher","boiler","balcony","washer","elevator","pets","crib"];
 const ROOMS=[["","Все"],["Студия","Студия"],["1","1-комн."],["2","2-комн."],["3","3-комн."],["4+","4+ комн."]];
-const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["nearby","Поблизости"]];
+const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит за интернет"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["nearby","Поблизости"]];
 const SECRET=["access","wifiPass","account"];
 const SECTIONS=[
  {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["photoLink","Фото-инструкция (ссылка)","wide"],["extraLink","Доп. ссылка","wide"]]},
  {t:"Квартира",f:[["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
- {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"]]},
+ {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит","payer"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"]]},
  {t:"Поблизости и заметки",f:[["nearby","Объекты поблизости (магазины, кафе, аптеки…)","area"],["notes","Заметки","area"]]}
 ];
 function amList(){return [...AM,...((fieldsCfg&&fieldsCfg.amenities)||[]).map(a=>[a.key,a.label])]}
@@ -678,7 +678,7 @@ function renderObject(o){
   const amTiles=ams.map(([k,l])=>`<div class="tile"><span class="ic">${amIcon(k)}</span><b>${esc(l)}</b></div>`).join("")+noAms.map(([k,l])=>`<div class="tile no"><span class="ic">${ICON.cross}</span><b>Нет: ${esc(l.toLowerCase())}</b></div>`).join("");
   h+=sect("Качество в деталях","Удобства в квартире",amTiles?`<div class="tiles">${amTiles}</div>`:"","Удобства не заполнены: отметьте, что есть и чего нет в квартире.");
   const flat=kv([["Площадь",o.area?o.area+" м²":""],["Комнат",o.rooms],["Спальных мест",o.beds],["Макс. гостей",o.guests],["Потолки",o.ceiling?o.ceiling+" м":""],["Этажей в доме",o.floorsTotal],["Вид из окна",o.view]]);
-  const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
+  const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Кто платит",o.payer],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
   h+=sect("Характеристики","Квартира и интернет",(flat||net)?`<div class="two">${flat?`<div class="panel"><h3><span class="ic">${ICON.home}</span>Квартира</h3>${flat}</div>`:""}${net?`<div class="panel"><h3><span class="ic">${ICON.wifi}</span>Интернет и провайдер</h3>${net}</div>`:""}</div>`:"","Площадь, планировка и данные провайдера не заполнены.");
   const custom=o.custom||[];
   const crows=custom.map(c=>{let v;if(c.secret)v=c.filled?(aes?((secrets[o.id]||{}).custom||{})[c.label]||"":undefined):"";else v=c.value||"";
@@ -709,6 +709,7 @@ function field([k,l,kind],o){
   if(kind==="area")inp=`<textarea class="field" id="${id}" data-f="${k}" rows="3"${dis}>${esc(v)}</textarea>`;
   else if(kind==="line")inp=`<select class="field" id="${id}" data-f="${k}"><option value=""></option>${Object.keys(LINES).map(n=>`<option${n===String(v).trim()?" selected":""}>${n}</option>`).join("")}</select>`;
   else if(kind==="rooms")inp=`<select class="field" id="${id}" data-f="${k}">${["","Студия","1","2","3","4","5+"].map(n=>`<option${n===String(v)?" selected":""}>${n}</option>`).join("")}</select>`;
+  else if(kind==="payer")inp=`<input class="field" id="${id}" data-f="${k}" value="${esc(v)}" list="payerList" placeholder="Выберите или впишите"><datalist id="payerList"><option value="Собственник"><option value="Мы"><option value="Гость"><option value="Включено в квартплату"></datalist>`;
   else if(kind==="color")inp=`<input class="field" id="${id}" data-f="${k}" type="color" value="${/^#[0-9a-f]{6}$/i.test(v)?esc(v):"#cccccc"}" style="height:48px;padding:4px">`;
   else inp=`<input class="field" id="${id}" data-f="${k}" value="${esc(v)}"${dis}>`;
   return `<label class="${cls}">${lbl}${inp}</label>`;
