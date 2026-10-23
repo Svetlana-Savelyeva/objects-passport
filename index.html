@@ -247,6 +247,12 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.pill.navbtn{background:var(--g-blue);color:#fff;box-shadow:0 12px 24px -14px rgba(79,99,221,.7)}
+.pill.navbtn .ar{background:rgba(255,255,255,.22)}
+.pill.navbtn:hover{filter:brightness(1.06)}
+.cpy{width:34px;height:34px;border-radius:50%;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;flex:none}
+.cpy:hover{background:var(--surface);color:var(--ink)}
+.cpy.done{color:var(--ok)}
 input[type=color].field{-webkit-appearance:none;appearance:none;padding:0;height:48px;border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;background:none}
 input[type=color].field::-webkit-color-swatch-wrapper{padding:0}
 input[type=color].field::-webkit-color-swatch{border:0;border-radius:0}
@@ -392,6 +398,7 @@ const ICON={
  key:S('<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/>'),
  home:S('<path d="M4 11l8-7 8 7v9H4zM10 20v-6h4v6"/>'),
  check:S('<path d="M5 12.5l4.5 4.5L19 7.5"/>',16),
+ copy:S('<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',17),
  cross:S('<path d="M7 7l10 10M17 7L7 17"/>',16)
 };
 const AMI={
@@ -820,7 +827,7 @@ function renderObject(o){
     <div class="txt">
       <span class="tagpill" style="align-self:flex-start">Паспорт № ${esc(o.num)}${o.district?" · "+esc(o.district):""}</span>
       <h1>${esc(o.name)}</h1>
-      <div class="addr"><span>${esc(fullAddr(o))}</span><button class="btn ghost" data-act="copy" data-v="${esc(fullAddr(o))}">Копировать</button></div>
+      <div class="addr"><span>${esc(fullAddr(o))}</span><button class="cpy" data-act="copy" data-v="${esc(fullAddr(o))}" title="Скопировать адрес" aria-label="Скопировать адрес">${ICON.copy}</button></div>
       ${(has(o.entrance)&&o.entrance!=="-")||has(o.floor)?`<div class="addrmeta">${has(o.entrance)&&o.entrance!=="-"?`<span>${S('<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17M3 21h18M14 12h.01"/>',16)}${/^\d+$/.test(o.entrance)?"Парадная "+esc(o.entrance):esc(o.entrance)}</span>`:""}${has(o.floor)?`<span>${S('<path d="M3 20h5v-4h4v-4h4V8h5"/>',16)}Этаж ${esc(o.floor)}</span>`:""}${has(o.apt)||/кв|апарт/i.test(o.address||"")?"":`<span class="warn">номер квартиры не указан</span>`}</div>`:""}
       <div class="chips">
         ${o.metro?`<span class="chip"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}
@@ -828,7 +835,7 @@ function renderObject(o){
         ${o.coords?`<button class="chip" style="cursor:pointer" data-act="copy" data-v="${esc(o.coords)}">${ICON.pin}<span class="mono">${esc(o.coords)}</span></button>`:""}
       </div>
       <div class="acts">
-        ${nav?`<a class="pill" href="${esc(nav)}" target="_blank" rel="noopener">Открыть навигатор<span class="ar">${ICON.arrow}</span></a>`:""}
+        ${nav?`<a class="pill navbtn" href="${esc(nav)}" target="_blank" rel="noopener">Открыть навигатор<span class="ar">${ICON.arrow}</span></a>`:""}
         ${near.length?`<a class="link" href="#nearby" data-act="tonear">Квартиры поблизости<span class="circ">${ICON.pin}</span></a>`:""}
         ${token&&imgCount(o)<MAX_IMG?`<button class="link" data-act="upload">Добавить фото<span class="circ">${ICON.plus}</span></button>`:""}
         ${ex?`<a class="link" href="${esc(ex)}" target="_blank" rel="noopener">Доп. ссылка<span class="circ">${ICON.arrow}</span></a>`:""}
@@ -1077,7 +1084,7 @@ document.addEventListener("click",async e=>{
   else if(a==="gexp"){const c=document.querySelector("#gal .gcard[aria-current=true]");if(c)lightbox(o,+c.dataset.pi)}
   else if(a==="tonear"){e.preventDefault();const s=$("#nearby");if(s)s.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
   else if(a==="reset"){fRooms="";fAm={};renderFilters();renderCards()}
-  else if(a==="copy"){try{await navigator.clipboard.writeText(b.dataset.v);toast("Скопировано")}catch(_){toast("Скопируйте вручную: "+b.dataset.v)}}
+  else if(a==="copy"){try{await navigator.clipboard.writeText(b.dataset.v);toast("Скопировано");if(b.classList.contains("cpy")){b.innerHTML=ICON.check;b.classList.add("done");setTimeout(()=>{b.innerHTML=ICON.copy;b.classList.remove("done")},1600)}}catch(_){toast("Скопируйте вручную: "+b.dataset.v)}}
   else if(a==="unlock"){if(aes&&b.id==="lockBtn"){aes=null;secrets={};try{localStorage.removeItem("passport-pw")}catch(_){}headerState();render(true);toast("Коды скрыты")}else openUnlock()}
   else if(a==="unlock-edit"){const keep=collect();openUnlock(()=>{const base=draft?keep:{...plainOf(objs.find(x=>x.id===selId)),...keep,...Object.fromEntries(SECRET.map(f=>[f,(secrets[selId]||{})[f]||""]))};
       if(!draft)base.custom=keep.custom.map(c=>c.secret?{...c,value:((secrets[selId]||{}).custom||{})[c.label]||c.value}:c);
