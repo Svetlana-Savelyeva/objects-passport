@@ -11,6 +11,10 @@
     {
       "label": "Счетчики",
       "secret": false
+    },
+    {
+      "label": "Среднесрок (да/нет)",
+      "secret": false
     }
   ]
 }
