@@ -15,6 +15,10 @@
     {
       "label": "Среднесрок (да/нет)",
       "secret": false
+    },
+    {
+      "label": "Дополнительное белье",
+      "secret": false
     }
   ],
   "amenities": [
