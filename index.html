@@ -247,6 +247,9 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.addrmeta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.addrmeta span{font-size:13px;font-weight:500;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}
+.addrmeta span.warn{border-style:dashed;color:var(--muted);font-weight:400}
 .panel h3.sub{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
 .slgrid{clear:both;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
 .sl{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:16px;padding:10px 10px 10px 12px;background:var(--bg)}
@@ -399,7 +402,7 @@ const ROOMS=[["","Все"],["Студия","Студия"],["1","1-комн."],[
 const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навигатор"],["access*","Доступ в парадную"],["parking","Парковка"],["floor","Этаж"],["entrance","Парадная"],["area","Площадь"],["rooms","Комнатность"],["beds","Спальные места"],["guests","Макс. гостей"],["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит за интернет"],["wifiName","Wi-Fi сеть"],["wifiPass*","Пароль Wi-Fi"],["ukName","Управляющая компания"],["ukPhone","Телефон УК"],["nearby","Поблизости"]];
 const SECRET=["access","wifiPass","account"];
 const SECTIONS=[
- {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["extraLink","Доп. ссылка","wide"]]},
+ {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["apt","Квартира №"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["extraLink","Доп. ссылка","wide"]]},
  {t:"Квартира",f:[["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
  {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит","payer"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"]]},
  {t:"Управляющая компания",f:[["ukName","Название УК"],["ukPhone","Телефон УК"],["ukDispatch","Аварийная / диспетчерская"],["ukEmail","Email"],["ukApp","Приложение / личный кабинет"],["ukOffice","Адрес офиса","wide"],["ukNotes","Заметки по УК","area"]]},
@@ -692,6 +695,7 @@ function renderCards(){
   if(!list.length){el.innerHTML=`<div class="empty"><h2>Ничего не найдено</h2>Под эти фильтры пока нет объектов. Возможно, удобства у квартир ещё не заполнены.</div>`;return}
   el.innerHTML=list.map(o=>cardHTML(o)).join("");
 }
+function fullAddr(o){const a=String(o.address||"");return has(o.apt)&&!/кв|апарт/i.test(a)?a+", кв "+String(o.apt).trim():a}
 function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
 function distKm(a,b){const R=6371,t=Math.PI/180,dLat=(b[0]-a[0])*t,dLon=(b[1]-a[1])*t;const s=Math.sin(dLat/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(s))}
@@ -700,7 +704,7 @@ function distLabel(d){return d<0.1?"в этом же доме":d<1?Math.round(d*
 function cardHTML(o,dist){const f=fill(o);return `
     <a class="card" href="#${esc(o.id)}">
       <span class="cover">${coverHTML(o)}<span class="tags">${dist!=null?`<span class="ctag dist">${ICON.pin}${distLabel(dist)}</span>`:""}${o.metro?`<span class="ctag"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}${o.rooms?`<span class="ctag">${/студ/i.test(o.rooms)?"Студия":esc(o.rooms)+"-комн."}</span>`:""}${o.district?`<span class="ctag">${esc(o.district)}</span>`:""}</span></span>
-      <span class="body"><span class="t"><span class="nm">${esc(o.name)}</span><span class="ad">№ ${esc(o.num)} · ${esc(o.address)}</span>
+      <span class="body"><span class="t"><span class="nm">${esc(o.name)}</span><span class="ad">№ ${esc(o.num)} · ${esc(fullAddr(o))}</span>
         <span class="meter"><i><b style="width:${f.pct}%;background:${fillColor(f.pct)}"></b></i>Паспорт заполнен на ${f.pct}%</span></span>
         <span class="circ" aria-hidden="true">${ICON.arrow}</span></span>
     </a>`}
@@ -726,7 +730,8 @@ function renderObject(o){
     <div class="txt">
       <span class="tagpill" style="align-self:flex-start">Паспорт № ${esc(o.num)}${o.district?" · "+esc(o.district):""}</span>
       <h1>${esc(o.name)}</h1>
-      <div class="addr"><span>${esc(o.address)}</span><button class="btn ghost" data-act="copy" data-v="${esc(o.address)}">Копировать</button></div>
+      <div class="addr"><span>${esc(fullAddr(o))}</span><button class="btn ghost" data-act="copy" data-v="${esc(fullAddr(o))}">Копировать</button></div>
+      ${(has(o.entrance)&&o.entrance!=="-")||has(o.floor)?`<div class="addrmeta">${has(o.entrance)&&o.entrance!=="-"?`<span>${/^\d+$/.test(o.entrance)?"Парадная "+esc(o.entrance):esc(o.entrance)}</span>`:""}${has(o.floor)?`<span>Этаж ${esc(o.floor)}</span>`:""}${has(o.apt)||/кв|апарт/i.test(o.address||"")?"":`<span class="warn">номер квартиры не указан</span>`}</div>`:""}
       <div class="chips">
         ${o.metro?`<span class="chip"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}
         ${o.city?`<span class="chip">${esc(o.city)}</span>`:""}
