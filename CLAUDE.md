@@ -1,0 +1,33 @@
+# Паспорта объектов — правила для правок
+
+Сайт: `index.html` (статичный, GitHub Pages). Данные: `data/objects.json`, `data/fields.json`, файлы в `files/<id>/`.
+
+## Никогда
+- Не записывать пароль в репозиторий, коммиты или файлы вне `.secrets/` (папка в .gitignore).
+- Не коммитить `.secrets/`. Не класть коды/пароли открытым текстом в `data/objects.json`.
+- Если пароля нет в разговоре — попросить его у пользователя.
+
+## Рабочий цикл
+```bash
+export PASSPORT_KEY='<пароль из разговора>'
+python3 tools/passport.py open    # -> .secrets/objects.plain.json
+# править .secrets/objects.plain.json (скриптом на Python, не вручную целиком)
+python3 tools/passport.py seal    # -> data/objects.json
+git add data files index.html && git commit && git push
+```
+
+## Модель объекта (в plain-файле)
+- Навигация: num, name, address, city, district, districtColor, entrance, floor, coords, nav, metroLine, metro, metroWalk, access*, parking, photoLink, extraLink, order
+- Квартира: area, rooms ("Студия", "1", "2", "3", "4", "5+"), beds, guests, ceiling, floorsTotal, view
+- Удобства: `amenities` — `{key: true}` есть, `{key: false}` нет, ключа нет — не заполнено. Ключи: balcony, loggia, boiler, dishwasher (ПММ), ac, washer, dryer, oven, microwave, tv, iron, hairdryer, crib, pets, elevator, storage, workspace, bath, shower
+- Интернет: provider, contract, account*, providerPhone, wifiName, wifiPass*
+- nearby, notes
+- `custom`: `[{label, value, secret?}]` — свои строки. Секретными (`secret: true`) делать строки с кодами: кейбокс, умный замок, калитка, код…
+- `photos`: `[{path: "files/<id>/имя.jpg", caption, type}]`; первое изображение — обложка
+- `*` — шифруются при seal.
+
+## Свои строки
+При добавлении строки к одному объекту — спросить пользователя, добавить ли её ко всем остальным. Если да: добавить `{label, value: ""}` (с тем же `secret`) во все объекты, где строки с таким label нет, и записать её в `data/fields.json` → `rows`. Удаление у отдельного объекта — только у него.
+
+## Новый объект
+id: `o-<NN>` для Петербурга, `msk-NN`, `izh-NN` для других городов. Добавить строки из `data/fields.json` с пустыми значениями.
