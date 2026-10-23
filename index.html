@@ -15,6 +15,8 @@
   --bg:#f6f4f1; --surface:#ffffff; --soft:#efebe6; --line:#e5e0d9;
   --ink:#1c1a17; --muted:#8a847b; --inv:#ffffff; --wood1:#8a7360; --wood2:#3b3029;
   --ok:#2f7a4f; --no:#b4233c;
+  --g-orange:linear-gradient(135deg,#f4bd6c,#e8907a); --g-blue:linear-gradient(135deg,#7189f7,#4f63dd);
+  --g-teal:linear-gradient(135deg,#6fcbdd,#4aa5c1); --g-green:linear-gradient(135deg,#7edcaf,#5bbf8e);
   --f-display:"Unbounded","Manrope",system-ui,sans-serif;
   --f-body:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
@@ -236,10 +238,18 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.tiles4{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-content:stretch}
+.gt{border-radius:var(--r-lg);padding:24px 24px 22px;color:#fff;display:flex;flex-direction:column;gap:6px;min-height:170px;box-shadow:0 14px 30px -20px rgba(40,40,80,.45)}
+.gt .gi{width:46px;height:46px;border-radius:14px;background:rgba(255,255,255,.28);display:grid;place-items:center;margin-bottom:auto}
+.gt .gi svg{width:22px;height:22px}
+.gt .gl{font-weight:600;font-size:14px;margin-top:18px}
+.gt .gv{font-family:var(--f-display);font-weight:500;font-size:clamp(26px,3vw,34px);line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.gt .gs{font-size:12.5px;color:rgba(255,255,255,.85)}
+.gt.o{background:var(--g-orange)}.gt.b{background:var(--g-blue)}.gt.t{background:var(--g-teal)}.gt.g{background:var(--g-green)}
 .bigcover .over{position:absolute;right:18px;bottom:18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 .bigcover .over .pill{background:rgba(255,255,255,.92);color:#1c1a17}
 .bigcover .over .pill .ar{background:rgba(28,26,23,.08)}
-.ctag.dist{background:#1c1a17;color:#fff}
+.ctag.dist{background:var(--g-teal);color:#fff}
 .ctag svg{width:12px;height:12px}
 .am3.add{border-style:dashed;color:var(--muted);padding:6px 16px;gap:6px}
 .am3.add:hover{border-color:var(--ink);color:var(--ink)}
@@ -267,6 +277,9 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
   .fbar{padding:20px}
   .rt{min-width:72px;padding:12px 8px 10px}
   .fillcard{grid-template-columns:1fr;gap:16px}
+  .tiles4{gap:10px}
+  .gt{padding:18px 16px;min-height:150px}
+  .gt .gl{font-size:13px}
   .crow{grid-template-columns:1fr auto auto}
   .crow input:first-child{grid-column:1/-1}
   .topin{gap:10px}
@@ -401,7 +414,8 @@ function fill(o){
   for(const c of o.custom||[]){total++;const ok=c.secret?c.filled:has(c.value);if(ok)done++;else missing.push(c.label||"Своя строка")}
   return{pct:Math.round(done/total*100),done,total,missing};
 }
-function fillColor(p){return p>=80?"var(--ok)":p>=45?"#c08a2c":"var(--muted)"}
+function fillColor(p){return p>=80?"var(--g-green)":p>=45?"var(--g-blue)":"var(--g-orange)"}
+function fillStops(p){return p>=80?["#7edcaf","#5bbf8e"]:p>=45?["#7189f7","#4f63dd"]:["#f4bd6c","#e8907a"]}
 function filtered(){
   const s=q.trim().toLowerCase();
   return objs.filter(o=>{
@@ -586,6 +600,7 @@ function renderHome(){
   const total=objs.length,files=objs.reduce((n,o)=>n+(o.photos||[]).length,0);
   const avg=total?Math.round(objs.reduce((n,o)=>n+fill(o).pct,0)/total):0;
   const districts=new Set(objs.map(o=>o.district).filter(Boolean)).size;
+  const low=objs.filter(o=>fill(o).pct<50).length;
   $("#view").innerHTML=`
   <div class="hero">
     <div class="txt">
@@ -594,9 +609,11 @@ function renderHome(){
       <p class="lead">Навигация, доступ, парковка, характеристики, удобства, провайдер и документы по каждому объекту. Коды открываются по паролю.</p>
       <div class="search"><input id="q" type="search" placeholder="Имя, адрес, метро или номер" value="${esc(q)}" autocomplete="off" aria-label="Поиск"><span class="circ" aria-hidden="true">${ICON.arrow}</span></div>
     </div>
-    <div class="statcard">
-      <div><div class="big">${total}</div><div class="cap">объектов в паспортах</div></div>
-      <div class="row"><div><b>${districts}</b><span>районов и городов</span></div><div><b>${avg}%</b><span>паспортов заполнено</span></div><div><b>${files}</b><span>фото и документов</span></div></div>
+    <div class="tiles4">
+      <div class="gt o"><span class="gi">${S('<path d="M4 11l8-7 8 7v9H4zM10 20v-6h4v6"/>')}</span><span class="gl">Объектов</span><span class="gv">${total}</span><span class="gs">в ${districts} ${plural(districts,"районе","районах","районах")} и городах</span></div>
+      <div class="gt b"><span class="gi">${S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8h-8z"/>')}</span><span class="gl">Паспорта заполнены</span><span class="gv">${avg}%</span><span class="gs">в среднем по всем объектам</span></div>
+      <div class="gt t"><span class="gi">${S('<path d="M12 3l9.5 17h-19zM12 10v4M12 17h.01"/>')}</span><span class="gl">Нужно дозаполнить</span><span class="gv">${low}</span><span class="gs">${plural(low,"паспорт","паспорта","паспортов")} заполнены меньше чем наполовину</span></div>
+      <div class="gt g"><span class="gi">${S('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/>')}</span><span class="gl">Фото и документов</span><span class="gv">${files}</span><span class="gs">загружено в паспорта</span></div>
     </div>
   </div>
   <section class="sec">
@@ -685,7 +702,7 @@ function renderObject(o){
   </div>
   ${stats?`<div class="stats">${stats}</div>`:""}
   <div class="fillcard">
-    <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="42" fill="none" stroke="var(--soft)" stroke-width="7"/><circle cx="48" cy="48" r="42" fill="none" stroke="${fillColor(f.pct)}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C*f.pct/100} ${C}"/></svg><b>${f.pct}%</b></div>
+    <div class="ring"><svg viewBox="0 0 96 96"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${fillStops(f.pct)[0]}"/><stop offset="1" stop-color="${fillStops(f.pct)[1]}"/></linearGradient></defs><circle cx="48" cy="48" r="42" fill="none" stroke="var(--soft)" stroke-width="7"/><circle cx="48" cy="48" r="42" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C*f.pct/100} ${C}"/></svg><b>${f.pct}%</b></div>
     <div><h3>Паспорт заполнен: ${f.done} из ${f.total}</h3>${f.missing.length?`<p>Не хватает:</p><div class="miss">${f.missing.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`:"<p>Все пункты заполнены.</p>"}${token&&f.missing.length?`<div style="margin-top:14px">${editBtnSm()}</div>`:""}</div>
   </div>`;
   if(near.length)h+=`<section class="sec" id="nearby"><div class="secthead"><div><span class="eyebrow">В радиусе 3 км</span><h2>Квартиры поблизости</h2></div><span class="eyebrow" style="letter-spacing:.08em">${near.length} ${plural(near.length,"объект","объекта","объектов")}</span></div><div class="cards">${near.map(([x,d])=>cardHTML(x,d)).join("")}</div></section>`;
