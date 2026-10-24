@@ -558,16 +558,16 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
 
 /* phone layout */
 @media (max-width:560px){
-  .hero{padding-block:10px 0;gap:22px;display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 96px - env(safe-area-inset-top,0px));min-height:calc(100svh - 96px - env(safe-area-inset-top,0px))}
+  .hero{padding-block:clamp(8px,2svh,24px) clamp(4px,1.5svh,18px);gap:clamp(20px,4.2svh,44px);display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 96px - env(safe-area-inset-top,0px));min-height:calc(100svh - 96px - env(safe-area-inset-top,0px))}
   .hero+section.sec{margin-top:40px}
   .hero .txt{padding:0}
   .hero .txt>.tagpill{display:none}
   .hero .txt h1{margin-top:4px}
   .hero .lead{display:none}
-  .search{margin-top:16px}
-  .tiles4{gap:10px}
-  .gt{min-height:0;padding:14px 14px 13px;gap:3px;border-radius:20px}
-  .gt .gi{width:32px;height:32px;border-radius:10px;margin-bottom:10px}
+  .search{margin-top:clamp(16px,3svh,32px)}
+  .tiles4{gap:clamp(10px,1.8svh,16px)}
+  .gt{min-height:0;padding:clamp(14px,2.2svh,20px) 16px;gap:4px;border-radius:22px}
+  .gt .gi{width:32px;height:32px;border-radius:10px;margin-bottom:clamp(8px,1.8svh,16px)}
   .gt .gi svg{width:17px;height:17px}
   .gt .gl{margin-top:0;font-size:12px}
   .gt .gv{font-size:24px}
