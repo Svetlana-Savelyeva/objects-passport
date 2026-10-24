@@ -174,7 +174,23 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-02/1792824051264-chatgpt-image-2-2026-20-35-22.jpg",
+    "caption": "ChatGPT Image 2 апр. 2026 г., 20_35_22",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-02/1792824053955-chatgpt-image-2-2026-20-33-00.jpg",
+    "caption": "ChatGPT Image 2 апр. 2026 г., 20_33_00",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-02/1792824056234-chatgpt-image-2-2026-19-58-09.jpg",
+    "caption": "ChatGPT Image 2 апр. 2026 г., 19_58_09",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 2,
   "secretFilled": [
    "access"
