@@ -274,6 +274,9 @@ a.bell{text-decoration:none}
 .pbadge{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff;font-family:var(--f-display);font-weight:500;font-size:12px;letter-spacing:-.02em}
 .pbadge.t-o{background:var(--g-orange)}.pbadge.t-b{background:var(--g-blue)}.pbadge.t-t{background:var(--g-teal)}.pbadge.t-g{background:var(--g-green)}.pbadge.t-ink{background:var(--ink)}
 .pbadge.off{background:var(--soft)!important;color:var(--muted)}
+.pbadge.logo{padding:0;overflow:hidden;background:#e9b874}
+.pbadge.logo img{width:100%;height:100%;display:block}
+.pbadge.logo.off img,.prow:not(.on) .pchk .pbadge.logo img{filter:grayscale(1);opacity:.45}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
 .pcard{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r);padding:16px 18px}
 .pcard .pbadge{width:40px;height:40px;border-radius:12px;font-size:14px}
@@ -1414,7 +1417,7 @@ function showTaskPopup(){
 
 /* ---------- booking platforms ---------- */
 const PLAT_DEFAULT=[
- {key:"site",name:"Наш сайт",mono:"М",tone:"ink"},
+ {key:"site",name:"Наш сайт",mono:"М",tone:"ink",logo:"icons/merino-logo.svg"},
  {key:"avito",name:"Авито",mono:"А",tone:"g"},
  {key:"sutochno",name:"Суточно.ру",mono:"С",tone:"o"},
  {key:"ostrovok",name:"Островок",mono:"О",tone:"b"},
@@ -1427,7 +1430,7 @@ const PLAT_DEFAULT=[
 const PLAT_ICON=S('<rect x="3" y="4" width="7" height="7" rx="2"/><rect x="14" y="4" width="7" height="7" rx="2"/><rect x="3" y="13" width="7" height="7" rx="2"/><path d="M17.5 13.5v6M14.5 16.5h6"/>',18);
 let platView=false,platEdit=false,platMissing="";
 function plats(){return (fieldsCfg&&fieldsCfg.platforms&&fieldsCfg.platforms.length)?fieldsCfg.platforms:PLAT_DEFAULT}
-function platBadge(p,on){return `<span class="pbadge t-${esc(p.tone||"b")}${on?"":" off"}" aria-hidden="true">${esc(p.mono||p.name.slice(0,1))}</span>`}
+function platBadge(p,on){const logo=p.logo||(p.key==="site"?"icons/merino-logo.svg":"");if(logo)return `<span class="pbadge logo${on?"":" off"}" aria-hidden="true"><img src="${esc(logo)}" alt=""></span>`;return `<span class="pbadge t-${esc(p.tone||"b")}${on?"":" off"}" aria-hidden="true">${esc(p.mono||p.name.slice(0,1))}</span>`}
 function listing(o,k){const l=(o.listings||{})[k];return l&&l.on?l:null}
 function platCount(o){return plats().filter(p=>listing(o,p.key)).length}
 function platSection(o){
