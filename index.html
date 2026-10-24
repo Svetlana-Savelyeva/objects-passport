@@ -143,6 +143,15 @@ h1.hh .lt{font-weight:300;color:color-mix(in srgb,var(--ink) 78%,var(--bg))}
 .bigcover .ph{position:absolute;inset:0;display:flex;align-items:flex-end;padding:30px 34px;color:rgba(246,239,231,.9);font-weight:300;font-size:clamp(90px,14vw,170px);line-height:.85;letter-spacing:-.05em}
 .bigcover .tint{position:absolute;inset:0;mix-blend-mode:soft-light;opacity:.55}
 .back{margin-top:22px}
+.otop{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.onav{display:flex;align-items:center;gap:6px;margin-top:22px;color:var(--muted);font-size:13px}
+.onav a{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:inherit;padding:6px 8px;border-radius:999px;transition:color .15s,background .15s}
+.onav a:hover{color:var(--ink);background:var(--surface)}
+.onav .oc{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+.onav a:hover .oc{border-color:var(--ink)}
+.onav .on{max-width:14ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.onav .oi{font-variant-numeric:tabular-nums;font-size:12px;opacity:.75;padding:0 4px}
+@media (max-width:560px){.onav .on{display:none}}
 
 .stats{display:flex;flex-wrap:wrap;row-gap:22px;background:var(--surface);border-radius:var(--r-lg);margin-top:28px;padding:26px 8px}
 .stat{flex:1 1 0;min-width:max-content;padding:0 24px;border-left:1px solid var(--line)}
@@ -858,6 +867,12 @@ function bindGal(o){
 function linkify(t){return esc(t).replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)\]»"'])/g,u=>`<a class="lnk" href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\/(www\.)?/,"").replace(/\/$/,"")}</a>`)}
 function fileChip(f){if(!f||!f.path)return"";const src=filePath(f.path);const img=/^image\//.test(f.type||"");
   return img?`<a class="fchip img" href="${src}" target="_blank" rel="noopener" title="${esc(f.name||"")}"><img src="${src}" alt="${esc(f.name||"")}" loading="lazy"></a>`:`<a class="fchip" href="${src}" target="_blank" rel="noopener">${S('<path d="M6 3h8l5 5v13H6zM14 3v5h5"/>',15)}<span>${esc(f.name||"файл")}</span></a>`}
+function objNav(o){
+  let list=filtered();if(!list.some(x=>x.id===o.id))list=objs;
+  const i=list.findIndex(x=>x.id===o.id);if(i<0||list.length<2)return"";
+  const p=list[(i-1+list.length)%list.length],n=list[(i+1)%list.length];
+  return `<nav class="onav" aria-label="Соседние объекты"><a href="#${esc(p.id)}" title="Предыдущий: ${esc(p.name)}"><span class="oc">${ICON.arrowl}</span><span class="on">${esc(p.name)}</span></a><span class="oi">${i+1} / ${list.length}</span><a href="#${esc(n.id)}" title="Следующий: ${esc(n.name)}"><span class="on">${esc(n.name)}</span><span class="oc">${ICON.arrow}</span></a></nav>`;
+}
 function fullAddr(o){const a=String(o.address||"");return has(o.apt)&&!/кв|апарт/i.test(a)?a+", кв "+String(o.apt).trim():a}
 function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
@@ -896,7 +911,7 @@ function renderObject(o){
   const c=coverOf(o),f=fill(o);
   const stats=[timeBox(o),stat(o.area,"площадь","м²"),stat(o.rooms,/студ/i.test(o.rooms||"")?"тип квартиры":"комнат"),stat(o.beds,"спальных мест"),stat(o.guests,"гостей максимум"),stat(o.metroWalk,"до метро пешком","мин")].join("");
   const C=2*Math.PI*42;
-  let h=`<button class="link back" data-act="home"><span class="circ">${ICON.arrowl}</span>Все объекты</button>
+  let h=`<div class="otop"><button class="link back" data-act="home"><span class="circ">${ICON.arrowl}</span>Все объекты</button>${objNav(o)}</div>
   <div class="ohero">
     <div class="txt">
       <span class="tagpill" style="align-self:flex-start">Паспорт № ${esc(o.num)}${o.district?" · "+esc(o.district):""}</span>
