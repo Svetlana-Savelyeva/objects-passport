@@ -6030,6 +6030,31 @@
   ],
   "photos": [],
   "order": 82,
+  "apt": "",
+  "launch": "",
+  "checkIn": "",
+  "checkOut": "",
+  "payer": "",
+  "netNotes": "",
+  "ukName": "",
+  "ukPhone": "",
+  "ukDispatch": "",
+  "ukEmail": "",
+  "ukApp": "",
+  "ukOffice": "",
+  "ukNotes": "",
+  "listings": {
+   "site": {
+    "on": true,
+    "url": "https://merinohome.ru/polly"
+   },
+   "avito": {
+    "on": true,
+    "url": "https://www.avito.ru/sankt-peterburg/kvartiry/1-k._kvartira_41_m_2_krovati_8068769276"
+   }
+  },
+  "tasks": [],
+  "sleep": {},
   "secretFilled": [
    "access"
   ],
