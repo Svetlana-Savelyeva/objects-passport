@@ -96,8 +96,8 @@ section.sec{margin-top:64px}
 .rt{display:flex;flex-direction:column;align-items:center;gap:8px;min-width:88px;padding:14px 12px 12px;border:1px solid var(--line);border-radius:18px;background:var(--bg);cursor:pointer;font-size:12.5px;font-weight:500;color:var(--ink)}
 .rt svg{color:var(--muted)}
 .rt .n{font-size:11px;color:var(--muted);font-weight:400;font-variant-numeric:tabular-nums}
-.rt[aria-pressed="true"]{background:var(--ink);color:var(--inv);border-color:var(--ink)}
-.rt[aria-pressed="true"] svg,.rt[aria-pressed="true"] .n{color:color-mix(in srgb,var(--inv) 70%,transparent)}
+.rt[aria-pressed="true"]{background:var(--g-blue);color:#fff;border-color:transparent;box-shadow:0 12px 24px -14px rgba(79,99,221,.7)}
+.rt[aria-pressed="true"] svg,.rt[aria-pressed="true"] .n{color:rgba(255,255,255,.85)}
 .at{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:999px;padding:7px 14px 7px 8px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:500}
 .at .ic{width:30px;height:30px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--muted)}
 .at .st{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
@@ -247,6 +247,20 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.aicons{display:flex;flex-wrap:wrap;gap:10px}
+.ai{position:relative;width:48px;height:48px;padding:0;border:2px solid transparent;border-radius:50%;background:none;cursor:pointer;display:grid;place-items:center;transition:transform .15s}
+.ai .ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;transition:opacity .2s,filter .2s}
+.ai:hover{transform:translateY(-2px)}
+.ai[data-state="yes"]{border-color:var(--ok)}
+.ai[data-state="no"]{border-color:var(--no)}
+.ai[data-state="no"] .ic{filter:grayscale(1);opacity:.55}
+.ai .badge{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:700;color:#fff;border:2px solid var(--surface)}
+.ai[data-state="yes"] .badge{background:var(--ok)}
+.ai[data-state="no"] .badge{background:var(--no)}
+.ai::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,4px);background:var(--ink);color:var(--inv);font-size:12px;font-weight:500;white-space:nowrap;padding:6px 10px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:5}
+.ai:hover::after,.ai:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+.fsel{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:13px;color:var(--muted)}
+.fsel b{font-weight:600}.fsel .yes b{color:var(--ok)}.fsel .no b{color:var(--no)}
 .crow .rfile{grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .crow .rfile:empty{display:none}
 a.lnk{color:#4f63dd;text-decoration:underline;text-decoration-color:rgba(79,99,221,.35);text-underline-offset:3px;overflow-wrap:anywhere}
@@ -752,8 +766,9 @@ function renderFilters(){
   const active=fRooms||Object.keys(fAm).length;
   $("#fbar").innerHTML=`
    <div class="fgroup"><span class="eyebrow">Тип объекта</span><div class="ftiles">${ROOMS.map(([k,l])=>`<button class="rt" data-rooms="${k}" aria-pressed="${fRooms===k}">${roomIcon(k)}${l}<span class="n">${cnt(k)}</span></button>`).join("")}</div></div>
-   <div class="fgroup"><span class="eyebrow">Удобства</span><div class="ftiles">${AM_FILTER.map(k=>{const l=AM.find(a=>a[0]===k)[1];const s=fAm[k]||"";return `<button class="at" data-am="${k}" data-state="${s}" title="Есть: ${amCnt(k,true)} · Нет: ${amCnt(k,false)}"><span class="ic gi-${amGroup(k)}">${AMI[k]}</span>${l}<span class="st">${st[s]}</span></button>`}).join("")}</div></div>
-   <div class="fhint"><span>Нажмите на удобство: первый раз — «есть», второй — «нет», третий — сбросить. Объекты, где пункт не заполнен, при фильтре не показываются.</span>${active?'<button class="btn" data-act="reset">Сбросить фильтры</button>':""}</div>`;
+   <div class="fgroup"><span class="eyebrow">Удобства</span><div><div class="aicons">${amList().map(([k,l])=>{const s=fAm[k]||"";const tip=`${l} · ${st[s]} (есть: ${amCnt(k,true)}, нет: ${amCnt(k,false)})`;return `<button class="ai" data-am="${esc(k)}" data-state="${s}" data-tip="${esc(l)}" aria-label="${esc(tip)}" title="${esc(tip)}"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span>${s?`<i class="badge">${s==="yes"?"✓":"✕"}</i>`:""}</button>`}).join("")}</div>
+     ${Object.keys(fAm).length?`<div class="fsel">${["yes","no"].map(v=>{const ls=Object.entries(fAm).filter(([,x])=>x===v).map(([k])=>(amList().find(a=>a[0]===k)||[,k])[1]);return ls.length?`<span class="${v}"><b>${v==="yes"?"Есть":"Нет"}:</b> ${ls.map(esc).join(", ")}</span>`:""}).join("")}</div>`:""}</div></div>
+   <div class="fhint"><span>Наведите на значок, чтобы увидеть название. Клик: «есть» → «нет» → любой. Объекты, где пункт не заполнен, при фильтре не показываются.</span>${active?'<button class="btn" data-act="reset">Сбросить фильтры</button>':""}</div>`;
 }
 function coverHTML(o){
   const c=coverOf(o);
