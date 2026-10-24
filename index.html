@@ -78,6 +78,10 @@ section.sec{margin-top:64px}
 .hero{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:stretch;padding-block:28px 8px}
 .hero .txt{padding:28px 0;display:flex;flex-direction:column;justify-content:center;min-width:0}
 .hero .txt h1{margin-top:22px}
+h1.hh{display:flex;flex-direction:column;gap:.08em;font-size:clamp(28px,3.55vw,46px);line-height:1.04;letter-spacing:-.035em}
+h1.hh span{white-space:nowrap}
+h1.hh .lt{font-weight:300;color:color-mix(in srgb,var(--ink) 78%,var(--bg))}
+@media (max-width:560px){h1.hh{font-size:clamp(24px,7.2vw,34px)}}
 .search{display:flex;align-items:center;gap:10px;margin-top:30px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 20px;max-width:520px}
 .search input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:14.5px;padding:8px 0}
 .statcard{border-radius:var(--r-lg);background:linear-gradient(150deg,var(--wood1),var(--wood2));color:#f6efe7;padding:34px;display:flex;flex-direction:column;justify-content:space-between;gap:30px;min-height:360px;position:relative;overflow:hidden}
@@ -352,6 +356,7 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
 .gt .gi svg{width:22px;height:22px}
 .gt .gl{font-weight:600;font-size:14px;margin-top:18px}
 .gt .gv{font-family:var(--f-display);font-weight:500;font-size:clamp(26px,3vw,34px);line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.gt .gv.gvt{font-size:clamp(20px,2.1vw,26px);line-height:1.15;letter-spacing:-.01em;overflow-wrap:anywhere}
 .gt .gs{font-size:12.5px;color:rgba(255,255,255,.85)}
 .gt.o{background:var(--g-orange)}.gt.b{background:var(--g-blue)}.gt.t{background:var(--g-teal)}.gt.g{background:var(--g-green)}
 .bigcover .over{position:absolute;right:18px;bottom:18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
@@ -736,11 +741,13 @@ function renderHome(){
   const avg=total?Math.round(objs.reduce((n,o)=>n+fill(o).pct,0)/total):0;
   const districts=new Set(objs.map(o=>o.district).filter(Boolean)).size;
   const low=objs.filter(o=>fill(o).pct<50).length;
+  const gaps={};objs.forEach(o=>fill(o).missing.forEach(m=>gaps[m]=(gaps[m]||0)+1));
+  const top=Object.entries(gaps).sort((a,b)=>b[1]-a[1])[0]||null;
   $("#view").innerHTML=`
   <div class="hero">
     <div class="txt">
       <span class="tagpill" style="align-self:flex-start">Паспорта объектов</span>
-      <h1>Каждая квартира —<br><span class="lt">со всеми деталями</span></h1>
+      <h1 class="hh"><span>Каждая квартира</span><span class="lt">со своими деталями</span></h1>
       <p class="lead">Навигация, доступ, парковка, характеристики, удобства, провайдер и документы по каждому объекту. Коды открываются по паролю.</p>
       <div class="search"><input id="q" type="search" placeholder="Имя, адрес, метро или номер" value="${esc(q)}" autocomplete="off" aria-label="Поиск"><span class="circ" aria-hidden="true">${ICON.arrow}</span></div>
     </div>
@@ -748,7 +755,7 @@ function renderHome(){
       <div class="gt o"><span class="gi">${S('<path d="M4 11l8-7 8 7v9H4zM10 20v-6h4v6"/>')}</span><span class="gl">Объектов</span><span class="gv">${total}</span><span class="gs">в ${districts} ${plural(districts,"районе","районах","районах")} и городах</span></div>
       <div class="gt b"><span class="gi">${S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8h-8z"/>')}</span><span class="gl">Паспорта заполнены</span><span class="gv">${avg}%</span><span class="gs">в среднем по всем объектам</span></div>
       <div class="gt t"><span class="gi">${S('<path d="M12 3l9.5 17h-19zM12 10v4M12 17h.01"/>')}</span><span class="gl">Нужно дозаполнить</span><span class="gv">${low}</span><span class="gs">${plural(low,"паспорт","паспорта","паспортов")} заполнены меньше чем наполовину</span></div>
-      <div class="gt g"><span class="gi">${S('<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 16l-5-5-8 8"/>')}</span><span class="gl">Фото и документов</span><span class="gv">${files}</span><span class="gs">загружено в паспорта</span></div>
+      <div class="gt g">${S('<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v3.5M11 14h.01"/>').replace('<svg','<span class="gi"><svg').replace('</svg>','</svg></span>')}<span class="gl">Чаще всего не заполнено</span><span class="gv gvt">${top?esc(top[0]):"Всё заполнено"}</span><span class="gs">${top?`нет у ${top[1]} ${plural(top[1],"объекта","объектов","объектов")} из ${total}`:"по всем объектам"}</span></div>
     </div>
   </div>
   <section class="sec">
