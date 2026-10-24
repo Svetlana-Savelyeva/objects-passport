@@ -522,7 +522,7 @@ const SECRET=["access","wifiPass","account"];
 const SECTIONS=[
  {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["apt","Квартира №"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["extraLink","Доп. ссылка","wide"]]},
  {t:"Квартира",f:[["checkIn","Заезд с","time"],["checkOut","Выезд до","time"],["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
- {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит","payer"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"]]},
+ {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит","payer"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"],["netNotes","Заметки по интернету","area"]]},
  {t:"Управляющая компания",f:[["ukName","Название УК"],["ukPhone","Телефон УК"],["ukDispatch","Аварийная / диспетчерская"],["ukEmail","Email"],["ukApp","Приложение / личный кабинет"],["ukOffice","Адрес офиса","wide"],["ukNotes","Заметки по УК","area"]]},
  {t:"Поблизости и заметки",f:[["nearby","Объекты поблизости (магазины, кафе, аптеки…)","area"],["notes","Заметки","area"]]}
 ];
@@ -949,7 +949,7 @@ function renderObject(o){
   const amTiles=ams.map(([k,l])=>`<div class="tile"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span><b>${esc(l)}</b></div>`).join("")+noAms.map(([k,l])=>`<div class="tile no"><span class="ic">${ICON.cross}</span><b>Нет: ${esc(l.toLowerCase())}</b></div>`).join("");
   h+=sect("Качество в деталях","Удобства в квартире",amTiles?`<div class="tiles">${amTiles}</div>`:"","Удобства не заполнены: отметьте, что есть и чего нет в квартире.");
   const flat=kv([["Заезд / выезд",has(o.checkIn)||has(o.checkOut)?[has(o.checkIn)?"заезд с "+o.checkIn:"",has(o.checkOut)?"выезд до "+o.checkOut:""].filter(Boolean).join(", "):""],["Площадь",o.area?o.area+" м²":""],["Комнат",o.rooms],["Спальных мест",o.beds],["Макс. гостей",o.guests],["Потолки",o.ceiling?o.ceiling+" м":""],["Этажей в доме",o.floorsTotal],["Вид из окна",o.view]]);
-  const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Кто платит",o.payer],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1]]);
+  const net=kv([["Провайдер",o.provider],["№ договора",o.contract,1],["Кто платит",o.payer],["Лицевой счёт / логин",secretVal(o,"account"),1],["Телефон поддержки",o.providerPhone,1],["Wi-Fi сеть",o.wifiName,1],["Wi-Fi пароль",secretVal(o,"wifiPass"),1],["Заметки",o.netNotes]]);
   const sv=sleepView(o);
   const ukMain=kv([["Название",o.ukName],["Телефон",o.ukPhone,1]]),ukMore=kv([["Аварийная / диспетчерская",o.ukDispatch,1],["Email",o.ukEmail,1],["Приложение / кабинет",o.ukApp],["Адрес офиса",o.ukOffice],["Заметки",o.ukNotes]]);
   const uk=ukMain||ukMore?ukMain+(ukMore?`<details class="cut"><summary>Подробнее об УК</summary>${ukMore}</details>`:""):"";
