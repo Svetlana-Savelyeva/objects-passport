@@ -131,6 +131,9 @@
    "site": {
     "on": true,
     "url": "https://merinohome.ru/zeus"
+   },
+   "avito": {
+    "on": false
    }
   }
  },
