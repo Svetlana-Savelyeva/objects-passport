@@ -525,6 +525,13 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
 @media (max-width:560px){
   .stat.tbox{flex:1 1 100%;margin:0 10px 6px;justify-content:center}
   .lockbtn .lbl{display:none}
+  .lockbtn{padding:3px!important;min-height:0}
+  .topin{gap:8px}
+  .logo{font-size:12px;letter-spacing:.08em;white-space:normal;line-height:1.25;max-width:9.5em;text-align:left}
+  .hdr{gap:6px}
+  .bell{width:36px;height:36px}
+  #newBtn .lbl{display:none}
+  #newBtn{padding:3px;min-height:0}
   .stat{padding:12px 18px;border-left:0}
   .kv{grid-template-columns:1fr}
   .kv>div.k{padding-bottom:0}
@@ -1510,12 +1517,14 @@ function render(keepScroll){
   else{$("#view").innerHTML=editing?renderEdit(editing&&!draft?plainOf(o):o):renderObject(o);if(!editing){bindDrop();bindGal(o)}}
   if(keepScroll)scrollTo(0,y);
 }
+let routed=false;
 function route(){
   const h=decodeURIComponent((location.hash||"").slice(1));
   if(h==="platforms"){if(!selId&&!taskView&&!platView)homeScroll=scrollY;platView=true;taskView=false;selId=null;editing=false;draft=null;render();scrollTo(0,0);return}
   if(h==="tasks"){if(!selId&&!taskView&&!platView)homeScroll=scrollY;taskView=true;platView=false;selId=null;editing=false;draft=null;render();scrollTo(0,0);updateBell();return}
   const id=objs.some(o=>o.id===h)?h:null;
-  if(id===selId&&!draft&&!taskView&&!platView)return;
+  if(routed&&id===selId&&!draft&&!taskView&&!platView)return;
+  routed=true;
   const wasTasks=taskView||platView;taskView=false;platView=false;
   if(id&&!selId&&!wasTasks)homeScroll=scrollY;
   const wasObj=!!selId||wasTasks;selId=id;editing=false;draft=null;confirmDel=false;pendingDel=null;render();updateBell();
