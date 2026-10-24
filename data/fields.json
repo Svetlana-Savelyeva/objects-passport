@@ -19,6 +19,10 @@
     {
       "label": "Дополнительное белье",
       "secret": false
+    },
+    {
+      "label": "Собственник",
+      "secret": false
     }
   ],
   "amenities": [
