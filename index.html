@@ -260,6 +260,50 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+a.bell{text-decoration:none}
+.pbadge{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff;font-family:var(--f-display);font-weight:500;font-size:12px;letter-spacing:-.02em}
+.pbadge.t-o{background:var(--g-orange)}.pbadge.t-b{background:var(--g-blue)}.pbadge.t-t{background:var(--g-teal)}.pbadge.t-g{background:var(--g-green)}.pbadge.t-ink{background:var(--ink)}
+.pbadge.off{background:var(--soft)!important;color:var(--muted)}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.pcard{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:var(--r);padding:16px 18px}
+.pcard .pbadge{width:40px;height:40px;border-radius:12px;font-size:14px}
+.ptx{display:grid;gap:3px;min-width:0}
+.ptx b{font-weight:500;font-size:14.5px}
+.ptx .lnk,.ptx .nil{font-size:13px}
+.poff{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin-top:4px}
+.pchip{display:inline-flex;align-items:center;gap:7px;border:1px dashed var(--line);border-radius:999px;padding:3px 12px 3px 3px}
+.pchip .pbadge{width:24px;height:24px;border-radius:50%;font-size:10px}
+.prows{clear:both;display:grid;gap:8px}
+.prow{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2fr);gap:10px;align-items:center}
+.pchk{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:var(--ink);padding:4px 0}
+.pchk input{width:18px;height:18px;accent-color:#4f63dd}
+.prow:not(.on) .pchk .pbadge{background:var(--soft)!important;color:var(--muted)}
+.prow:not(.on) [data-purl]{opacity:.5}
+.ptable-wrap{overflow-x:auto;background:var(--surface);border-radius:var(--r-lg);margin-top:22px;-webkit-overflow-scrolling:touch}
+.ptable{border-collapse:collapse;width:100%;font-size:13.5px}
+.ptable th,.ptable td{padding:10px 8px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
+.ptable tbody tr:last-child td{border-bottom:0}
+.ptable tbody tr:hover td{background:color-mix(in srgb,var(--soft) 55%,transparent)}
+.ptable .po{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1;padding-left:20px;min-width:170px}
+.ptable .po a{text-decoration:none;color:inherit;display:grid;gap:1px}
+.ptable .po a:hover b{text-decoration:underline;text-underline-offset:3px}
+.ptable .po span{font-size:11.5px;color:var(--muted)}
+.ptable th{vertical-align:bottom;padding-top:16px}
+.ph{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;cursor:pointer;padding:6px 6px;border-radius:12px;font:inherit;color:inherit;min-width:74px}
+.ph:hover{background:var(--soft)}
+.ph.act{background:var(--soft);box-shadow:inset 0 0 0 1.5px #d6455d}
+.ph .pn{font-size:11.5px;font-weight:500;max-width:90px;white-space:normal;line-height:1.2}
+.ph .pc{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ptable .pt{font-family:var(--f-display);font-size:15px;padding-right:18px;color:var(--muted)}
+.pcell{display:inline-flex;align-items:center;gap:3px;justify-content:center;min-width:34px;height:30px;border:0;background:none;padding:0;text-decoration:none;color:inherit;cursor:default}
+a.pcell,button.pcell{cursor:pointer}
+.pcell i{font-style:normal;font-size:11px;color:#4f63dd}
+.pyes{width:24px;height:24px;border-radius:50%;background:var(--g-green);color:#fff;display:grid;place-items:center}
+.pyes svg{width:14px;height:14px}
+.pno{width:24px;height:24px;border-radius:50%;border:1.5px dashed var(--line);display:block}
+button.pcell:hover .pno{border-color:var(--ink)}
+.pfilter{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:#d6455d;font-weight:500}
+@media (max-width:560px){.prow{grid-template-columns:1fr}}
 .ptags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .agepill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 14px 6px 10px;background:var(--g-green);color:#fff;font-size:12.5px;box-shadow:0 10px 20px -14px rgba(91,191,142,.9)}
 .agepill b{font-weight:600}
@@ -492,6 +536,7 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
   <nav class="navl" id="navl" aria-label="Город"></nav>
   <span class="grow"></span>
   <div class="hdr">
+    <a class="bell" id="platBtn" href="#platforms" title="Площадки" aria-label="Площадки"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="7" height="7" rx="2"/><rect x="14" y="4" width="7" height="7" rx="2"/><rect x="3" y="13" width="7" height="7" rx="2"/><path d="M17.5 13.5v6M14.5 16.5h6"/></svg></a>
     <button class="bell" id="bellBtn" data-act="tasks" title="Задачи" aria-label="Задачи"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.6 2.2H4.4zM10 20.5a2 2 0 0 0 4 0"/></svg><b id="bellN" hidden></b></button>
     <button class="pill sm" id="newBtn" data-act="new" hidden><span class="lbl">Новый объект</span><span class="ar"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 3v10M3 8h10"/></svg></span></button>
     <button class="pill sm light lockbtn" id="lockBtn" data-act="unlock"><span class="lbl">Показать коды</span><span class="ar" id="lockIc"></span></button>
@@ -1008,6 +1053,7 @@ function renderObject(o){
     <div class="ring"><svg viewBox="0 0 96 96"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${fillStops(f.pct)[0]}"/><stop offset="1" stop-color="${fillStops(f.pct)[1]}"/></linearGradient></defs><circle cx="48" cy="48" r="42" fill="none" stroke="var(--soft)" stroke-width="7"/><circle cx="48" cy="48" r="42" fill="none" stroke="url(#rg)" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C*f.pct/100} ${C}"/></svg><b>${f.pct}%</b></div>
     <div><h3>Паспорт заполнен: ${f.done} из ${f.total}</h3>${f.missing.length?`<p>Не хватает:</p><div class="miss">${f.missing.map(m=>`<span>${esc(m)}</span>`).join("")}</div>`:"<p>Все пункты заполнены.</p>"}${token&&f.missing.length?`<div style="margin-top:14px">${editBtnSm()}</div>`:""}</div>
   </div>`;
+  h+=platSection(o);
   if(near.length)h+=`<section class="sec" id="nearby"><div class="secthead"><div><span class="eyebrow">В радиусе 3 км</span><h2>Квартиры поблизости</h2></div><span class="eyebrow" style="letter-spacing:.08em">${near.length} ${plural(near.length,"объект","объекта","объектов")}</span></div><div class="cards">${near.map(([x,d])=>cardHTML(x,d)).join("")}</div></section>`;
   const acc=secretVal(o,"access");
   const route=[acc!==null?`<div class="panel"><h3><span class="ic">${ICON.door}</span>Доступ в парадную</h3>${acc===LOCKED?lockedHTML():`<p>${esc(acc)}</p>`}</div>`:"",o.parking?`<div class="panel"><h3><span class="ic">${ICON.car}</span>Парковка</h3><p>${esc(o.parking)}</p></div>`:""].join("");
@@ -1113,6 +1159,7 @@ function renderEdit(o){
       <button type="button" class="btn" data-act="addrow">+ Добавить строку</button>
       <p class="status" style="margin:10px 0 0">Например: «Умный замок», «Кейбокс», «Код калитки», «Управляющая компания». Замок 🔒 — строка шифруется паролем; для кодов включается сам.</p>
     </fieldset>
+    ${platFieldset(o)}
     ${tasksFieldset(o)}
     <div class="savebar">
       <button class="pill" type="submit">Сохранить<span class="ar">${ICON.arrow}</span></button>
@@ -1126,6 +1173,7 @@ function collect(){
   const f=$("#form");const base=draft||plainOf(objs.find(o=>o.id===selId));
   const p=JSON.parse(JSON.stringify(base));
   f.querySelectorAll("[data-f]").forEach(el=>{if(!el.disabled)p[el.dataset.f]=el.value.trim()});
+  p.listings=collectPlats(f);
   p.tasks=collectTasks(f).map(({_new,...t})=>t);
   p.sleep={};f.querySelectorAll("[data-sleep]").forEach(el=>{const n=+el.dataset.n||0;if(n>0)p.sleep[el.dataset.sleep]=n});
   p.amenities={};f.querySelectorAll("[data-am3]").forEach(el=>{const v=el.dataset.v;if(v==="yes")p.amenities[el.dataset.am3]=true;if(v==="no")p.amenities[el.dataset.am3]=false});
@@ -1256,7 +1304,7 @@ function allTaskItems(){const out=[];for(const o of objs)for(const t of o.tasks|
 function attention(){const it=allTaskItems();return{over:it.filter(x=>x.s.status==="overdue").length,soon:it.filter(x=>x.s.status==="soon").length}}
 function statusText(s){if(s.status==="overdue")return s.ago===0?"срок сегодня":"просрочено · срок был "+fmtDay(s.due);if(s.status==="done")return"сделано";if(s.left===0)return"сегодня";if(s.left===1)return"завтра · "+fmtDay(s.due);return"до "+fmtDay(s.due)+(s.status==="soon"?" · через "+s.left+" "+plural(s.left,"день","дня","дней"):"")}
 function schedText(t){const f=FREQ[t.freq]||FREQ.m;return f.l+", "+(+t.day||1)+"-го"+(t.freq&&t.freq!=="m"?", с "+MON[(+t.start||1)-1].replace(/я$/,"я"):"")}
-function updateBell(){const b=$("#bellBtn");if(!b)return;const a=attention();const n=a.over+a.soon;const badge=$("#bellN");badge.hidden=!n;badge.textContent=n;badge.className=a.over?"over":"";b.title=n?`Задачи: ${a.over} просрочено, ${a.soon} скоро`:"Задачи";b.setAttribute("aria-pressed",String(taskView))}
+function updateBell(){const b=$("#bellBtn");if(!b)return;const a=attention();const n=a.over+a.soon;const badge=$("#bellN");badge.hidden=!n;badge.textContent=n;badge.className=a.over?"over":"";b.title=n?`Задачи: ${a.over} просрочено, ${a.soon} скоро`:"Задачи";b.setAttribute("aria-pressed",String(taskView));const pb=$("#platBtn");if(pb)pb.setAttribute("aria-pressed",String(platView))}
 function tbanner(){const a=attention();if(!a.over&&!a.soon)return"";
   return `<a class="tbanner${a.over?" over":""}" href="#tasks"><span class="tbi">${BELL}</span><span><b>Требуют внимания:</b> ${[a.over?`${a.over} ${plural(a.over,"просрочена","просрочены","просрочено")}`:"",a.soon?`${a.soon} скоро`:""].filter(Boolean).join(" · ")}</span><span class="tgo">Открыть задачи ${ICON.arrow}</span></a>`}
 function renderTasks(){
@@ -1332,10 +1380,96 @@ function showTaskPopup(){
   el.addEventListener("click",e=>{if(e.target.closest("[data-x]")||e.target.closest("a"))close()});
 }
 
+/* ---------- booking platforms ---------- */
+const PLAT_DEFAULT=[
+ {key:"site",name:"Наш сайт",mono:"М",tone:"ink"},
+ {key:"avito",name:"Авито",mono:"А",tone:"g"},
+ {key:"sutochno",name:"Суточно.ру",mono:"С",tone:"o"},
+ {key:"ostrovok",name:"Островок",mono:"О",tone:"b"},
+ {key:"yandex",name:"Яндекс Путешествия",mono:"Я",tone:"o"},
+ {key:"tbank",name:"Т-Путешествия",mono:"Т",tone:"t"},
+ {key:"cian",name:"Циан",mono:"Ц",tone:"b"},
+ {key:"h101",name:"101Hotels",mono:"101",tone:"t"},
+ {key:"otello",name:"Отелло",mono:"От",tone:"g"}
+];
+const PLAT_ICON=S('<rect x="3" y="4" width="7" height="7" rx="2"/><rect x="14" y="4" width="7" height="7" rx="2"/><rect x="3" y="13" width="7" height="7" rx="2"/><path d="M17.5 13.5v6M14.5 16.5h6"/>',18);
+let platView=false,platEdit=false,platMissing="";
+function plats(){return (fieldsCfg&&fieldsCfg.platforms&&fieldsCfg.platforms.length)?fieldsCfg.platforms:PLAT_DEFAULT}
+function platBadge(p,on){return `<span class="pbadge t-${esc(p.tone||"b")}${on?"":" off"}" aria-hidden="true">${esc(p.mono||p.name.slice(0,1))}</span>`}
+function listing(o,k){const l=(o.listings||{})[k];return l&&l.on?l:null}
+function platCount(o){return plats().filter(p=>listing(o,p.key)).length}
+function platSection(o){
+  const ps=plats();const on=ps.filter(p=>listing(o,p.key)),off=ps.filter(p=>!listing(o,p.key));
+  if(!on.length&&!token)return"";
+  return `<section class="sec"><div class="secthead"><div><span class="eyebrow">Размещение</span><h2>Площадки</h2></div><a class="link" href="#platforms">Все объекты на площадках<span class="circ">${ICON.arrow}</span></a></div>
+  <div class="pgrid">${on.map(p=>{const l=listing(o,p.key);const u=safeUrl(l.url);return `<div class="pcard">${platBadge(p,true)}<div class="ptx"><b>${esc(p.name)}</b>${u?`<a class="lnk" href="${esc(u)}" target="_blank" rel="noopener">Открыть объявление ↗</a>`:`<span class="nil">ссылка не добавлена</span>`}</div></div>`}).join("")}
+  ${off.length?`<div class="poff"><span>Нет на:</span>${off.map(p=>`<span class="pchip">${platBadge(p,false)}${esc(p.name)}</span>`).join("")}</div>`:""}
+  ${!on.length?`<div class="missing" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;grid-column:1/-1"><span>Пока не отмечено ни одной площадки.</span>${editBtnSm()}</div>`:""}</div></section>`;
+}
+function platFieldset(o){const ls=o.listings||{};
+  return `<fieldset class="fs"><legend>Площадки размещения</legend><div class="prows">${plats().map(p=>{const l=ls[p.key]||{};return `<div class="prow${l.on?" on":""}" data-pk="${esc(p.key)}"><label class="pchk"><input type="checkbox" data-pon${l.on?" checked":""}>${platBadge(p,true)}<span>${esc(p.name)}</span></label><input class="field" data-purl id="pu-${esc(p.key)}" placeholder="Ссылка на объявление (необязательно)" value="${esc(l.url||"")}"${l.on?"":" disabled"}></div>`}).join("")}</div>
+  <button type="button" class="btn" data-act="addplat" style="margin-top:10px">+ Добавить площадку</button></fieldset>`}
+function collectPlats(f){const out={};f.querySelectorAll(".prow").forEach(r=>{const on=r.querySelector("[data-pon]").checked,url=r.querySelector("[data-purl]").value.trim();if(on||url)out[r.dataset.pk]=on?{on:true,...(url?{url}:{})}:{on:false,...(url?{url}:{})}});return out}
+function openAddPlatform(){
+  const tones=["o","b","t","g"];
+  const m=modal(`<span class="eyebrow">Новая площадка</span><h2>Добавить площадку</h2><p>Площадка появится во всех паспортах и в таблице «Площадки».</p>
+  <input class="field" id="plName" placeholder="Например, «Ozon Travel»" required maxlength="40">
+  <input class="field" id="plMono" placeholder="Значок: 1–3 буквы, например «Oz»" maxlength="3">
+  <div class="err" id="plErr"></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="pill" type="submit">Добавить<span class="ar">${ICON.arrow}</span></button><button class="btn" type="button" data-close>Отмена</button></div>`,"wide");
+  $("#plName").focus();
+  m.querySelector("form").addEventListener("submit",async e=>{e.preventDefault();
+    const name=$("#plName").value.trim();if(!name)return;
+    if(plats().some(p=>p.name.toLowerCase()===name.toLowerCase())){$("#plErr").textContent="Такая площадка уже есть.";return}
+    const p={key:"p"+Date.now().toString(36),name,mono:($("#plMono").value.trim()||name.slice(0,1)).slice(0,3),tone:tones[plats().length%4]};
+    $("#plErr").textContent="Сохраняю…";
+    try{await commitJSON("data/fields.json",cur=>{cur=cur||{rows:[]};cur.platforms=(cur.platforms&&cur.platforms.length?cur.platforms:PLAT_DEFAULT.slice());cur.platforms.push(p);fieldsCfg=cur;return cur},"Новая площадка: "+name,2)}
+    catch(err){if(err.code==="perm"){m.remove();permHelp();return}$("#plErr").textContent=err.message||"Не удалось сохранить";return}
+    m.remove();
+    const pr=document.querySelector(".prows");
+    if(pr)pr.insertAdjacentHTML("beforeend",`<div class="prow on" data-pk="${esc(p.key)}"><label class="pchk"><input type="checkbox" data-pon checked>${platBadge(p,true)}<span>${esc(p.name)}</span></label><input class="field" data-purl placeholder="Ссылка на объявление (необязательно)"></div>`);
+    else render(true);
+    toast("Площадка «"+name+"» добавлена");
+  });
+}
+function renderPlatforms(){
+  const ps=plats();const base=objs.filter(o=>!fCity||o.city===fCity);
+  const list=platMissing?base.filter(o=>!listing(o,platMissing)):base;
+  const pm=ps.find(p=>p.key===platMissing);
+  let h=`<div class="otop"><button class="link back" data-act="home"><span class="circ">${ICON.arrowl}</span>Все объекты</button></div>
+  <div class="secthead" style="margin-top:26px;align-items:flex-end"><div><span class="tagpill">Размещение</span><h1 style="margin-top:18px">Площадки</h1><p class="lead">Где размещён каждый объект. Нажмите на площадку в шапке таблицы, чтобы увидеть объекты, которых там ещё нет.</p></div>
+  ${token?`<button class="pill sm ${platEdit?"":"light"}" data-act="platedit">${platEdit?"Готово":"Отмечать галочками"}<span class="ar">${platEdit?ICON.check:ICON.pencil}</span></button>`:""}</div>
+  ${pm?`<div class="pfilter">Показаны объекты, которых нет на «${esc(pm.name)}»: ${list.length} <button class="btn" data-act="platall">Показать все</button></div>`:""}
+  <div class="ptable-wrap"><table class="ptable"><thead><tr><th class="po">Объект</th>${ps.map(p=>{const n=base.filter(o=>listing(o,p.key)).length;return `<th><button class="ph${platMissing===p.key?" act":""}" data-pmiss="${esc(p.key)}" title="Показать объекты без «${esc(p.name)}»">${platBadge(p,true)}<span class="pn">${esc(p.name)}</span><span class="pc">${n} из ${base.length}</span></button></th>`}).join("")}<th class="pt">Всего</th></tr></thead>
+  <tbody>${list.map(o=>`<tr><td class="po"><a href="#${esc(o.id)}"><b>${esc(o.name)}</b><span>№ ${esc(o.num)}</span></a></td>${ps.map(p=>{const l=listing(o,p.key);const u=l&&safeUrl(l.url);
+    const inner=l?`<span class="pyes">${ICON.check}</span>`:`<span class="pno"></span>`;
+    return `<td>${platEdit?`<button class="pcell" data-pcell="${esc(o.id)}|${esc(p.key)}" aria-pressed="${!!l}" aria-label="${esc(o.name)} — ${esc(p.name)}">${inner}</button>`:u?`<a class="pcell" href="${esc(u)}" target="_blank" rel="noopener" title="Открыть объявление">${inner}<i>↗</i></a>`:`<span class="pcell">${inner}</span>`}</td>`}).join("")}<td class="pt">${platCount(o)}</td></tr>`).join("")}</tbody></table></div>
+  ${platEdit?`<p class="status" style="margin-top:12px">Галочки сохраняются автоматически. Ссылки на объявления добавляются в правке объекта.</p>`:""}`;
+  return h;
+}
+const pendingPlat={};let platTimer=null,platSaving=false;
+async function flushPlat(){
+  clearTimeout(platTimer);if(platSaving){platTimer=setTimeout(flushPlat,400);return}
+  const batch=Object.entries(pendingPlat);if(!batch.length)return;batch.forEach(([k])=>delete pendingPlat[k]);
+  platSaving=true;busy(true,"Сохраняю отметки…");
+  try{await commitObjects(arr=>{for(const [k,v] of batch){const [oid,pk]=k.split("|");const x=arr.find(a=>a.id===oid);if(!x)continue;x.listings=x.listings||{};x.listings[pk]={...(x.listings[pk]||{}),on:v}}},"Площадки: отметки ("+batch.length+")")}
+  catch(e){if(e.code==="perm")permHelp();else toast(e.message||"Не удалось сохранить отметки");render(true)}
+  finally{platSaving=false;busy(false);if(platView&&!Object.keys(pendingPlat).length)render(true)}
+}
+function togglePlatCell(btn){
+  if(!token){openLogin();return}
+  const [oid,pk]=btn.dataset.pcell.split("|");const o=objs.find(x=>x.id===oid);if(!o)return;
+  const now=!listing(o,pk);o.listings=o.listings||{};o.listings[pk]={...(o.listings[pk]||{}),on:now};
+  pendingPlat[oid+"|"+pk]=now;btn.setAttribute("aria-pressed",now);btn.innerHTML=now?`<span class="pyes">${ICON.check}</span>`:`<span class="pno"></span>`;
+  const tr=btn.closest("tr");if(tr)tr.querySelector("td.pt").textContent=platCount(o);
+  clearTimeout(platTimer);platTimer=setTimeout(flushPlat,1200);
+}
+
 /* ---------- routing ---------- */
 function render(keepScroll){
   const y=scrollY;
   if(taskView){$("#view").innerHTML=renderTasks();updateBell();if(keepScroll)scrollTo(0,y);return}
+  if(platView){$("#view").innerHTML=renderPlatforms();updateBell();if(keepScroll)scrollTo(0,y);return}
   const o=draft&&draft.id===selId?draft:objs.find(x=>x.id===selId);
   if(!o){selId=null;editing=false;renderHome()}
   else{$("#view").innerHTML=editing?renderEdit(editing&&!draft?plainOf(o):o):renderObject(o);if(!editing){bindDrop();bindGal(o)}}
@@ -1343,10 +1477,11 @@ function render(keepScroll){
 }
 function route(){
   const h=decodeURIComponent((location.hash||"").slice(1));
-  if(h==="tasks"){if(!selId&&!taskView)homeScroll=scrollY;taskView=true;selId=null;editing=false;draft=null;render();scrollTo(0,0);updateBell();return}
+  if(h==="platforms"){if(!selId&&!taskView&&!platView)homeScroll=scrollY;platView=true;taskView=false;selId=null;editing=false;draft=null;render();scrollTo(0,0);return}
+  if(h==="tasks"){if(!selId&&!taskView&&!platView)homeScroll=scrollY;taskView=true;platView=false;selId=null;editing=false;draft=null;render();scrollTo(0,0);updateBell();return}
   const id=objs.some(o=>o.id===h)?h:null;
-  if(id===selId&&!draft&&!taskView)return;
-  const wasTasks=taskView;taskView=false;
+  if(id===selId&&!draft&&!taskView&&!platView)return;
+  const wasTasks=taskView||platView;taskView=false;platView=false;
   if(id&&!selId&&!wasTasks)homeScroll=scrollY;
   const wasObj=!!selId||wasTasks;selId=id;editing=false;draft=null;confirmDel=false;pendingDel=null;render();updateBell();
   scrollTo(0,id?0:(wasObj?homeScroll:0));
@@ -1366,6 +1501,8 @@ function lightbox(o,i){
 
 document.addEventListener("click",async e=>{
   if(e.target.closest(".modal"))return;
+  const pc=e.target.closest("[data-pcell]");if(pc){togglePlatCell(pc);return}
+  const pmi=e.target.closest("[data-pmiss]");if(pmi){platMissing=platMissing===pmi.dataset.pmiss?"":pmi.dataset.pmiss;render(true);return}
   const dn=e.target.closest("[data-done]");if(dn){toggleDone(dn.dataset.done,dn);return}
   const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;fDist.clear();renderNav();if(selId)location.hash="";else{renderFilters();renderDists();renderCards()}return}
   const dc=e.target.closest("[data-dist]");if(dc){const d=dc.dataset.dist;if(!d)fDist.clear();else if(fDist.has(d))fDist.delete(d);else fDist.add(d);renderDists();renderCards();return}
@@ -1374,8 +1511,11 @@ document.addEventListener("click",async e=>{
   const a3=e.target.closest("[data-am3]");if(a3){const n={"":"yes","yes":"no","no":""}[a3.dataset.v||""];a3.dataset.v=n;a3.querySelector(".st").textContent={"":"не указано","yes":"есть","no":"нет"}[n];return}
   const b=e.target.closest("[data-act]");if(!b)return;
   const a=b.dataset.act,o=objs.find(x=>x.id===selId);
-  if(a==="home"){if(selId||taskView)location.hash="";else scrollTo(0,0)}
+  if(a==="home"){if(selId||taskView||platView)location.hash="";else scrollTo(0,0)}
   else if(a==="tasks"){location.hash="tasks"}
+  else if(a==="platedit"){if(platEdit)flushPlat();platEdit=!platEdit;render(true)}
+  else if(a==="platall"){platMissing="";render(true)}
+  else if(a==="addplat")openAddPlatform();
   else if(a==="addtask"){const pr=TPRESETS[+b.dataset.preset];$("#trows").insertAdjacentHTML("beforeend",trow(pr?{...pr}:{}));const r=$("#trows").lastElementChild;if(!pr)r.querySelector("[data-tt]").focus()}
   else if(a==="deltask")b.closest(".trow").remove();
   else if(a==="gprev")stepGal(-1);
@@ -1434,8 +1574,8 @@ async function flushCaps(){
 document.addEventListener("input",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null){pendingCaps[t.dataset.cap]={oid:selId,v:t.value.trim()};capStatus(t.dataset.cap,"…");clearTimeout(capTimer);capTimer=setTimeout(flushCaps,1200)}});
 document.addEventListener("keydown",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null&&e.key==="Enter"){e.preventDefault();t.blur();flushCaps()}});
 document.addEventListener("focusout",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null&&t.dataset.cap in pendingCaps){clearTimeout(capTimer);capTimer=setTimeout(flushCaps,250)}});
-addEventListener("beforeunload",e=>{if(Object.keys(pendingCaps).length||capSaving){e.preventDefault();e.returnValue=""}});
-document.addEventListener("change",e=>{const t=e.target;if(t.matches&&t.matches("[data-lm],[data-ly]")){const w=t.closest("label");const m=w.querySelector("[data-lm]").value,y=w.querySelector("[data-ly]").value;w.querySelector("[data-f=launch]").value=m&&y?y+"-"+m:""}if(t.matches&&t.matches("[data-tf]")){const r=t.closest(".trow");r.querySelector(".tstart").hidden=t.value==="m"}});
+addEventListener("beforeunload",e=>{if(Object.keys(pendingCaps).length||capSaving||Object.keys(pendingPlat).length){e.preventDefault();e.returnValue=""}});
+document.addEventListener("change",e=>{const t=e.target;if(t.matches&&t.matches("[data-pon]")){const r=t.closest(".prow");r.classList.toggle("on",t.checked);r.querySelector("[data-purl]").disabled=!t.checked;if(t.checked)r.querySelector("[data-purl]").focus()}if(t.matches&&t.matches("[data-lm],[data-ly]")){const w=t.closest("label");const m=w.querySelector("[data-lm]").value,y=w.querySelector("[data-ly]").value;w.querySelector("[data-f=launch]").value=m&&y?y+"-"+m:""}if(t.matches&&t.matches("[data-tf]")){const r=t.closest(".trow");r.querySelector(".tstart").hidden=t.value==="m"}});
 document.addEventListener("submit",e=>{if(e.target.id==="form"){e.preventDefault();save()}});
 $("#fileIn").addEventListener("change",e=>{if(e.target.files.length)uploadFiles(e.target.files);e.target.value=""});
 let rowTarget=null;
