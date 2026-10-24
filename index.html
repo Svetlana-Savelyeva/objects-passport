@@ -558,7 +558,8 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
 
 /* phone layout */
 @media (max-width:560px){
-  .hero{padding-block:10px 0;gap:16px}
+  .hero{padding-block:10px 0;gap:22px;display:flex;flex-direction:column;justify-content:center;min-height:calc(100vh - 96px - env(safe-area-inset-top,0px));min-height:calc(100svh - 96px - env(safe-area-inset-top,0px))}
+  .hero+section.sec{margin-top:40px}
   .hero .txt{padding:0}
   .hero .txt>.tagpill{display:none}
   .hero .txt h1{margin-top:4px}
