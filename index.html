@@ -260,6 +260,8 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.capst{min-height:16px;padding:0 16px 6px;font-size:11.5px;color:var(--muted)}
+.capst.ok{color:var(--ok)}.capst.err{color:var(--no)}
 .dbar{display:flex;flex-wrap:wrap;gap:10px}
 .dc.all[aria-pressed="true"]{background:var(--g-blue);color:#fff;border-color:transparent}
 .dc{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:9px 16px;background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;color:var(--ink);transition:transform .15s}
@@ -965,7 +967,7 @@ function filesHTML(o){
   const ps=o.photos||[];
   let h=ps.length?`<div class="files">${ps.map((p,i)=>{const isPdf=p.type==="application/pdf";const src=filePath(p.path);
     return `<div class="file">${isPdf?`<a class="thumb" href="${src}" target="_blank" rel="noopener">PDF</a>`:`<button class="thumb" data-act="lb" data-i="${i}" aria-label="Открыть ${esc(p.caption)}"><img src="${src}" alt="${esc(p.caption)}" loading="lazy" onerror="this.replaceWith(document.createTextNode('появится через минуту'))"></button>`}
-      <div class="cap">${token?`<input id="cap-${i}" value="${esc(p.caption)}" data-act="cap" data-i="${i}" aria-label="Подпись">`:`<span>${esc(p.caption)}</span>`}<a class="circ" href="${src}" target="_blank" rel="noopener" aria-label="Открыть">${ICON.arrow}</a></div>
+      <div class="cap">${token?`<input id="cap-${esc(p.path)}" value="${esc(capVal(p))}" data-cap="${esc(p.path)}" aria-label="Подпись" placeholder="Подпись к фото" enterkeyhint="done">`:`<span>${esc(p.caption)}</span>`}<a class="circ" href="${src}" target="_blank" rel="noopener" aria-label="Открыть">${ICON.arrow}</a></div>${token?`<div class="capst" data-capst="${esc(p.path)}"></div>`:""}
       ${token?`<div class="more">${!isPdf&&coverOf(o)!==p?`<button class="btn" data-act="cover" data-i="${i}">Сделать обложкой</button>`:""}${pendingDel===p.path?`<span class="confirm">Удалить? <button class="btn danger" data-act="delfile-yes" data-i="${i}">Да</button><button class="btn" data-act="delfile-no">Нет</button></span>`:`<button class="btn ghost" data-act="delfile" data-i="${i}">Удалить</button>`}</div>`:""}
     </div>`}).join("")}</div>`:`<div class="missing">Файлов пока нет. Сюда удобно класть договор провайдера, акты, фото квартиры и счётчиков.</div>`;
   if(token)h+=`<div class="drop" id="drop"><span>Перетащите фото или PDF сюда</span><button class="pill sm" data-act="upload">Выбрать файлы<span class="ar">${ICON.arrow}</span></button><span class="status" id="upStatus">Фото: ${imgCount(o)} из ${MAX_IMG} · уменьшаются автоматически · PDF-документы без ограничения, до 20 МБ</span></div>`;
@@ -1217,7 +1219,31 @@ document.addEventListener("click",async e=>{
   else if(a==="delfile-yes"){const p=o.photos[+b.dataset.i];pendingDel=null;busy(true,"Удаляю файл…");try{await deleteFile(p.path,`${o.name}: удалён файл`)}catch(err){toast(err.message)}finally{busy(false)}await photosCommit(o,ps=>ps.filter(x=>x.path!==p.path),`${o.name}: файл убран из паспорта`)}
 });
 document.addEventListener("input",e=>{const t=e.target;if(t.id==="f-beds")t.dataset.manual="1";if(t.matches("[data-cl]")){const r=t.closest(".crow");if(r.dataset.manual)return;const lk=r.querySelector("[data-act=sectoggle]");if(lk.disabled)return;lk.setAttribute("aria-pressed",SECRET_HINT.test(t.value))}});
-document.addEventListener("change",async e=>{const t=e.target;if(t.dataset.act==="cap"){const o=objs.find(x=>x.id===selId);const i=+t.dataset.i;const v=t.value.trim();await photosCommit(o,ps=>{if(ps[i])ps[i]={...ps[i],caption:v};return ps},`${o.name}: подпись к файлу`)}});
+/* captions: saved in the background, no page re-render */
+const pendingCaps={};let capTimer=null,capSaving=false,capAgain=false;
+function capVal(p){return p.path in pendingCaps?pendingCaps[p.path].v:p.caption||""}
+function capStatus(path,txt,cls){const el=document.querySelector(`[data-capst="${CSS.escape(path)}"]`);if(el){el.textContent=txt;el.className="capst"+(cls?" "+cls:"")}}
+async function flushCaps(){
+  clearTimeout(capTimer);capTimer=null;
+  if(capSaving){capAgain=true;return}
+  const batch=Object.entries(pendingCaps);if(!batch.length)return;
+  capSaving=true;
+  const byObj={};batch.forEach(([path,x])=>{(byObj[x.oid]=byObj[x.oid]||{})[path]=x.v});
+  batch.forEach(([path])=>capStatus(path,"Сохраняю…"));
+  try{
+    await commitObjects(arr=>{for(const [oid,caps] of Object.entries(byObj)){const x=arr.find(a=>a.id===oid);if(!x)continue;x.photos=(x.photos||[]).map(ph=>ph.path in caps?{...ph,caption:caps[ph.path]}:ph)}},
+      `${(objs.find(x=>x.id===Object.keys(byObj)[0])||{}).name||"Объект"}: подписи к фото`);
+    batch.forEach(([path,x])=>{if(pendingCaps[path]&&pendingCaps[path].v===x.v)delete pendingCaps[path];capStatus(path,"✓ Сохранено","ok");
+      document.querySelectorAll(`.gcard`).forEach(c=>{const img=c.querySelector("img");if(img&&img.getAttribute("src")===filePath(path))c.setAttribute("aria-label",x.v||"Фото")});});
+    layoutGal();
+    setTimeout(()=>batch.forEach(([path])=>{if(!(path in pendingCaps))capStatus(path,"")}),2200);
+  }catch(e){if(e.code==="perm")permHelp();batch.forEach(([path])=>capStatus(path,"Не сохранилось — попробуйте ещё раз","err"))}
+  finally{capSaving=false;if(capAgain||Object.keys(pendingCaps).length){capAgain=false;capTimer=setTimeout(flushCaps,300)}}
+}
+document.addEventListener("input",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null){pendingCaps[t.dataset.cap]={oid:selId,v:t.value.trim()};capStatus(t.dataset.cap,"…");clearTimeout(capTimer);capTimer=setTimeout(flushCaps,1200)}});
+document.addEventListener("keydown",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null&&e.key==="Enter"){e.preventDefault();t.blur();flushCaps()}});
+document.addEventListener("focusout",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null&&t.dataset.cap in pendingCaps){clearTimeout(capTimer);capTimer=setTimeout(flushCaps,250)}});
+addEventListener("beforeunload",e=>{if(Object.keys(pendingCaps).length||capSaving){e.preventDefault();e.returnValue=""}});
 document.addEventListener("submit",e=>{if(e.target.id==="form"){e.preventDefault();save()}});
 $("#fileIn").addEventListener("change",e=>{if(e.target.files.length)uploadFiles(e.target.files);e.target.value=""});
 let rowTarget=null;
