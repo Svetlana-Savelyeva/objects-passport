@@ -4669,6 +4669,31 @@
   ],
   "photos": [],
   "order": 63,
+  "apt": "",
+  "launch": "",
+  "checkIn": "",
+  "checkOut": "",
+  "payer": "",
+  "netNotes": "",
+  "ukName": "",
+  "ukPhone": "",
+  "ukDispatch": "",
+  "ukEmail": "",
+  "ukApp": "",
+  "ukOffice": "",
+  "ukNotes": "",
+  "listings": {
+   "site": {
+    "on": true,
+    "url": "https://merinohome.ru/emerald"
+   },
+   "avito": {
+    "on": true,
+    "url": "https://www.avito.ru/sankt-peterburg/kvartiry/kvartira-studiya_25_m_2_krovati_7812039323"
+   }
+  },
+  "tasks": [],
+  "sleep": {},
   "secretFilled": [
    "access"
   ],
