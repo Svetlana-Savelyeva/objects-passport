@@ -357,6 +357,11 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
 .gt .gl{font-weight:600;font-size:14px;margin-top:18px}
 .gt .gv{font-family:var(--f-display);font-weight:500;font-size:clamp(26px,3vw,34px);line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .gt .gv.gvt{font-size:clamp(20px,2.1vw,26px);line-height:1.15;letter-spacing:-.01em;overflow-wrap:anywhere}
+.gaps{list-style:none;margin:6px 0 2px;padding:0;display:grid;gap:7px}
+.gaps li{position:relative;display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14px;font-weight:500;padding-bottom:5px}
+.gaps li b{font-family:var(--f-display);font-weight:500;font-size:17px;font-variant-numeric:tabular-nums}
+.gaps li i{position:absolute;left:0;bottom:0;height:2px;border-radius:2px;background:rgba(255,255,255,.75)}
+.gaps li::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:rgba(255,255,255,.25)}
 .gt .gs{font-size:12.5px;color:rgba(255,255,255,.85)}
 .gt.o{background:var(--g-orange)}.gt.b{background:var(--g-blue)}.gt.t{background:var(--g-teal)}.gt.g{background:var(--g-green)}
 .bigcover .over{position:absolute;right:18px;bottom:18px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
@@ -741,8 +746,9 @@ function renderHome(){
   const avg=total?Math.round(objs.reduce((n,o)=>n+fill(o).pct,0)/total):0;
   const districts=new Set(objs.map(o=>o.district).filter(Boolean)).size;
   const low=objs.filter(o=>fill(o).pct<50).length;
-  const gaps={};objs.forEach(o=>fill(o).missing.forEach(m=>gaps[m]=(gaps[m]||0)+1));
-  const top=Object.entries(gaps).sort((a,b)=>b[1]-a[1])[0]||null;
+  const KEYGAPS=["Фото","Удобства","Площадь","Комнатность","Спальные места","Макс. гостей","Время заезда","Время выезда","Доступ в парадную","Провайдер","Wi-Fi сеть","Пароль Wi-Fi"];
+  const gaps={};objs.forEach(o=>fill(o).missing.forEach(m=>{if(KEYGAPS.includes(m))gaps[m]=(gaps[m]||0)+1}));
+  const tops=Object.entries(gaps).sort((a,b)=>b[1]-a[1]||KEYGAPS.indexOf(a[0])-KEYGAPS.indexOf(b[0])).slice(0,3);
   $("#view").innerHTML=`
   <div class="hero">
     <div class="txt">
@@ -755,7 +761,7 @@ function renderHome(){
       <div class="gt o"><span class="gi">${S('<path d="M4 11l8-7 8 7v9H4zM10 20v-6h4v6"/>')}</span><span class="gl">Объектов</span><span class="gv">${total}</span><span class="gs">в ${districts} ${plural(districts,"районе","районах","районах")} и городах</span></div>
       <div class="gt b"><span class="gi">${S('<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 8 8h-8z"/>')}</span><span class="gl">Паспорта заполнены</span><span class="gv">${avg}%</span><span class="gs">в среднем по всем объектам</span></div>
       <div class="gt t"><span class="gi">${S('<path d="M12 3l9.5 17h-19zM12 10v4M12 17h.01"/>')}</span><span class="gl">Нужно дозаполнить</span><span class="gv">${low}</span><span class="gs">${plural(low,"паспорт","паспорта","паспортов")} заполнены меньше чем наполовину</span></div>
-      <div class="gt g">${S('<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v3.5M11 14h.01"/>').replace('<svg','<span class="gi"><svg').replace('</svg>','</svg></span>')}<span class="gl">Чаще всего не заполнено</span><span class="gv gvt">${top?esc(top[0]):"Всё заполнено"}</span><span class="gs">${top?`нет у ${top[1]} ${plural(top[1],"объекта","объектов","объектов")} из ${total}`:"по всем объектам"}</span></div>
+      <div class="gt g">${S('<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v3.5M11 14h.01"/>').replace('<svg','<span class="gi"><svg').replace('</svg>','</svg></span>')}<span class="gl">Чаще всего не заполнено</span>${tops.length?`<ul class="gaps">${tops.map(([l,c])=>`<li><span>${esc(l)}</span><b>${c}</b><i style="width:${Math.round(c/total*100)}%"></i></li>`).join("")}</ul><span class="gs">объектов без этого пункта из ${total}</span>`:`<span class="gv gvt">Всё заполнено</span><span class="gs">по ключевым пунктам</span>`}</div>
     </div>
   </div>
   <section class="sec">
