@@ -940,7 +940,7 @@ function objNav(o){
 }
 function workAge(o){const m=String(o.launch||"").match(/^(\d{4})-(\d{2})$/);if(!m)return null;const n=new Date();let mo=(n.getFullYear()-+m[1])*12+(n.getMonth()+1-+m[2]);if(mo<0)return null;
   const y=Math.floor(mo/12),r=mo%12;const parts=[];if(y)parts.push(y+" "+plural(y,"год","года","лет"));if(r)parts.push(r+" "+plural(r,"месяц","месяца","месяцев"));
-  return{text:parts.length?"В работе "+parts.join(" "):"В работе с этого месяца",since:"с "+MON1[+m[2]-1]+" "+m[1]}}
+  return{text:parts.length?"В работе "+parts.join(" "):"В работе с этого месяца",since:"с "+MON[+m[2]-1]+" "+m[1]}}
 function fullAddr(o){const a=String(o.address||"");return has(o.apt)&&!/кв|апарт/i.test(a)?a+", кв "+String(o.apt).trim():a}
 function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
