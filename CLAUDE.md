@@ -26,6 +26,7 @@ git add data files index.html && git commit && git push
 - УК: ukName, ukPhone, ukDispatch (аварийная/диспетчерская), ukEmail, ukApp (приложение/личный кабинет), ukOffice, ukNotes
 - nearby, notes
 - `custom`: `[{label, value, secret?}]` — свои строки. Секретными (`secret: true`) делать строки с кодами: кейбокс, умный замок, калитка, код…
+- `tasks`: регулярные задачи `[{id, title, freq: m|q|h|y, day, start (месяц 1-12 для q/h/y), remind (за сколько дней), since (YYYY-MM-DD)}]`. Отметки выполнения — `data/tasks.json` → `done: {"<objId>|<taskId>|<YYYY-MM срока>": "YYYY-MM-DD"}`
 - `photos`: `[{path: "files/<id>/имя.jpg", caption, type}]`; первое изображение — обложка
 - `*` — шифруются при seal.
 
