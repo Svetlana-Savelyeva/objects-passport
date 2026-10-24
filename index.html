@@ -253,7 +253,9 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .ai:hover{transform:translateY(-2px)}
 .ai[data-state="yes"]{border-color:var(--ok)}
 .ai[data-state="no"]{border-color:var(--no)}
-.ai[data-state="no"] .ic{filter:grayscale(1);opacity:.55}
+.ai .ic{transition:background .2s,color .2s,opacity .2s,filter .2s}
+.ai:not([data-state="yes"]):not(:hover):not(:focus-visible) .ic[class*=gi-]{background:var(--soft)!important;color:var(--muted)!important}
+.ai[data-state="no"] .ic{opacity:.75}
 .ai .badge{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:700;color:#fff;border:2px solid var(--surface)}
 .ai[data-state="yes"] .badge{background:var(--ok)}
 .ai[data-state="no"] .badge{background:var(--no)}
