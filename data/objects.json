@@ -296,6 +296,11 @@
   ],
   "photos": [
    {
+    "path": "files/o-03/1792836446816-20240705dsc02639.jpg",
+    "caption": "20240705DSC02639",
+    "type": "image/jpeg"
+   },
+   {
     "path": "files/o-03/1792828422512-20240705dsc02755-enhanced-nr-hdr.jpg",
     "caption": "Гостиная",
     "type": "image/jpeg"
@@ -308,11 +313,6 @@
    {
     "path": "files/o-03/1792835451487-20240705dsc02726-enhanced-nr.jpg",
     "caption": "Мастер-спальня",
-    "type": "image/jpeg"
-   },
-   {
-    "path": "files/o-03/1792836446816-20240705dsc02639.jpg",
-    "caption": "20240705DSC02639",
     "type": "image/jpeg"
    }
   ],
