@@ -388,20 +388,23 @@ details.tg[open] summary{margin-bottom:10px}
 .dc .n{font-size:11px;font-weight:400;opacity:.65;font-variant-numeric:tabular-nums}
 .dc[aria-pressed="true"]{border-color:transparent;box-shadow:0 10px 20px -14px rgba(0,0,0,.5)}
 .dc[aria-pressed="true"] .dot{box-shadow:0 0 0 2px rgba(255,255,255,.85)}
-.aicons{display:flex;flex-wrap:wrap;gap:10px}
+.aicons{display:grid;grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:10px;justify-items:center}
+.amore{display:none}
 .ai{position:relative;width:48px;height:48px;padding:0;border:2px solid transparent;border-radius:50%;background:none;cursor:pointer;display:grid;place-items:center;transition:transform .15s}
 .ai .ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;transition:opacity .2s,filter .2s}
-.ai:hover{transform:translateY(-2px)}
+@media (hover:hover){.ai:hover{transform:translateY(-2px)}}
 .ai[data-state="yes"]{border-color:var(--ok)}
 .ai[data-state="no"]{border-color:var(--no)}
 .ai .ic{transition:background .2s,color .2s,opacity .2s,filter .2s}
-.ai:not([data-state="yes"]):not(:hover):not(:focus-visible) .ic[class*=gi-]{background:var(--soft)!important;color:var(--muted)!important}
+@media (hover:hover){.ai:not([data-state="yes"]):not(:hover):not(:focus-visible) .ic[class*=gi-]{background:var(--soft)!important;color:var(--muted)!important}}
+@media (hover:none){.ai:not([data-state="yes"]) .ic[class*=gi-]{background:var(--soft)!important;color:var(--muted)!important}}
 .ai[data-state="no"] .ic{opacity:.75}
 .ai .badge{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:700;color:#fff;border:2px solid var(--surface)}
 .ai[data-state="yes"] .badge{background:var(--ok)}
 .ai[data-state="no"] .badge{background:var(--no)}
 .ai::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translate(-50%,4px);background:var(--ink);color:var(--inv);font-size:12px;font-weight:500;white-space:nowrap;padding:6px 10px;border-radius:8px;opacity:0;pointer-events:none;transition:opacity .15s,transform .15s;z-index:5}
-.ai:hover::after,.ai:focus-visible::after{opacity:1;transform:translate(-50%,0)}
+@media (hover:hover){.ai:hover::after{opacity:1;transform:translate(-50%,0)}}
+.ai:focus-visible::after,.ai.tipon::after{opacity:1;transform:translate(-50%,0)}
 .fsel{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:13px;color:var(--muted)}
 .fsel b{font-weight:600}.fsel .yes b{color:var(--ok)}.fsel .no b{color:var(--no)}
 .crow .rfile{grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -549,6 +552,39 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
   .topin{gap:10px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* phone layout */
+@media (max-width:560px){
+  .hero{padding-block:10px 0;gap:16px}
+  .hero .txt{padding:0}
+  .hero .txt>.tagpill{display:none}
+  .hero .txt h1{margin-top:4px}
+  .hero .lead{display:none}
+  .search{margin-top:16px}
+  .tiles4{gap:10px}
+  .gt{min-height:0;padding:14px 14px 13px;gap:3px;border-radius:20px}
+  .gt .gi{width:32px;height:32px;border-radius:10px;margin-bottom:10px}
+  .gt .gi svg{width:17px;height:17px}
+  .gt .gl{margin-top:0;font-size:12px}
+  .gt .gv{font-size:24px}
+  .gt .gv.gvt{font-size:17px}
+  .gt .gs{font-size:11px;line-height:1.3}
+  .gaps{gap:4px;margin:2px 0 0}
+  .gaps li{font-size:12px;padding-bottom:3px}
+  .gaps li b{font-size:14px}
+  .tbanner{margin-top:8px;padding:9px 10px;font-size:13px}
+  .tbanner .tgo{display:none}
+  .fgroup .ftiles,.dbar{flex-wrap:nowrap;overflow-x:auto;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .fgroup .ftiles::-webkit-scrollbar,.dbar::-webkit-scrollbar,.aicons::-webkit-scrollbar{display:none}
+  .fgroup .ftiles>*,.dbar>*{flex:none;scroll-snap-align:start}
+  .rt{min-width:84px}
+  .rt[aria-pressed="true"],.dc[aria-pressed="true"]{box-shadow:none!important}
+  .dc{white-space:nowrap}
+  .aicons:not(.open){grid-auto-flow:column;grid-template-rows:repeat(2,48px);grid-template-columns:none;grid-auto-columns:48px;overflow-x:auto;scrollbar-width:none;padding-top:34px;margin-top:-34px;-webkit-mask-image:linear-gradient(90deg,#000 85%,transparent);mask-image:linear-gradient(90deg,#000 85%,transparent)}
+  .aicons.open{padding-top:34px;margin-top:-34px}
+  .amore{display:inline-flex;margin-top:12px}
+  .fhint>span{display:none}
+}
 </style>
 </head>
 <body>
@@ -689,7 +725,7 @@ const stable=v=>JSON.stringify(v,(k,x)=>x&&typeof x==="object"&&!Array.isArray(x
 let token=null;try{token=localStorage.getItem("passport-token")}catch(_){}
 let objs=[],fieldsCfg={rows:[]},cfg=null,aes=null,secrets={},selId=null,homeScroll=0;
 let editing=false,draft=null,confirmDel=false,pendingDel=null,busyCount=0;
-let q="",fCity="",fRooms="",fAm={},fDist=new Set();
+let q="",fCity="",fRooms="",fAm={},fDist=new Set(),amOpen=false;
 
 function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
 function busy(on,text){
@@ -933,7 +969,7 @@ function renderFilters(){
   const active=fRooms||Object.keys(fAm).length;
   $("#fbar").innerHTML=`
    <div class="fgroup"><span class="eyebrow">Тип объекта</span><div class="ftiles">${ROOMS.map(([k,l])=>`<button class="rt" data-rooms="${k}" aria-pressed="${fRooms===k}">${roomIcon(k)}${l}<span class="n">${cnt(k)}</span></button>`).join("")}</div></div>
-   <div class="fgroup"><span class="eyebrow">Удобства</span><div><div class="aicons">${amList().map(([k,l])=>{const s=fAm[k]||"";const tip=`${l} · ${st[s]} (есть: ${amCnt(k,true)}, нет: ${amCnt(k,false)})`;return `<button class="ai" data-am="${esc(k)}" data-state="${s}" data-tip="${esc(l)}" aria-label="${esc(tip)}" title="${esc(tip)}"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span>${s?`<i class="badge">${s==="yes"?"✓":"✕"}</i>`:""}</button>`}).join("")}</div>
+   <div class="fgroup"><span class="eyebrow">Удобства</span><div><div class="aicons${amOpen?" open":""}">${amList().map(([k,l])=>{const s=fAm[k]||"";const tip=`${l} · ${st[s]} (есть: ${amCnt(k,true)}, нет: ${amCnt(k,false)})`;return `<button class="ai" data-am="${esc(k)}" data-state="${s}" data-tip="${esc(l)}" aria-label="${esc(tip)}" title="${esc(tip)}"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span>${s?`<i class="badge">${s==="yes"?"✓":"✕"}</i>`:""}</button>`}).join("")}</div><button type="button" class="btn amore" data-act="amore">${amOpen?"Свернуть":`Все удобства · ${amList().length}`}</button>
      ${Object.keys(fAm).length?`<div class="fsel">${["yes","no"].map(v=>{const ls=Object.entries(fAm).filter(([,x])=>x===v).map(([k])=>(amList().find(a=>a[0]===k)||[,k])[1]);return ls.length?`<span class="${v}"><b>${v==="yes"?"Есть":"Нет"}:</b> ${ls.map(esc).join(", ")}</span>`:""}).join("")}</div>`:""}</div></div>
    <div class="fhint"><span>Наведите на значок, чтобы увидеть название. Клик: «есть» → «нет» → любой. Объекты, где пункт не заполнен, при фильтре не показываются.</span>${active?'<button class="btn" data-act="reset">Сбросить фильтры</button>':""}</div>`;
 }
@@ -1551,7 +1587,7 @@ document.addEventListener("click",async e=>{
   const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;fDist.clear();renderNav();if(selId)location.hash="";else{renderFilters();renderDists();renderCards()}return}
   const dc=e.target.closest("[data-dist]");if(dc){const d=dc.dataset.dist;if(!d)fDist.clear();else if(fDist.has(d))fDist.delete(d);else fDist.add(d);renderDists();renderCards();return}
   const rt=e.target.closest("[data-rooms]");if(rt){fRooms=rt.dataset.rooms;renderFilters();renderCards();return}
-  const at=e.target.closest("[data-am]");if(at){const k=at.dataset.am;const s=fAm[k]||"";const n=s===""?"yes":s==="yes"?"no":"";if(n)fAm[k]=n;else delete fAm[k];renderFilters();renderCards();return}
+  const at=e.target.closest("[data-am]");if(at){const k0=at.dataset.am;setTimeout(()=>{const n2=document.querySelector(`.ai[data-am="${CSS.escape(k0)}"]`);if(n2&&matchMedia("(hover:none)").matches){n2.classList.add("tipon");setTimeout(()=>n2.classList.remove("tipon"),1300)}},0);const k=at.dataset.am;const s=fAm[k]||"";const n=s===""?"yes":s==="yes"?"no":"";if(n)fAm[k]=n;else delete fAm[k];renderFilters();renderCards();return}
   const a3=e.target.closest("[data-am3]");if(a3){const n={"":"yes","yes":"no","no":""}[a3.dataset.v||""];a3.dataset.v=n;a3.querySelector(".st").textContent={"":"не указано","yes":"есть","no":"нет"}[n];return}
   const b=e.target.closest("[data-act]");if(!b)return;
   const a=b.dataset.act,o=objs.find(x=>x.id===selId);
@@ -1581,6 +1617,7 @@ document.addEventListener("click",async e=>{
   else if(a==="rowfile"){rowTarget=b.closest(".crow");$("#rowFileIn").click()}
   else if(a==="rowfile-del"){const r=b.closest(".crow");r.dataset.file="";r.querySelector(".rfile").innerHTML=""}
   else if(a==="mvup"||a==="mvdn"){const it=b.closest("[data-sort]");const sib=a==="mvup"?it.previousElementSibling:it.nextElementSibling;if(sib&&sib.hasAttribute("data-sort")){if(a==="mvup")sib.before(it);else sib.after(it);it.classList.add("moved");setTimeout(()=>it.classList.remove("moved"),400);b.focus()}}
+  else if(a==="amore"){amOpen=!amOpen;renderFilters()}
   else if(a==="addam")openAddAmenity();
   else if(a==="addrow"){$("#crows").insertAdjacentHTML("beforeend",crow({}));const r=$("#crows").lastElementChild;r.dataset.manual="";r.querySelector("[data-cl]").focus()}
   else if(a==="delrow")b.closest(".crow").remove();
