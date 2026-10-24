@@ -236,7 +236,7 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .am3[data-v="yes"] .st{color:var(--ok)}
 .am3[data-v="no"]{border-color:var(--no);background:color-mix(in srgb,var(--no) 8%,var(--surface))}
 .am3[data-v="no"] .st{color:var(--no)}
-.crow{clear:both;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr) auto auto auto;gap:10px;margin-bottom:10px;align-items:center}
+.crow{clear:both;display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,2fr) auto auto auto;gap:10px;margin-bottom:10px;align-items:center}
 .lockt{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--bg);display:grid;place-items:center;cursor:pointer;color:var(--muted)}
 .lockt[aria-pressed="true"]{background:var(--ink);color:var(--inv);border-color:var(--ink)}
 .lockt:disabled{opacity:.4;cursor:not-allowed}
@@ -260,6 +260,16 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.sorter{display:inline-flex;align-items:center;gap:2px;color:var(--muted)}
+.grip{width:22px;height:38px;display:grid;place-items:center;cursor:grab;touch-action:none;border-radius:8px}
+.grip:hover{background:var(--soft);color:var(--ink)}
+.dragging{opacity:.85;box-shadow:0 14px 28px -16px rgba(40,30,20,.5);background:var(--surface);border-radius:14px;position:relative;z-index:2}
+.dragging .grip{cursor:grabbing}
+.mv{display:flex;flex-direction:column;gap:2px}
+.mv button{width:22px;height:18px;border:0;border-radius:6px;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;padding:0}
+.mv button:hover{background:var(--soft);color:var(--ink)}
+.moved{animation:mvflash .4s ease}
+@keyframes mvflash{from{background:color-mix(in srgb,#7189f7 14%,transparent)}}
 a.bell{text-decoration:none}
 .pbadge{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;flex:none;color:#fff;font-family:var(--f-display);font-weight:500;font-size:12px;letter-spacing:-.02em}
 .pbadge.t-o{background:var(--g-orange)}.pbadge.t-b{background:var(--g-blue)}.pbadge.t-t{background:var(--g-teal)}.pbadge.t-g{background:var(--g-green)}.pbadge.t-ink{background:var(--ink)}
@@ -274,7 +284,7 @@ a.bell{text-decoration:none}
 .pchip{display:inline-flex;align-items:center;gap:7px;border:1px dashed var(--line);border-radius:999px;padding:3px 12px 3px 3px}
 .pchip .pbadge{width:24px;height:24px;border-radius:50%;font-size:10px}
 .prows{clear:both;display:grid;gap:8px}
-.prow{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2fr);gap:10px;align-items:center}
+.prow{display:grid;grid-template-columns:auto minmax(200px,1fr) minmax(0,2fr);gap:10px;align-items:center}
 .pchk{display:flex;align-items:center;gap:10px;cursor:pointer;font-size:14px;color:var(--ink);padding:4px 0}
 .pchk input{width:18px;height:18px;accent-color:#4f63dd}
 .prow:not(.on) .pchk .pbadge{background:var(--soft)!important;color:var(--muted)}
@@ -303,7 +313,7 @@ a.pcell,button.pcell{cursor:pointer}
 .pno{width:24px;height:24px;border-radius:50%;border:1.5px dashed var(--line);display:block}
 button.pcell:hover .pno{border-color:var(--ink)}
 .pfilter{margin-top:18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px;color:#d6455d;font-weight:500}
-@media (max-width:560px){.prow{grid-template-columns:1fr}}
+@media (max-width:560px){.prow{grid-template-columns:auto 1fr}.prow [data-purl]{grid-column:1/-1}}
 .ptags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .agepill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 14px 6px 10px;background:var(--g-green);color:#fff;font-size:12.5px;box-shadow:0 10px 20px -14px rgba(91,191,142,.9)}
 .agepill b{font-weight:600}
@@ -523,8 +533,9 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
   .tiles4{gap:10px}
   .gt{padding:18px 16px;min-height:150px}
   .gt .gl{font-size:13px}
-  .crow{grid-template-columns:1fr auto auto auto}
-  .crow input:first-child{grid-column:1/-1}
+  .crow{grid-template-columns:auto 1fr auto auto auto}
+  .crow [data-cl]{grid-column:2/-1}
+  .crow [data-cv]{grid-column:2/3}
   .topin{gap:10px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -986,6 +997,12 @@ function objNav(o){
 function workAge(o){const m=String(o.launch||"").match(/^(\d{4})-(\d{2})$/);if(!m)return null;const n=new Date();let mo=(n.getFullYear()-+m[1])*12+(n.getMonth()+1-+m[2]);if(mo<0)return null;
   const y=Math.floor(mo/12),r=mo%12;const parts=[];if(y)parts.push(y+" "+plural(y,"год","года","лет"));if(r)parts.push(r+" "+plural(r,"месяц","месяца","месяцев"));
   return{text:parts.length?"В работе "+parts.join(" "):"В работе с этого месяца",since:"с "+MON[+m[2]-1]+" "+m[1]}}
+function gripHTML(){return `<span class="sorter"><span class="grip" title="Перетащите, чтобы поменять порядок" aria-hidden="true">${S('<circle cx="9" cy="6" r="1.1"/><circle cx="15" cy="6" r="1.1"/><circle cx="9" cy="12" r="1.1"/><circle cx="15" cy="12" r="1.1"/><circle cx="9" cy="18" r="1.1"/><circle cx="15" cy="18" r="1.1"/>',16)}</span><span class="mv"><button type="button" data-act="mvup" aria-label="Выше">${S('<path d="M7 14l5-5 5 5"/>',13)}</button><button type="button" data-act="mvdn" aria-label="Ниже">${S('<path d="M7 10l5 5 5-5"/>',13)}</button></span></span>`}
+let sortDrag=null;
+document.addEventListener("pointerdown",e=>{const g=e.target.closest(".grip");if(!g)return;const item=g.closest("[data-sort]");if(!item)return;e.preventDefault();sortDrag={item,list:item.parentElement,id:e.pointerId};item.classList.add("dragging");try{g.setPointerCapture(e.pointerId)}catch(_){}});
+document.addEventListener("pointermove",e=>{if(!sortDrag)return;const {item,list}=sortDrag;const sibs=[...list.children].filter(x=>x!==item&&x.hasAttribute("data-sort"));for(const s of sibs){const r=s.getBoundingClientRect();if(e.clientY<r.top+r.height/2){if(item.nextElementSibling!==s)list.insertBefore(item,s);return}}const last=sibs[sibs.length-1];if(last&&last.nextElementSibling!==item)last.after(item)});
+const endSort=()=>{if(!sortDrag)return;sortDrag.item.classList.remove("dragging");sortDrag=null};
+document.addEventListener("pointerup",endSort);document.addEventListener("pointercancel",endSort);
 function fullAddr(o){const a=String(o.address||"");return has(o.apt)&&!/кв|апарт/i.test(a)?a+", кв "+String(o.apt).trim():a}
 function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
@@ -1107,7 +1124,7 @@ function field([k,l,kind],o){
 let crowSeq=0;
 function crow(c={}){
   const n=crowSeq++;const sec=!!c.secret;const lockedVal=sec&&!aes;
-  return`<div class="crow" data-manual="${c.label?"1":""}" data-file="${c.file?esc(JSON.stringify(c.file)):""}"><input class="field" id="cl-${n}" data-cl placeholder="Название, напр. «Кейбокс»" value="${esc(c.label||"")}"${lockedVal?" readonly":""}>
+  return`<div class="crow" data-sort data-manual="${c.label?"1":""}" data-file="${c.file?esc(JSON.stringify(c.file)):""}">${gripHTML()}<input class="field" id="cl-${n}" data-cl placeholder="Название, напр. «Кейбокс»" value="${esc(c.label||"")}"${lockedVal?" readonly":""}>
   <input class="field" id="cv-${n}" data-cv placeholder="${lockedVal?"Скрыто — введите пароль":"Значение"}" value="${esc(lockedVal?"":c.value||"")}"${lockedVal?" disabled":""}>
   <button type="button" class="lockt" data-act="sectoggle" aria-pressed="${sec}" title="Секретная строка (шифруется)"${!aes&&!sec?" disabled":""}${lockedVal?" disabled":""}>${ICON.lock}</button>
   <button type="button" class="lockt" data-act="rowfile" title="Прикрепить фото или файл"${sec?" disabled":""}>${S('<path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7-7L13 4.5a3.3 3.3 0 0 1 4.7 4.7l-8.2 8.2a1.7 1.7 0 0 1-2.4-2.4l7.5-7.5"/>',16)}</button>
@@ -1196,6 +1213,11 @@ async function save(){
   const newRows=plain.custom.filter(r=>!known.has(r.label.toLowerCase())).map(r=>({label:r.label,secret:!!r.secret}));
   let toAll=false;
   if(newRows.length&&objs.length>(old?1:0)){toAll=await askAll(newRows);if(toAll===null)return}
+  const platOrder=[...document.querySelectorAll(".prow[data-pk]")].map(r=>r.dataset.pk);
+  const curPlat=plats().map(p=>p.key);const platReordered=platOrder.length===curPlat.length&&platOrder.some((k,i)=>k!==curPlat[i]);
+  const newOrder=(plain.custom||[]).map(r=>r.label.toLowerCase());const oldOrder=(old?.custom||[]).map(r=>r.label.toLowerCase()).filter(l=>newOrder.includes(l));
+  const rowsReordered=oldOrder.length>1&&oldOrder.join("|")!==newOrder.filter(l=>oldOrder.includes(l)).join("|");
+  let orderAll=false;if(rowsReordered&&objs.length>1){orderAll=await askOrder();if(orderAll===null)return}
   const oldT=new Set((old?.tasks||[]).map(t=>t.id));const newTasks=(plain.tasks||[]).filter(t=>!oldT.has(t.id));
   let spread="one";if(newTasks.length&&objs.length>(old?1:0)){spread=await askTasksSpread(newTasks,plain);if(spread===null)return}
   busy(true,"Сохраняю в GitHub…");
@@ -1205,9 +1227,12 @@ async function save(){
       const i=arr.findIndex(o=>o.id===pub.id);if(i>=0)arr[i]=pub;else arr.push(pub);
       if(toAll)for(const o of arr){if(o.id===pub.id)continue;o.custom=o.custom||[];
         for(const r of newRows)if(!o.custom.some(c=>c.label.toLowerCase()===r.label.toLowerCase()))o.custom.push(r.secret?{label:r.label,secret:true,filled:false}:{label:r.label,value:""})}
+      if(orderAll){const idx=l=>{const i=newOrder.indexOf(l.toLowerCase());return i<0?1e6:i};for(const o of arr){if(o.id===pub.id||!o.custom||o.custom.length<2)continue;o.custom=o.custom.map((c,i)=>[c,i]).sort((a,b)=>(idx(a[0].label)-idx(b[0].label))||(a[1]-b[1])).map(x=>x[0])}}
       if(spread!=="one")for(const o of arr){if(o.id===pub.id)continue;if(spread==="district"&&o.district!==pub.district)continue;o.tasks=o.tasks||[];
         for(const t of newTasks)if(!o.tasks.some(x=>x.title.trim().toLowerCase()===t.title.trim().toLowerCase()))o.tasks.push({...t})}
     },`${pub.name}: правка паспорта${toAll?" (+ строки ко всем объектам)":""}${spread==="all"?" (+ задачи всем)":spread==="district"?" (+ задачи району)":""}`);
+    if(platReordered)await commitJSON("data/fields.json",cur=>{cur=cur||{rows:[]};const base=(cur.platforms&&cur.platforms.length?cur.platforms:PLAT_DEFAULT.slice());cur.platforms=platOrder.map(k=>base.find(p=>p.key===k)).filter(Boolean).concat(base.filter(p=>!platOrder.includes(p.key)));fieldsCfg=cur;return cur},"Порядок площадок",2);
+    if(orderAll)await commitJSON("data/fields.json",cur=>{cur=cur||{rows:[]};const idx=l=>{const i=newOrder.indexOf(l.toLowerCase());return i<0?1e6:i};cur.rows=(cur.rows||[]).map((r,i)=>[r,i]).sort((a,b)=>(idx(a[0].label)-idx(b[0].label))||(a[1]-b[1])).map(x=>x[0]);fieldsCfg=cur;return cur},"Порядок своих строк",2);
     if(toAll)await commitJSON("data/fields.json",cur=>{cur=cur||{rows:[]};cur.rows=cur.rows||[];for(const r of newRows)if(!cur.rows.some(x=>x.label.toLowerCase()===r.label.toLowerCase()))cur.rows.push(r);fieldsCfg=cur;return cur},"Строки для всех объектов: "+newRows.map(r=>r.label).join(", "),2);
     editing=false;draft=null;confirmDel=false;
     if(location.hash.slice(1)!==pub.id){selId=pub.id;history.replaceState(null,"","#"+pub.id)}
@@ -1355,6 +1380,13 @@ function tasksFieldset(o){return `<fieldset class="fs"><legend>Регулярн�
   <datalist id="tpl"><option value="Показания счётчиков"><option value="Оплата интернета"><option value="Оплата ЖКУ"><option value="Проверка пожарного извещателя"><option value="Замена фильтра воды"><option value="Чистка кондиционера"></datalist>
   <p class="status" style="margin:10px 0 0">Задача появится в «Задачах» и в колокольчике за указанное число дней до срока и будет висеть, пока её не отметят.</p></fieldset>`}
 function collectTasks(f){return [...f.querySelectorAll(".trow")].map(r=>({id:r.dataset.tid,title:r.querySelector("[data-tt]").value.trim(),freq:r.querySelector("[data-tf]").value,day:Math.min(31,Math.max(1,+r.querySelector("[data-td]").value||1)),start:+r.querySelector("[data-ts]").value||1,remind:Math.max(0,+r.querySelector("[data-tr]").value||0),since:r.dataset.since||isoDay(today0()),_new:!!r.dataset.new})).filter(t=>t.title)}
+function askOrder(){
+  return new Promise(res=>{
+    const m=modal(`<span class="eyebrow">Порядок строк</span><h2>Применить этот порядок ко всем объектам?</h2><p>Свои строки во всех паспортах выстроятся так же, как здесь. Строки, которых в этом объекте нет, останутся в конце.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="pill" type="button" data-ans="all">Ко всем объектам<span class="ar">${ICON.arrow}</span></button><button class="btn" type="button" data-ans="one">Только к этому</button></div>`,"wide");
+    m.addEventListener("click",e=>{const a=e.target.closest("[data-ans]");if(a){m.remove();res(a.dataset.ans==="all")}else if(e.target===m){m.remove();res(null)}});
+  });
+}
 function askTasksSpread(newTasks,o){
   return new Promise(res=>{
     const same=objs.filter(x=>x.id!==o.id&&x.district&&x.district===o.district).length,others=objs.filter(x=>x.id!==o.id).length;
@@ -1407,7 +1439,7 @@ function platSection(o){
   ${!on.length?`<div class="missing" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;grid-column:1/-1"><span>Пока не отмечено ни одной площадки.</span>${editBtnSm()}</div>`:""}</div></section>`;
 }
 function platFieldset(o){const ls=o.listings||{};
-  return `<fieldset class="fs"><legend>Площадки размещения</legend><div class="prows">${plats().map(p=>{const l=ls[p.key]||{};return `<div class="prow${l.on?" on":""}" data-pk="${esc(p.key)}"><label class="pchk"><input type="checkbox" data-pon${l.on?" checked":""}>${platBadge(p,true)}<span>${esc(p.name)}</span></label><input class="field" data-purl id="pu-${esc(p.key)}" placeholder="Ссылка на объявление (необязательно)" value="${esc(l.url||"")}"${l.on?"":" disabled"}></div>`}).join("")}</div>
+  return `<fieldset class="fs"><legend>Площадки размещения</legend><div class="prows">${plats().map(p=>{const l=ls[p.key]||{};return `<div class="prow${l.on?" on":""}" data-sort data-pk="${esc(p.key)}">${gripHTML()}<label class="pchk"><input type="checkbox" data-pon${l.on?" checked":""}>${platBadge(p,true)}<span>${esc(p.name)}</span></label><input class="field" data-purl id="pu-${esc(p.key)}" placeholder="Ссылка на объявление (необязательно)" value="${esc(l.url||"")}"${l.on?"":" disabled"}></div>`}).join("")}</div>
   <button type="button" class="btn" data-act="addplat" style="margin-top:10px">+ Добавить площадку</button></fieldset>`}
 function collectPlats(f){const out={};f.querySelectorAll(".prow").forEach(r=>{const on=r.querySelector("[data-pon]").checked,url=r.querySelector("[data-purl]").value.trim();if(on||url)out[r.dataset.pk]=on?{on:true,...(url?{url}:{})}:{on:false,...(url?{url}:{})}});return out}
 function openAddPlatform(){
@@ -1427,7 +1459,7 @@ function openAddPlatform(){
     catch(err){if(err.code==="perm"){m.remove();permHelp();return}$("#plErr").textContent=err.message||"Не удалось сохранить";return}
     m.remove();
     const pr=document.querySelector(".prows");
-    if(pr)pr.insertAdjacentHTML("beforeend",`<div class="prow on" data-pk="${esc(p.key)}"><label class="pchk"><input type="checkbox" data-pon checked>${platBadge(p,true)}<span>${esc(p.name)}</span></label><input class="field" data-purl placeholder="Ссылка на объявление (необязательно)"></div>`);
+    if(pr)pr.insertAdjacentHTML("beforeend",`<div class="prow on" data-sort data-pk="${esc(p.key)}">${gripHTML()}<label class="pchk"><input type="checkbox" data-pon checked>${platBadge(p,true)}<span>${esc(p.name)}</span></label><input class="field" data-purl placeholder="Ссылка на объявление (необязательно)"></div>`);
     else render(true);
     toast("Площадка «"+name+"» добавлена");
   });
@@ -1536,6 +1568,7 @@ document.addEventListener("click",async e=>{
     const bi=$("#f-beds");if(bi&&!bi.dataset.manual){const sl={};document.querySelectorAll("[data-sleep]").forEach(x=>sl[x.dataset.sleep]=+x.dataset.n||0);const t=sleepTotal(sl);bi.value=t?String(t):""}}
   else if(a==="rowfile"){rowTarget=b.closest(".crow");$("#rowFileIn").click()}
   else if(a==="rowfile-del"){const r=b.closest(".crow");r.dataset.file="";r.querySelector(".rfile").innerHTML=""}
+  else if(a==="mvup"||a==="mvdn"){const it=b.closest("[data-sort]");const sib=a==="mvup"?it.previousElementSibling:it.nextElementSibling;if(sib&&sib.hasAttribute("data-sort")){if(a==="mvup")sib.before(it);else sib.after(it);it.classList.add("moved");setTimeout(()=>it.classList.remove("moved"),400);b.focus()}}
   else if(a==="addam")openAddAmenity();
   else if(a==="addrow"){$("#crows").insertAdjacentHTML("beforeend",crow({}));const r=$("#crows").lastElementChild;r.dataset.manual="";r.querySelector("[data-cl]").focus()}
   else if(a==="delrow")b.closest(".crow").remove();
