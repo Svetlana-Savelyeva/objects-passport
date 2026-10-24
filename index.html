@@ -251,6 +251,12 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.dc{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--ink);transition:transform .15s}
+.dc:hover{transform:translateY(-1px);border-color:var(--ink)}
+.dc .dot{width:10px;height:10px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.dc .n{font-size:11px;font-weight:400;opacity:.65;font-variant-numeric:tabular-nums}
+.dc[aria-pressed="true"]{border-color:transparent;box-shadow:0 10px 20px -14px rgba(0,0,0,.5)}
+.dc[aria-pressed="true"] .dot{box-shadow:0 0 0 2px rgba(255,255,255,.85)}
 .aicons{display:flex;flex-wrap:wrap;gap:10px}
 .ai{position:relative;width:48px;height:48px;padding:0;border:2px solid transparent;border-radius:50%;background:none;cursor:pointer;display:grid;place-items:center;transition:transform .15s}
 .ai .ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;transition:opacity .2s,filter .2s}
@@ -435,7 +441,7 @@ const ICON={
  lock:S('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',14),
  unlock:S('<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/>',14),
  door:S('<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17M3 21h18M14 12h.01"/>'),
- car:S('<path d="M5 16V11l2-5h10l2 5v5M3 16h18v3H3zM7 19v2M17 19v2M5 11h14"/>'),
+ car:S('<rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><path d="M9.5 17V7.5h3.6a3.1 3.1 0 0 1 0 6.2H9.5"/>'),
  pin:S('<path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/>'),
  wifi:S('<path d="M2 9a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 19.5h.01"/>'),
  note:S('<path d="M5 3h10l4 4v14H5zM15 3v4h4M8 12h8M8 16h6"/>'),
@@ -478,10 +484,11 @@ const AMI={
  cctv:S('<path d="M3 6.5l12.5-2.5 1.6 5.6L4.6 12.1zM16.6 7.8l4 .9-.9 4.3-4.1-1M8 11.5l1.2 4.2H5.5M5.5 13.5v6"/>')
 };
 const AM_GROUP={o:["dishwasher","oven","microwave","coffee","kettle"],t:["ac","boiler","flowheater","heatedfloor","bath","shower","washer","dryer"],b:["tv","alice","videocall","cctv","iron","steamer","hairdryer","vacuum"],g:["balcony","loggia","workspace","storage","blackout","mosquito","crib","pets","elevator"]};
-const GEN_GROUP={key:"b",plug:"b",bolt:"b",drop:"t",star:"o",sparkle:"o",box:"o",leaf:"g",sun:"g",home:"g",heart:"g",baby:"g"};
+const GEN_GROUP={jug:"t",key:"b",plug:"b",bolt:"b",drop:"t",star:"o",sparkle:"o",box:"o",leaf:"g",sun:"g",home:"g",heart:"g",baby:"g"};
 function amGroup(k){for(const [g,l] of Object.entries(AM_GROUP))if(l.includes(k))return g;const c=((fieldsCfg&&fieldsCfg.amenities)||[]).find(a=>a.key===k);return GEN_GROUP[c&&c.icon]||"g"}
 const GEN={
  star:S('<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'),
+ jug:S('<path d="M7 4h9.5l-1 3.2v2.3M8 4c0 3-1.5 5-1.5 8.5V20a1 1 0 0 0 1 1H16a1 1 0 0 0 1-1v-6.5c0-2-1.5-3-1.5-4M8.6 9.5h6.9M16.5 11.2h2a1.5 1.5 0 0 1 1.5 1.5v2.6a1.5 1.5 0 0 1-1.5 1.5H17M11.5 14.5c0 1.2 1 1.2 1 2.2"/>'),
  sparkle:S('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>'),
  plug:S('<path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/>'),
  drop:S('<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'),
@@ -541,7 +548,7 @@ const stable=v=>JSON.stringify(v,(k,x)=>x&&typeof x==="object"&&!Array.isArray(x
 let token=null;try{token=localStorage.getItem("passport-token")}catch(_){}
 let objs=[],fieldsCfg={rows:[]},cfg=null,aes=null,secrets={},selId=null,homeScroll=0;
 let editing=false,draft=null,confirmDel=false,pendingDel=null,busyCount=0;
-let q="",fCity="",fRooms="",fAm={};
+let q="",fCity="",fRooms="",fAm={},fDist=new Set();
 
 function toast(t){const e=document.createElement("div");e.className="toast";e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
 function busy(on,text){
@@ -566,6 +573,7 @@ function filtered(){
   return objs.filter(o=>{
     if(fCity&&o.city!==fCity)return false;
     if(fRooms&&roomsKey(o)!==fRooms)return false;
+    if(fDist.size&&!fDist.has(o.district))return false;
     for(const [k,v] of Object.entries(fAm)){const a=(o.amenities||{})[k];if(v==="yes"&&a!==true)return false;if(v==="no"&&a!==false)return false}
     if(!s)return true;
     return [o.num,o.name,o.address,o.metro,o.district,o.provider,o.nearby,...(o.custom||[]).map(c=>c.secret?c.label:c.label+" "+c.value)].some(v=>String(v||"").toLowerCase().includes(s));
@@ -778,8 +786,11 @@ function renderFilters(){
   const cnt=k=>k?base.filter(o=>roomsKey(o)===k).length:base.length;
   const amCnt=(k,v)=>base.filter(o=>(o.amenities||{})[k]===v).length;
   const st={"":"любой","yes":"есть","no":"нет"};
-  const active=fRooms||Object.keys(fAm).length;
+  const active=fRooms||Object.keys(fAm).length||fDist.size;
+  const dmap={};base.forEach(o=>{if(!o.district)return;(dmap[o.district]=dmap[o.district]||{n:0,c:o.districtColor}).n++});
+  const dists=Object.entries(dmap).sort((a,b)=>a[0].localeCompare(b[0],"ru"));
   $("#fbar").innerHTML=`
+   <div class="fgroup"><span class="eyebrow">Район</span><div class="ftiles">${dists.map(([d,v])=>{const on=fDist.has(d);return `<button class="dc" data-dist="${esc(d)}" aria-pressed="${on}" style="${on?colorStyle(v.c):""}"><span class="dot" style="background:${safeColor(v.c)}"></span>${esc(d)}<span class="n">${v.n}</span></button>`}).join("")}</div></div>
    <div class="fgroup"><span class="eyebrow">Тип объекта</span><div class="ftiles">${ROOMS.map(([k,l])=>`<button class="rt" data-rooms="${k}" aria-pressed="${fRooms===k}">${roomIcon(k)}${l}<span class="n">${cnt(k)}</span></button>`).join("")}</div></div>
    <div class="fgroup"><span class="eyebrow">Удобства</span><div><div class="aicons">${amList().map(([k,l])=>{const s=fAm[k]||"";const tip=`${l} · ${st[s]} (есть: ${amCnt(k,true)}, нет: ${amCnt(k,false)})`;return `<button class="ai" data-am="${esc(k)}" data-state="${s}" data-tip="${esc(l)}" aria-label="${esc(tip)}" title="${esc(tip)}"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span>${s?`<i class="badge">${s==="yes"?"✓":"✕"}</i>`:""}</button>`}).join("")}</div>
      ${Object.keys(fAm).length?`<div class="fsel">${["yes","no"].map(v=>{const ls=Object.entries(fAm).filter(([,x])=>x===v).map(([k])=>(amList().find(a=>a[0]===k)||[,k])[1]);return ls.length?`<span class="${v}"><b>${v==="yes"?"Есть":"Нет"}:</b> ${ls.map(esc).join(", ")}</span>`:""}).join("")}</div>`:""}</div></div>
@@ -844,6 +855,7 @@ function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
 function distKm(a,b){const R=6371,t=Math.PI/180,dLat=(b[0]-a[0])*t,dLon=(b[1]-a[1])*t;const s=Math.sin(dLat/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(s))}
 function nearby(o){const c=coordsOf(o);if(!c)return[];return objs.filter(x=>x.id!==o.id).map(x=>{const k=coordsOf(x);return k?[x,distKm(c,k)]:null}).filter(v=>v&&v[1]<=3).sort((a,b)=>a[1]-b[1])}
+function colorStyle(c){return distStyle({districtColor:c})}
 function distStyle(o){const c=safeColor(o.districtColor);if(c==="#bbb")return"";let x=c.slice(1);if(x.length===3)x=x.split("").map(ch=>ch+ch).join("");x=x.slice(0,6);
   const [r,g,b]=[0,2,4].map(i=>parseInt(x.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:((v+.055)/1.055)**2.4);const L=.2126*r+.7152*g+.0722*b;
   return `background:#${x};color:${L>.35?"#1c1a17":"#fff"}`}
@@ -1142,7 +1154,8 @@ function lightbox(o,i){
 
 document.addEventListener("click",async e=>{
   if(e.target.closest(".modal"))return;
-  const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;renderNav();if(selId)location.hash="";else{renderFilters();renderCards()}return}
+  const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;fDist.clear();renderNav();if(selId)location.hash="";else{renderFilters();renderCards()}return}
+  const dc=e.target.closest("[data-dist]");if(dc){const d=dc.dataset.dist;if(fDist.has(d))fDist.delete(d);else fDist.add(d);renderFilters();renderCards();return}
   const rt=e.target.closest("[data-rooms]");if(rt){fRooms=rt.dataset.rooms;renderFilters();renderCards();return}
   const at=e.target.closest("[data-am]");if(at){const k=at.dataset.am;const s=fAm[k]||"";const n=s===""?"yes":s==="yes"?"no":"";if(n)fAm[k]=n;else delete fAm[k];renderFilters();renderCards();return}
   const a3=e.target.closest("[data-am3]");if(a3){const n={"":"yes","yes":"no","no":""}[a3.dataset.v||""];a3.dataset.v=n;a3.querySelector(".st").textContent={"":"не указано","yes":"есть","no":"нет"}[n];return}
@@ -1153,7 +1166,7 @@ document.addEventListener("click",async e=>{
   else if(a==="gnext")stepGal(1);
   else if(a==="gexp"){const c=document.querySelector("#gal .gcard[aria-current=true]");if(c)lightbox(o,+c.dataset.pi)}
   else if(a==="tonear"){e.preventDefault();const s=$("#nearby");if(s)s.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
-  else if(a==="reset"){fRooms="";fAm={};renderFilters();renderCards()}
+  else if(a==="reset"){fRooms="";fAm={};fDist.clear();renderFilters();renderCards()}
   else if(a==="copy"){try{await navigator.clipboard.writeText(b.dataset.v);toast("Скопировано");if(b.classList.contains("cpy")){b.innerHTML=ICON.check;b.classList.add("done");setTimeout(()=>{b.innerHTML=ICON.copy;b.classList.remove("done")},1600)}}catch(_){toast("Скопируйте вручную: "+b.dataset.v)}}
   else if(a==="unlock"){if(aes&&b.id==="lockBtn"){aes=null;secrets={};try{localStorage.removeItem("passport-pw")}catch(_){}headerState();render(true);toast("Коды скрыты")}else openUnlock()}
   else if(a==="unlock-edit"){const keep=collect();openUnlock(()=>{const base=draft?keep:{...plainOf(objs.find(x=>x.id===selId)),...keep,...Object.fromEntries(SECRET.map(f=>[f,(secrets[selId]||{})[f]||""]))};
