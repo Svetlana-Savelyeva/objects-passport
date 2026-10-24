@@ -261,6 +261,8 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.actf{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end;color:#c0702c;text-transform:none;letter-spacing:0;font-size:13px;font-weight:500}
+.actf .btn{color:var(--ink)}
 .sorter{display:inline-flex;align-items:center;gap:2px;color:var(--muted)}
 .grip{width:22px;height:38px;display:grid;place-items:center;cursor:grab;touch-action:none;border-radius:8px}
 .grip:hover{background:var(--soft);color:var(--ink)}
@@ -989,7 +991,8 @@ function coverHTML(o){
 function renderCards(){
   const el=$("#cards");if(!el)return;
   const list=filtered();
-  $("#count").textContent=`Показано ${list.length} из ${objs.length}`;
+  const act=activeFilters();
+  $("#count").innerHTML=act.length?`<span class="actf"><span>Показано ${list.length} из ${objs.length}: ${act.map(esc).join(" · ")}</span><button class="btn" data-act="resetall">Сбросить</button></span>`:`Показано ${list.length} из ${objs.length}`;
   if(!list.length){el.innerHTML=`<div class="empty"><h2>Ничего не найдено</h2>Под эти фильтры пока нет объектов. Возможно, удобства у квартир ещё не заполнены.</div>`;return}
   el.innerHTML=list.map(o=>cardHTML(o)).join("");
 }
@@ -1051,6 +1054,11 @@ document.addEventListener("pointermove",e=>{if(!sortDrag)return;const {item,list
 const endSort=()=>{if(!sortDrag)return;sortDrag.item.classList.remove("dragging");sortDrag=null};
 document.addEventListener("pointerup",endSort);document.addEventListener("pointercancel",endSort);
 function fullAddr(o){const a=String(o.address||"");return has(o.apt)&&!/кв|апарт/i.test(a)?a+", кв "+String(o.apt).trim():a}
+function activeFilters(){const out=[];if(q.trim())out.push("поиск «"+q.trim()+"»");if(fRooms)out.push(fRooms==="Студия"?"студии":fRooms+"-комн.");
+  for(const [k,v] of Object.entries(fAm)){const l=(amList().find(a=>a[0]===k)||[,k])[1];out.push((v==="yes"?"есть ":"нет ")+l.toLowerCase())}
+  fDist.forEach(d=>out.push(d));return out}
+let downPt=null;document.addEventListener("pointerdown",e=>{downPt={x:e.clientX,y:e.clientY}},true);
+function wasSwipe(e){return downPt&&Math.hypot(e.clientX-downPt.x,e.clientY-downPt.y)>10}
 function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
 function distKm(a,b){const R=6371,t=Math.PI/180,dLat=(b[0]-a[0])*t,dLon=(b[1]-a[1])*t;const s=Math.sin(dLat/2)**2+Math.cos(a[0]*t)*Math.cos(b[0]*t)*Math.sin(dLon/2)**2;return 2*R*Math.asin(Math.sqrt(s))}
@@ -1586,6 +1594,7 @@ document.addEventListener("click",async e=>{
   const pmi=e.target.closest("[data-pmiss]");if(pmi){platMissing=platMissing===pmi.dataset.pmiss?"":pmi.dataset.pmiss;render(true);return}
   const dn=e.target.closest("[data-done]");if(dn){toggleDone(dn.dataset.done,dn);return}
   const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;fDist.clear();renderNav();if(selId)location.hash="";else{renderFilters();renderDists();renderCards()}return}
+  if(e.target.closest("[data-dist],[data-rooms],[data-am]")&&wasSwipe(e))return;
   const dc=e.target.closest("[data-dist]");if(dc){const d=dc.dataset.dist;if(!d)fDist.clear();else if(fDist.has(d))fDist.delete(d);else fDist.add(d);renderDists();renderCards();return}
   const rt=e.target.closest("[data-rooms]");if(rt){fRooms=rt.dataset.rooms;renderFilters();renderCards();return}
   const at=e.target.closest("[data-am]");if(at){const k0=at.dataset.am;setTimeout(()=>{const n2=document.querySelector(`.ai[data-am="${CSS.escape(k0)}"]`);if(n2&&matchMedia("(hover:none)").matches){n2.classList.add("tipon");setTimeout(()=>n2.classList.remove("tipon"),1300)}},0);const k=at.dataset.am;const s=fAm[k]||"";const n=s===""?"yes":s==="yes"?"no":"";if(n)fAm[k]=n;else delete fAm[k];renderFilters();renderCards();return}
@@ -1603,6 +1612,7 @@ document.addEventListener("click",async e=>{
   else if(a==="gnext")stepGal(1);
   else if(a==="gexp"){const c=document.querySelector("#gal .gcard[aria-current=true]");if(c)lightbox(o,+c.dataset.pi)}
   else if(a==="tonear"){e.preventDefault();const s=$("#nearby");if(s)s.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
+  else if(a==="resetall"){q="";fRooms="";fAm={};fDist.clear();const qi=$("#q");if(qi)qi.value="";renderFilters();renderDists();renderCards()}
   else if(a==="reset"){fRooms="";fAm={};renderFilters();renderCards()}
   else if(a==="copy"){try{await navigator.clipboard.writeText(b.dataset.v);toast("Скопировано");if(b.classList.contains("cpy")){b.innerHTML=ICON.check;b.classList.add("done");setTimeout(()=>{b.innerHTML=ICON.copy;b.classList.remove("done")},1600)}}catch(_){toast("Скопируйте вручную: "+b.dataset.v)}}
   else if(a==="unlock"){if(aes&&b.id==="lockBtn"){aes=null;secrets={};try{localStorage.removeItem("passport-pw")}catch(_){}headerState();render(true);toast("Коды скрыты")}else openUnlock()}
