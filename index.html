@@ -260,6 +260,12 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
+.ptags{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.agepill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:6px 14px 6px 10px;background:var(--g-green);color:#fff;font-size:12.5px;box-shadow:0 10px 20px -14px rgba(91,191,142,.9)}
+.agepill b{font-weight:600}
+.agepill span{opacity:.85}
+.agepill span::before{content:"·";margin-right:6px}
+.lpair{display:grid;grid-template-columns:1.3fr 1fr;gap:8px}
 .bell{position:relative;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;color:var(--ink);flex:none}
 .bell:hover,.bell[aria-pressed="true"]{border-color:var(--ink)}
 .bell b{position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;padding:0 5px;border-radius:999px;background:var(--g-orange);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;border:2px solid var(--bg);font-variant-numeric:tabular-nums}
@@ -577,7 +583,7 @@ const FILL=[["address","Адрес"],["metro","Метро"],["nav","Навига
 const SECRET=["access","wifiPass","account"];
 const SECTIONS=[
  {t:"Навигация",f:[["num","№ объекта"],["name","Название"],["address","Адрес","wide"],["apt","Квартира №"],["city","Город"],["district","Район"],["districtColor","Цвет района","color"],["entrance","Парадная"],["floor","Этаж"],["coords","Координаты"],["metroLine","Ветка метро","line"],["metro","Метро"],["metroWalk","Пешком до метро, мин"],["nav","Ссылка для навигатора","wide"],["access","Как попасть в парадную (коды)","area"],["parking","Парковка","area"],["extraLink","Доп. ссылка","wide"]]},
- {t:"Квартира",f:[["checkIn","Заезд с","time"],["checkOut","Выезд до","time"],["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
+ {t:"Квартира",f:[["launch","В работе с","launch"],["checkIn","Заезд с","time"],["checkOut","Выезд до","time"],["area","Площадь, м²"],["rooms","Комнат","rooms"],["beds","Спальных мест"],["guests","Макс. гостей"],["ceiling","Потолки, м"],["floorsTotal","Этажей в доме"],["view","Вид из окна","wide"]]},
  {t:"Интернет и провайдер",f:[["provider","Провайдер"],["contract","№ договора"],["payer","Кто платит","payer"],["account","Лицевой счёт / логин"],["providerPhone","Телефон поддержки"],["wifiName","Wi-Fi сеть"],["wifiPass","Wi-Fi пароль"],["netNotes","Заметки по интернету","area"]]},
  {t:"Управляющая компания",f:[["ukName","Название УК"],["ukPhone","Телефон УК"],["ukDispatch","Аварийная / диспетчерская"],["ukEmail","Email"],["ukApp","Приложение / личный кабинет"],["ukOffice","Адрес офиса","wide"],["ukNotes","Заметки по УК","area"]]},
  {t:"Поблизости и заметки",f:[["nearby","Объекты поблизости (магазины, кафе, аптеки…)","area"],["notes","Заметки","area"]]}
@@ -932,6 +938,9 @@ function objNav(o){
   const p=list[(i-1+list.length)%list.length],n=list[(i+1)%list.length];
   return `<nav class="onav" aria-label="Соседние объекты"><a href="#${esc(p.id)}" title="Предыдущий: ${esc(p.name)}"><span class="oc">${ICON.arrowl}</span><span class="on">${esc(p.name)}</span></a><span class="oi">${i+1} / ${list.length}</span><a href="#${esc(n.id)}" title="Следующий: ${esc(n.name)}"><span class="on">${esc(n.name)}</span><span class="oc">${ICON.arrow}</span></a></nav>`;
 }
+function workAge(o){const m=String(o.launch||"").match(/^(\d{4})-(\d{2})$/);if(!m)return null;const n=new Date();let mo=(n.getFullYear()-+m[1])*12+(n.getMonth()+1-+m[2]);if(mo<0)return null;
+  const y=Math.floor(mo/12),r=mo%12;const parts=[];if(y)parts.push(y+" "+plural(y,"год","года","лет"));if(r)parts.push(r+" "+plural(r,"месяц","месяца","месяцев"));
+  return{text:parts.length?"В работе "+parts.join(" "):"В работе с этого месяца",since:"с "+MON1[+m[2]-1]+" "+m[1]}}
 function fullAddr(o){const a=String(o.address||"");return has(o.apt)&&!/кв|апарт/i.test(a)?a+", кв "+String(o.apt).trim():a}
 function plural(n,a,b,c){const m=n%10,mm=n%100;return m===1&&mm!==11?a:m>=2&&m<=4&&(mm<10||mm>=20)?b:c}
 function coordsOf(o){const m=String(o.coords||"").match(/(-?\d+(?:\.\d+)?)\s*[,;\s]\s*(-?\d+(?:\.\d+)?)/);return m?[+m[1],+m[2]]:null}
@@ -973,7 +982,7 @@ function renderObject(o){
   let h=`<div class="otop"><button class="link back" data-act="home"><span class="circ">${ICON.arrowl}</span>Все объекты</button>${objNav(o)}</div>
   <div class="ohero">
     <div class="txt">
-      <span class="tagpill" style="align-self:flex-start">Паспорт № ${esc(o.num)}${o.district?" · "+esc(o.district):""}</span>
+      <div class="ptags"><span class="tagpill">Паспорт № ${esc(o.num)}${o.district?" · "+esc(o.district):""}</span>${(w=>w?`<span class="agepill" title="${esc(w.since)}">${S('<path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 15.4 7.2 17.9l.9-5.4L4.2 8.7l5.4-.8z"/>',14)}<b>${w.text}</b><span>${w.since}</span></span>`:"")(workAge(o))}</div>
       <h1>${esc(o.name)}</h1>
       <div class="addr"><span>${esc(fullAddr(o))}</span><button class="cpy" data-act="copy" data-v="${esc(fullAddr(o))}" title="Скопировать адрес" aria-label="Скопировать адрес">${ICON.copy}</button></div>
       ${(has(o.entrance)&&o.entrance!=="-")||has(o.floor)?`<div class="addrmeta">${has(o.entrance)&&o.entrance!=="-"?`<span>${S('<path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17M3 21h18M14 12h.01"/>',16)}${/^\d+$/.test(o.entrance)?"Парадная "+esc(o.entrance):esc(o.entrance)}</span>`:""}${has(o.floor)?`<span>${S('<path d="M3 20h5v-4h4v-4h4V8h5"/>',16)}Этаж ${esc(o.floor)}</span>`:""}${has(o.apt)||/кв|апарт/i.test(o.address||"")?"":`<span class="warn">номер квартиры не указан</span>`}</div>`:""}
@@ -1042,6 +1051,8 @@ function field([k,l,kind],o){
   else if(kind==="line")inp=`<select class="field" id="${id}" data-f="${k}"><option value=""></option>${Object.keys(LINES).map(n=>`<option${n===String(v).trim()?" selected":""}>${n}</option>`).join("")}</select>`;
   else if(kind==="rooms")inp=`<select class="field" id="${id}" data-f="${k}">${["","Студия","1","2","3","4","5+"].map(n=>`<option${n===String(v)?" selected":""}>${n}</option>`).join("")}</select>`;
   else if(kind==="payer")inp=`<input class="field" id="${id}" data-f="${k}" value="${esc(v)}" list="payerList" placeholder="Выберите или впишите"><datalist id="payerList"><option value="Собственник"><option value="Мы"><option value="Гость"><option value="Включено в квартплату"></datalist>`;
+  else if(kind==="launch"){const [ly,lm]=String(v||"").split("-");const Y=new Date().getFullYear();
+    inp=`<input type="hidden" id="${id}" data-f="${k}" value="${esc(v)}"><span class="lpair"><select class="field" id="${id}-m" data-lm><option value="">месяц</option>${MON1.map((m,i)=>`<option value="${String(i+1).padStart(2,"0")}"${+lm===i+1?" selected":""}>${m}</option>`).join("")}</select><select class="field" id="${id}-y" data-ly><option value="">год</option>${Array.from({length:Y-2014},(_,i)=>Y-i).map(y=>`<option${+ly===y?" selected":""}>${y}</option>`).join("")}</select></span>`}
   else if(kind==="time")inp=`<input class="field" id="${id}" data-f="${k}" type="time" step="900" value="${esc(v)}">`;
   else if(kind==="color")inp=`<input class="field" id="${id}" data-f="${k}" type="color" value="${/^#[0-9a-f]{6}$/i.test(v)?esc(v):"#cccccc"}">`;
   else inp=`<input class="field" id="${id}" data-f="${k}" value="${esc(v)}"${dis}>`;
@@ -1424,7 +1435,7 @@ document.addEventListener("input",e=>{const t=e.target;if(t.dataset&&t.dataset.c
 document.addEventListener("keydown",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null&&e.key==="Enter"){e.preventDefault();t.blur();flushCaps()}});
 document.addEventListener("focusout",e=>{const t=e.target;if(t.dataset&&t.dataset.cap!=null&&t.dataset.cap in pendingCaps){clearTimeout(capTimer);capTimer=setTimeout(flushCaps,250)}});
 addEventListener("beforeunload",e=>{if(Object.keys(pendingCaps).length||capSaving){e.preventDefault();e.returnValue=""}});
-document.addEventListener("change",e=>{const t=e.target;if(t.matches&&t.matches("[data-tf]")){const r=t.closest(".trow");r.querySelector(".tstart").hidden=t.value==="m"}});
+document.addEventListener("change",e=>{const t=e.target;if(t.matches&&t.matches("[data-lm],[data-ly]")){const w=t.closest("label");const m=w.querySelector("[data-lm]").value,y=w.querySelector("[data-ly]").value;w.querySelector("[data-f=launch]").value=m&&y?y+"-"+m:""}if(t.matches&&t.matches("[data-tf]")){const r=t.closest(".trow");r.querySelector(".tstart").hidden=t.value==="m"}});
 document.addEventListener("submit",e=>{if(e.target.id==="form"){e.preventDefault();save()}});
 $("#fileIn").addEventListener("change",e=>{if(e.target.files.length)uploadFiles(e.target.files);e.target.value=""});
 let rowTarget=null;
