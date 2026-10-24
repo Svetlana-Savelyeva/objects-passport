@@ -251,7 +251,9 @@ textarea.field{resize:vertical;min-height:84px;font:inherit;font-size:15px}
 .busy i{width:14px;height:14px;border-radius:50%;border:2px solid color-mix(in srgb,var(--inv) 30%,transparent);border-top-color:var(--inv);animation:sp 0.8s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 .hdr{display:flex;gap:8px;align-items:center}
-.dc{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 14px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--ink);transition:transform .15s}
+.dbar{display:flex;flex-wrap:wrap;gap:10px}
+.dc.all[aria-pressed="true"]{background:var(--g-blue);color:#fff;border-color:transparent}
+.dc{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:9px 16px;background:var(--surface);cursor:pointer;font-size:13px;font-weight:500;color:var(--ink);transition:transform .15s}
 .dc:hover{transform:translateY(-1px);border-color:var(--ink)}
 .dc .dot{width:10px;height:10px;box-shadow:0 0 0 1px rgba(0,0,0,.08)}
 .dc .n{font-size:11px;font-weight:400;opacity:.65;font-variant-numeric:tabular-nums}
@@ -775,10 +777,12 @@ function renderHome(){
   <section class="sec">
     <div class="secthead"><div><span class="eyebrow">Подбор</span><h2>Фильтры</h2></div></div>
     <div class="fbar" id="fbar"></div>
+    <div class="secthead" style="margin-top:44px"><div><span class="eyebrow">География</span><h2>Районы</h2></div></div>
+    <div class="dbar" id="dbar"></div>
     <div class="secthead" style="margin-top:44px"><div><span class="eyebrow">Объекты</span><h2>Квартиры</h2></div><span class="eyebrow" id="count" style="letter-spacing:.08em"></span></div>
     <div class="cards" id="cards"></div>
   </section>`;
-  renderFilters();renderCards();
+  renderFilters();renderDists();renderCards();
   $("#q").addEventListener("input",e=>{q=e.target.value;renderCards()});
 }
 function renderFilters(){
@@ -786,15 +790,19 @@ function renderFilters(){
   const cnt=k=>k?base.filter(o=>roomsKey(o)===k).length:base.length;
   const amCnt=(k,v)=>base.filter(o=>(o.amenities||{})[k]===v).length;
   const st={"":"любой","yes":"есть","no":"нет"};
-  const active=fRooms||Object.keys(fAm).length||fDist.size;
-  const dmap={};base.forEach(o=>{if(!o.district)return;(dmap[o.district]=dmap[o.district]||{n:0,c:o.districtColor}).n++});
-  const dists=Object.entries(dmap).sort((a,b)=>a[0].localeCompare(b[0],"ru"));
+  const active=fRooms||Object.keys(fAm).length;
   $("#fbar").innerHTML=`
-   <div class="fgroup"><span class="eyebrow">Район</span><div class="ftiles">${dists.map(([d,v])=>{const on=fDist.has(d);return `<button class="dc" data-dist="${esc(d)}" aria-pressed="${on}" style="${on?colorStyle(v.c):""}"><span class="dot" style="background:${safeColor(v.c)}"></span>${esc(d)}<span class="n">${v.n}</span></button>`}).join("")}</div></div>
    <div class="fgroup"><span class="eyebrow">Тип объекта</span><div class="ftiles">${ROOMS.map(([k,l])=>`<button class="rt" data-rooms="${k}" aria-pressed="${fRooms===k}">${roomIcon(k)}${l}<span class="n">${cnt(k)}</span></button>`).join("")}</div></div>
    <div class="fgroup"><span class="eyebrow">Удобства</span><div><div class="aicons">${amList().map(([k,l])=>{const s=fAm[k]||"";const tip=`${l} · ${st[s]} (есть: ${amCnt(k,true)}, нет: ${amCnt(k,false)})`;return `<button class="ai" data-am="${esc(k)}" data-state="${s}" data-tip="${esc(l)}" aria-label="${esc(tip)}" title="${esc(tip)}"><span class="ic gi-${amGroup(k)}">${amIcon(k)}</span>${s?`<i class="badge">${s==="yes"?"✓":"✕"}</i>`:""}</button>`}).join("")}</div>
      ${Object.keys(fAm).length?`<div class="fsel">${["yes","no"].map(v=>{const ls=Object.entries(fAm).filter(([,x])=>x===v).map(([k])=>(amList().find(a=>a[0]===k)||[,k])[1]);return ls.length?`<span class="${v}"><b>${v==="yes"?"Есть":"Нет"}:</b> ${ls.map(esc).join(", ")}</span>`:""}).join("")}</div>`:""}</div></div>
    <div class="fhint"><span>Наведите на значок, чтобы увидеть название. Клик: «есть» → «нет» → любой. Объекты, где пункт не заполнен, при фильтре не показываются.</span>${active?'<button class="btn" data-act="reset">Сбросить фильтры</button>':""}</div>`;
+}
+function renderDists(){
+  const el=$("#dbar");if(!el)return;
+  const base=objs.filter(o=>!fCity||o.city===fCity);
+  const dmap={};base.forEach(o=>{if(!o.district)return;(dmap[o.district]=dmap[o.district]||{n:0,c:o.districtColor}).n++});
+  const dists=Object.entries(dmap).sort((a,b)=>a[0].localeCompare(b[0],"ru"));
+  el.innerHTML=`<button class="dc all" data-dist="" aria-pressed="${!fDist.size}">Все районы<span class="n">${base.length}</span></button>`+dists.map(([d,v])=>{const on=fDist.has(d);return `<button class="dc" data-dist="${esc(d)}" aria-pressed="${on}" style="${on?colorStyle(v.c):""}"><span class="dot" style="background:${safeColor(v.c)}"></span>${esc(d)}<span class="n">${v.n}</span></button>`}).join("");
 }
 function coverHTML(o){
   const c=coverOf(o);
@@ -1154,8 +1162,8 @@ function lightbox(o,i){
 
 document.addEventListener("click",async e=>{
   if(e.target.closest(".modal"))return;
-  const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;fDist.clear();renderNav();if(selId)location.hash="";else{renderFilters();renderCards()}return}
-  const dc=e.target.closest("[data-dist]");if(dc){const d=dc.dataset.dist;if(fDist.has(d))fDist.delete(d);else fDist.add(d);renderFilters();renderCards();return}
+  const cb=e.target.closest("[data-city]");if(cb){fCity=cb.dataset.city;fDist.clear();renderNav();if(selId)location.hash="";else{renderFilters();renderDists();renderCards()}return}
+  const dc=e.target.closest("[data-dist]");if(dc){const d=dc.dataset.dist;if(!d)fDist.clear();else if(fDist.has(d))fDist.delete(d);else fDist.add(d);renderDists();renderCards();return}
   const rt=e.target.closest("[data-rooms]");if(rt){fRooms=rt.dataset.rooms;renderFilters();renderCards();return}
   const at=e.target.closest("[data-am]");if(at){const k=at.dataset.am;const s=fAm[k]||"";const n=s===""?"yes":s==="yes"?"no":"";if(n)fAm[k]=n;else delete fAm[k];renderFilters();renderCards();return}
   const a3=e.target.closest("[data-am3]");if(a3){const n={"":"yes","yes":"no","no":""}[a3.dataset.v||""];a3.dataset.v=n;a3.querySelector(".st").textContent={"":"не указано","yes":"есть","no":"нет"}[n];return}
@@ -1166,7 +1174,7 @@ document.addEventListener("click",async e=>{
   else if(a==="gnext")stepGal(1);
   else if(a==="gexp"){const c=document.querySelector("#gal .gcard[aria-current=true]");if(c)lightbox(o,+c.dataset.pi)}
   else if(a==="tonear"){e.preventDefault();const s=$("#nearby");if(s)s.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion:reduce)").matches?"auto":"smooth"})}
-  else if(a==="reset"){fRooms="";fAm={};fDist.clear();renderFilters();renderCards()}
+  else if(a==="reset"){fRooms="";fAm={};renderFilters();renderCards()}
   else if(a==="copy"){try{await navigator.clipboard.writeText(b.dataset.v);toast("Скопировано");if(b.classList.contains("cpy")){b.innerHTML=ICON.check;b.classList.add("done");setTimeout(()=>{b.innerHTML=ICON.copy;b.classList.remove("done")},1600)}}catch(_){toast("Скопируйте вручную: "+b.dataset.v)}}
   else if(a==="unlock"){if(aes&&b.id==="lockBtn"){aes=null;secrets={};try{localStorage.removeItem("passport-pw")}catch(_){}headerState();render(true);toast("Коды скрыты")}else openUnlock()}
   else if(a==="unlock-edit"){const keep=collect();openUnlock(()=>{const base=draft?keep:{...plainOf(objs.find(x=>x.id===selId)),...keep,...Object.fromEntries(SECRET.map(f=>[f,(secrets[selId]||{})[f]||""]))};
