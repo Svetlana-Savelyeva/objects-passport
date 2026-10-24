@@ -126,7 +126,13 @@
    "access",
    "wifiPass"
   ],
-  "enc": "jofNnaKV5m3uruMAC+ru6P1c7uhzXmPjDfZ7iBFhbaQjyC9tq4Grgo62NKF/nqqOM7b3onvOX5H9wDsy2itZweniIAIwC+rSehDQXFGkSN4cDAgn6jbn41ZQMz3JNlCQOeq31ifO97htjqA9bmlVroDqGDxhmTn+kfbXWnoOfemNhDF/MvsQnThoXSECoeN5bSCahWV/zgw="
+  "enc": "jofNnaKV5m3uruMAC+ru6P1c7uhzXmPjDfZ7iBFhbaQjyC9tq4Grgo62NKF/nqqOM7b3onvOX5H9wDsy2itZweniIAIwC+rSehDQXFGkSN4cDAgn6jbn41ZQMz3JNlCQOeq31ifO97htjqA9bmlVroDqGDxhmTn+kfbXWnoOfemNhDF/MvsQnThoXSECoeN5bSCahWV/zgw=",
+  "listings": {
+   "site": {
+    "on": true,
+    "url": "https://merinohome.ru/zeus"
+   }
+  }
  },
  {
   "id": "o-02",
@@ -398,7 +404,13 @@
    "wifiPass"
   ],
   "enc": "kfKSvcxsyXxHradd6p3dYBco6+dd3jjamNrPxkDyo/flsVQDcgb0FSZsaj90E+I6jtQyJX58vuzh1YWTE7utyaIZEWnmzucNmC7uJ3uASZ/184o4EFBLKiN7koQ86KcaDFhGqewgTEsmFvNMyqquaEUyxiSLfsldt2fzdZFdBW8MDJWSePsGbJEHR88HC+GjMxLKVjUBTja8MfHmqoYv/Y5DvdtRIvJoUSFMNI+aXO6LqjPz5XPHyW9DnVxMZk+lfxwBh4k=",
-  "launch": "2024-07"
+  "launch": "2024-07",
+  "listings": {
+   "site": {
+    "on": true,
+    "url": "https://merinohome.ru/Black"
+   }
+  }
  },
  {
   "id": "o-04",
@@ -1378,7 +1390,13 @@
   "secretFilled": [
    "access"
   ],
-  "enc": "wROyATNUxVmXeckWRxN5NGHxYQdxT8ATgDrfSYgkfKpoUahhOWCCNj1h9HN/9wdW043debpkmPYXhLyPfUW+ZQ9PVl+eKjOgfp8fp/M4eNNjAn+3gqbK24vkSocORBggC/qRhfrLx9KE/pFDZCQoIrEwQMQP5r+SNj7pqswDILQ9Sg=="
+  "enc": "wROyATNUxVmXeckWRxN5NGHxYQdxT8ATgDrfSYgkfKpoUahhOWCCNj1h9HN/9wdW043debpkmPYXhLyPfUW+ZQ9PVl+eKjOgfp8fp/M4eNNjAn+3gqbK24vkSocORBggC/qRhfrLx9KE/pFDZCQoIrEwQMQP5r+SNj7pqswDILQ9Sg==",
+  "listings": {
+   "site": {
+    "on": true,
+    "url": "https://merinohome.ru/cube"
+   }
+  }
  },
  {
   "id": "o-17",
