@@ -23,6 +23,14 @@
     {
       "label": "Собственник",
       "secret": false
+    },
+    {
+      "label": "Видео",
+      "secret": false
+    },
+    {
+      "label": "Дата запуска в рабоу",
+      "secret": false
     }
   ],
   "amenities": [
