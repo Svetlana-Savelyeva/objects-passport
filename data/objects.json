@@ -134,28 +134,44 @@
   "nav": "https://yandex.ru/maps/-/CPtNNLiu",
   "metroLine": "Синий",
   "metro": "Удельная",
-  "metroWalk": "",
+  "metroWalk": "20",
   "parking": "Бесплатная, нужно поискать место поблизости",
   "photoLink": "https://drive.google.com/file/d/180z88XnEIlQxKXW9LOvBxpRduRyKgZJW/view?usp=drive_link",
   "extraLink": "",
-  "area": "",
-  "rooms": "",
-  "beds": "",
-  "guests": "",
-  "ceiling": "",
-  "floorsTotal": "",
-  "view": "",
-  "amenities": {},
-  "provider": "",
-  "contract": "",
+  "area": "41",
+  "rooms": "1",
+  "beds": "4",
+  "guests": "4",
+  "ceiling": "2,7",
+  "floorsTotal": "9",
+  "view": "На тихую улицу",
+  "amenities": {
+   "loggia": true,
+   "dishwasher": true,
+   "washer": true,
+   "oven": true,
+   "microwave": true,
+   "tv": true,
+   "hairdryer": true,
+   "elevator": true,
+   "workspace": true,
+   "bath": true,
+   "steamer": true,
+   "kettle": true,
+   "vacuum": true,
+   "cmvlirc9b": true,
+   "cmvlirs5z": true
+  },
+  "provider": "SkyNet",
+  "contract": "1031872",
   "providerPhone": "",
-  "wifiName": "",
+  "wifiName": "TP-Link_DFDB",
   "nearby": "",
   "notes": "",
   "custom": [
    {
     "label": "Инструкция по заезду",
-    "value": ""
+    "value": "https://merinohome.ru/i02"
    },
    {
     "label": "Страница на сайте",
@@ -202,10 +218,27 @@
    }
   ],
   "order": 2,
+  "apt": "593",
+  "checkIn": "15:00",
+  "checkOut": "12:00",
+  "payer": "",
+  "netNotes": "Код пароль: 5937\nОформлен на телефон: 89508096209",
+  "ukName": "",
+  "ukPhone": "+7 812 677-50-26",
+  "ukDispatch": "+7 812 679-19-98",
+  "ukEmail": "info@uk-zelpro.ru",
+  "ukApp": "",
+  "ukOffice": "",
+  "ukNotes": "",
+  "sleep": {
+   "bed180": 1,
+   "sofa": 1
+  },
   "secretFilled": [
-   "access"
+   "access",
+   "wifiPass"
   ],
-  "enc": "Zz72UxC1/+r+ShBX+/vY43GJg6gM64CmV19rHs81kgIV5XX0q8CXQTheMfnum4kBMaxcw5H8lpPM9zjLpyNlD7AVvbw28KMtgoL/3GZ56medir7NrSIPsxnFtHXPNsW8VPb541sE+TTyHqzAloYTEFs+ihkcoX7rWap+S2tOjz98MACyE9JPQg=="
+  "enc": "hVtfnDT6Gz0LZE8J4nqDKUtQlyS2d6Ast5FKbrE9xLTBN6OPxlZXRO9MSBbfTVfwIqmYBscYD+DnwAUySxk/Vga0B8Dx9DW0+5yi/rhLP1pcXltl8+HSSiyiWNDV0sum5UUq3e6gzWyKh4jyWepQxqecZLvaRdDJxV0XOtB0l6aQoWIVkaCqXmSraJaeSdIlGfqLIygiq8bgyIT4Iw=="
  },
  {
   "id": "o-03",
