@@ -2865,6 +2865,30 @@
   ],
   "photos": [],
   "order": 44,
+  "apt": "",
+  "checkIn": "",
+  "checkOut": "",
+  "payer": "",
+  "netNotes": "",
+  "ukName": "",
+  "ukPhone": "",
+  "ukDispatch": "",
+  "ukEmail": "",
+  "ukApp": "",
+  "ukOffice": "",
+  "ukNotes": "",
+  "tasks": [
+   {
+    "id": "tmvm7w7ahx6pn",
+    "title": "Оплата интернета",
+    "freq": "q",
+    "day": 20,
+    "start": 10,
+    "remind": 7,
+    "since": "2026-10-24"
+   }
+  ],
+  "sleep": {},
   "secretFilled": [
    "access"
   ],
