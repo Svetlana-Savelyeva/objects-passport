@@ -314,11 +314,12 @@ a.bell{text-decoration:none}
 .ptable-wrap.collapsed .po i.pnum{display:none}
 .ptable-wrap.collapsed th.po .pol{display:none}
 .ptable-wrap.collapsed th.po .pos{display:inline}
-.ptable th{vertical-align:bottom;padding-top:16px}
+.ptable th{vertical-align:top;padding-top:16px}
+.ptable th.po,.ptable th.pt{vertical-align:bottom}
 .ph{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;cursor:pointer;padding:6px 6px;border-radius:12px;font:inherit;color:inherit;min-width:74px}
 .ph:hover{background:var(--soft)}
 .ph.act{background:var(--soft);box-shadow:inset 0 0 0 1.5px #d6455d}
-.ph .pn{font-size:11.5px;font-weight:500;max-width:90px;white-space:normal;line-height:1.2}
+.ph .pn{font-size:11.5px;font-weight:500;max-width:96px;white-space:normal;line-height:1.2;min-height:2.4em;display:flex;align-items:flex-start;justify-content:center;text-align:center}
 .ph .pc{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
 .ptable .pt{font-family:var(--f-display);font-size:15px;padding-right:18px;color:var(--muted)}
 .pcell{display:inline-flex;align-items:center;gap:3px;justify-content:center;min-width:34px;height:30px;border:0;background:none;padding:0;text-decoration:none;color:inherit;cursor:default}
@@ -1538,7 +1539,7 @@ function renderPlatforms(){
   <div class="secthead" style="margin-top:26px;align-items:flex-end"><div><span class="tagpill">Размещение</span><h1 style="margin-top:18px">Площадки</h1><p class="lead">Где размещён каждый объект. Нажмите на площадку в шапке таблицы, чтобы увидеть объекты, которых там ещё нет.</p></div>
   ${token?`<button class="pill sm ${platEdit?"":"light"}" data-act="platedit">${platEdit?"Готово":"Отмечать галочками"}<span class="ar">${platEdit?ICON.check:ICON.pencil}</span></button>`:""}</div>
   ${pm?`<div class="pfilter">Показаны объекты, которых нет на «${esc(pm.name)}»: ${list.length} <button class="btn" data-act="platall">Показать все</button></div>`:""}
-  <div class="ptable-wrap"><table class="ptable"><thead><tr><th class="po"><span class="pol">Объект</span><span class="pos">№</span></th>${ps.map(p=>{const n=base.filter(o=>listing(o,p.key)).length;return `<th><button class="ph${platMissing===p.key?" act":""}" data-pmiss="${esc(p.key)}" title="Показать объекты без «${esc(p.name)}»">${platBadge(p,true)}<span class="pn">${esc(p.name)}</span><span class="pc">${n} из ${base.length}</span></button></th>`}).join("")}<th class="pt">Всего</th></tr></thead>
+  <div class="ptable-wrap"><table class="ptable"><thead><tr><th class="po"><span class="pol">Объект</span><span class="pos">№</span></th>${ps.map(p=>{const n=base.filter(o=>listing(o,p.key)).length;return `<th><button class="ph${platMissing===p.key?" act":""}" data-pmiss="${esc(p.key)}" title="Показать объекты без «${esc(p.name)}»">${platBadge(p,true)}<span class="pn">${esc(p.name).replace(/-/g,"\u2011")}</span><span class="pc">${n} из ${base.length}</span></button></th>`}).join("")}<th class="pt">Всего</th></tr></thead>
   <tbody>${list.map(o=>`<tr><td class="po"><a href="#${esc(o.id)}" title="${esc(o.name)}"><b>${esc(o.name)}</b><span><i class="pnum">№ </i>${esc(o.num)}</span></a></td>${ps.map(p=>{const l=listing(o,p.key);const u=l&&safeUrl(l.url);
     const inner=l?`<span class="pyes">${ICON.check}</span>`:`<span class="pno"></span>`;
     return `<td>${platEdit?`<button class="pcell" data-pcell="${esc(o.id)}|${esc(p.key)}" aria-pressed="${!!l}" aria-label="${esc(o.name)} — ${esc(p.name)}">${inner}</button>`:u?`<a class="pcell" href="${esc(u)}" target="_blank" rel="noopener" title="Открыть объявление">${inner}<i>↗</i></a>`:`<span class="pcell">${inner}</span>`}</td>`}).join("")}<td class="pt">${platCount(o)}</td></tr>`).join("")}</tbody></table></div>
