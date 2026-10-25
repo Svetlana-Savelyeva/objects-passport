@@ -600,6 +600,39 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
   .amore{display:inline-flex;margin-top:12px}
   .fhint>span{display:none}
 }
+
+/* phone: compact object page */
+@media (max-width:560px){
+  .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 8px;padding:14px 14px 18px;margin-top:20px;border-radius:22px}
+  .stats .stat{padding:0 4px;border-left:0;min-width:0}
+  .stats .stat b{font-size:24px}
+  .stats .stat b.word{font-size:17px;padding-top:.25em}
+  .stats .stat span{font-size:11px;margin-top:5px}
+  .stat.tbox{grid-column:1/-1;margin:0 0 4px;padding:10px 16px;justify-content:space-around;gap:12px;border-radius:16px}
+  .tpart b{font-size:26px}
+  .tpart em{font-size:11px;margin-top:5px}
+  .fillcard{grid-template-columns:auto 1fr;gap:16px;padding:16px 16px;margin-top:12px;align-items:start}
+  .ring,.ring svg{width:64px;height:64px}
+  .ring b{font-size:15px}
+  .fillcard h3{font-size:14px;margin-bottom:4px}
+  .fillcard p{font-size:12.5px;margin-bottom:8px}
+  .miss span{font-size:11.5px;padding:3px 9px}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .tile{flex-direction:row;align-items:center;justify-content:flex-start;min-height:0;padding:10px 12px;gap:10px;border-radius:14px}
+  .tile .ic{width:32px;height:32px;flex:none}
+  .tile .ic svg{width:16px;height:16px}
+  .tile b{font-size:13px;line-height:1.25}
+  #nearby .cards{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;gap:12px;margin-inline:-20px;padding-inline:20px;padding-bottom:6px;scrollbar-width:none}
+  #nearby .cards::-webkit-scrollbar{display:none}
+  #nearby .card{flex:0 0 74%;scroll-snap-align:start;border-radius:20px}
+  #nearby .cover{aspect-ratio:16/10}
+  #nearby .cover .ph{font-size:44px;padding:12px 16px}
+  #nearby .card .body{padding:12px 12px 12px 16px}
+  #nearby .card .nm{font-size:15px}
+  #nearby .meter{margin-top:8px}
+  #nearby .circ{width:32px;height:32px}
+  .ctag{font-size:10.5px;padding:4px 8px}
+}
 </style>
 </head>
 <body>
@@ -1082,7 +1115,7 @@ function distStyle(o){const c=safeColor(o.districtColor);if(c==="#bbb")return"";
 function distLabel(d){return d<0.1?"в этом же доме":d<1?Math.round(d*1000/10)*10+" м":d.toFixed(1).replace(".",",")+" км"}
 function cardHTML(o,dist){const f=fill(o);return `
     <a class="card" href="#${esc(o.id)}">
-      <span class="cover">${coverHTML(o)}<span class="tags">${dist!=null?`<span class="ctag dist" style="${distStyle(o)}">${ICON.pin}${distLabel(dist)}</span>`:""}${o.metro?`<span class="ctag"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}${o.rooms?`<span class="ctag">${/студ/i.test(o.rooms)?"Студия":esc(o.rooms)+"-комн."}</span>`:""}${o.district?`<span class="ctag">${esc(o.district)}</span>`:""}</span></span>
+      <span class="cover">${coverHTML(o)}<span class="tags">${dist!=null?`<span class="ctag dist" style="${distStyle(o)}">${ICON.pin}${distLabel(dist)}</span>`:""}${o.metro?`<span class="ctag"><span class="dot" style="background:${lineColor(o.metroLine)}"></span>${esc(o.metro)}</span>`:""}${o.rooms?`<span class="ctag">${/студ/i.test(o.rooms)?"Студия":esc(o.rooms)+"-комн."}</span>`:""}${o.district&&o.district!==o.metro?`<span class="ctag">${esc(o.district)}</span>`:""}</span></span>
       <span class="body"><span class="t"><span class="nm">${esc(o.name)}</span><span class="ad">№ ${esc(o.num)} · ${esc(fullAddr(o))}</span>
         <span class="meter"><i><b style="width:${f.pct}%;background:${fillColor(f.pct)}"></b></i>Паспорт заполнен на ${f.pct}%</span></span>
         <span class="circ" aria-hidden="true">${ICON.arrow}</span></span>
