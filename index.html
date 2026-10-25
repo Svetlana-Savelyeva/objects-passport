@@ -178,7 +178,8 @@ h1.hh .lt{font-weight:300;color:color-mix(in srgb,var(--ink) 78%,var(--bg))}
 .panel p{margin:0;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;font-size:14.5px}
 .mono{font-family:var(--f-mono);font-size:13px}
 .kv{display:grid;grid-template-columns:minmax(130px,220px) 1fr}
-.kv>div{padding:12px 0;border-top:1px solid var(--line);min-width:0;overflow-wrap:anywhere}
+.kv>div{padding:12px 0;border-top:1px solid var(--line);min-width:0;overflow-wrap:anywhere;white-space:pre-line}
+.kv>div.k{white-space:normal}
 .kv>div:nth-child(-n+2){border-top:0}
 .kv .k{color:var(--muted);font-size:13.5px;padding-right:12px;display:flex;align-items:center;gap:6px}
 .kv .nil{color:var(--muted);font-style:italic}
@@ -560,9 +561,6 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
   .tiles4{gap:10px}
   .gt{padding:18px 16px;min-height:150px}
   .gt .gl{font-size:13px}
-  .crow{grid-template-columns:auto 1fr auto auto auto}
-  .crow [data-cl]{grid-column:2/-1}
-  .crow [data-cv]{grid-column:2/3}
   .topin{gap:10px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -632,6 +630,26 @@ details.cut .kv>div:nth-child(-n+2){border-top:1px solid var(--line)}
   #nearby .meter{margin-top:8px}
   #nearby .circ{width:32px;height:32px}
   .ctag{font-size:10.5px;padding:4px 8px}
+}
+
+/* custom rows: label + buttons on top, multi-line value below */
+.crow{grid-template-columns:auto minmax(0,1fr) auto auto auto;align-items:center;row-gap:8px}
+.crow>.sorter{grid-row:1/3;align-self:start;margin-top:4px}
+.crow [data-cl]{grid-column:2/3;grid-row:1}
+.crow textarea.cv{grid-column:2/-1;grid-row:2;min-height:48px;resize:vertical;line-height:1.45;overflow:hidden;field-sizing:content}
+.crow .rfile{grid-column:2/-1}
+/* iOS: native time inputs ignore width */
+input[type=time].field{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;min-height:48px;text-align:left}
+input[type=time].field::-webkit-date-and-time-value{text-align:left}
+label{min-width:0}
+@media (max-width:560px){
+  .crow{grid-template-columns:auto minmax(0,1fr) auto auto auto;row-gap:6px;column-gap:6px;margin-bottom:16px}
+  .crow [data-cl]{grid-column:2/-1;grid-row:1}
+  .crow textarea.cv{grid-row:2}
+  .crow>.lockt,.crow>.circ{grid-row:3;width:36px;height:36px}
+  .crow>.lockt[data-act=sectoggle]{grid-column:3}.crow>.lockt[data-act=rowfile]{grid-column:4}.crow>.circ{grid-column:5}
+  .crow>.sorter{grid-row:1/4}
+  .crow .rfile{grid-row:4}
 }
 </style>
 </head>
@@ -1225,7 +1243,7 @@ let crowSeq=0;
 function crow(c={}){
   const n=crowSeq++;const sec=!!c.secret;const lockedVal=sec&&!aes;
   return`<div class="crow" data-sort data-manual="${c.label?"1":""}" data-file="${c.file?esc(JSON.stringify(c.file)):""}">${gripHTML()}<input class="field" id="cl-${n}" data-cl placeholder="Название, напр. «Кейбокс»" value="${esc(c.label||"")}"${lockedVal?" readonly":""}>
-  <input class="field" id="cv-${n}" data-cv placeholder="${lockedVal?"Скрыто — введите пароль":"Значение"}" value="${esc(lockedVal?"":c.value||"")}"${lockedVal?" disabled":""}>
+  <textarea class="field cv" id="cv-${n}" data-cv rows="1" placeholder="${lockedVal?"Скрыто — введите пароль":"Значение — можно в несколько строк"}"${lockedVal?" disabled":""}>${esc(lockedVal?"":c.value||"")}</textarea>
   <button type="button" class="lockt" data-act="sectoggle" aria-pressed="${sec}" title="Секретная строка (шифруется)"${!aes&&!sec?" disabled":""}${lockedVal?" disabled":""}>${ICON.lock}</button>
   <button type="button" class="lockt" data-act="rowfile" title="Прикрепить фото или файл"${sec?" disabled":""}>${S('<path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7-7L13 4.5a3.3 3.3 0 0 1 4.7 4.7l-8.2 8.2a1.7 1.7 0 0 1-2.4-2.4l7.5-7.5"/>',16)}</button>
   <button type="button" class="circ" data-act="delrow" aria-label="Удалить строку">✕</button>
@@ -1688,7 +1706,10 @@ document.addEventListener("click",async e=>{
   else if(a==="delfile-no"){pendingDel=null;render(true)}
   else if(a==="delfile-yes"){const p=o.photos[+b.dataset.i];pendingDel=null;busy(true,"Удаляю файл…");try{await deleteFile(p.path,`${o.name}: удалён файл`)}catch(err){toast(err.message)}finally{busy(false)}await photosCommit(o,ps=>ps.filter(x=>x.path!==p.path),`${o.name}: файл убран из паспорта`)}
 });
-document.addEventListener("input",e=>{const t=e.target;if(t.id==="f-beds")t.dataset.manual="1";if(t.matches("[data-cl]")){const r=t.closest(".crow");if(r.dataset.manual)return;const lk=r.querySelector("[data-act=sectoggle]");if(lk.disabled)return;lk.setAttribute("aria-pressed",SECRET_HINT.test(t.value))}});
+function growTA(t){t.style.height="auto";t.style.height=(t.scrollHeight+2)+"px"}
+new MutationObserver(()=>{document.querySelectorAll("textarea.cv:not([data-g])").forEach(t=>{t.dataset.g="1";growTA(t)})}).observe(document.documentElement,{childList:true,subtree:true});
+addEventListener("resize",()=>document.querySelectorAll("textarea.cv").forEach(growTA));
+document.addEventListener("input",e=>{const t=e.target;if(t.matches("textarea.cv"))growTA(t);if(t.id==="f-beds")t.dataset.manual="1";if(t.matches("[data-cl]")){const r=t.closest(".crow");if(r.dataset.manual)return;const lk=r.querySelector("[data-act=sectoggle]");if(lk.disabled)return;lk.setAttribute("aria-pressed",SECRET_HINT.test(t.value))}});
 /* captions: saved in the background, no page re-render */
 const pendingCaps={};let capTimer=null,capSaving=false,capAgain=false;
 function capVal(p){return p.path in pendingCaps?pendingCaps[p.path].v:p.caption||""}
