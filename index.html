@@ -304,6 +304,16 @@ a.bell{text-decoration:none}
 .ptable .po a{text-decoration:none;color:inherit;display:grid;gap:1px}
 .ptable .po a:hover b{text-decoration:underline;text-underline-offset:3px}
 .ptable .po span{font-size:11.5px;color:var(--muted)}
+.ptable .po{transition:min-width .25s ease,padding .25s ease}
+.ptable .po b{display:block;max-width:220px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;transition:max-width .25s ease,opacity .2s}
+.ptable .po i.pnum{font-style:normal}
+.ptable th.po .pos{display:none}
+.ptable-wrap.collapsed .po{min-width:0;padding-left:14px;padding-right:10px;box-shadow:6px 0 10px -8px rgba(40,30,20,.25)}
+.ptable-wrap.collapsed .po b{display:none}
+.ptable-wrap.collapsed .po span{font-family:var(--f-display);font-size:14px;color:var(--ink)}
+.ptable-wrap.collapsed .po i.pnum{display:none}
+.ptable-wrap.collapsed th.po .pol{display:none}
+.ptable-wrap.collapsed th.po .pos{display:inline}
 .ptable th{vertical-align:bottom;padding-top:16px}
 .ph{display:flex;flex-direction:column;align-items:center;gap:5px;background:none;border:0;cursor:pointer;padding:6px 6px;border-radius:12px;font:inherit;color:inherit;min-width:74px}
 .ph:hover{background:var(--soft)}
@@ -1528,8 +1538,8 @@ function renderPlatforms(){
   <div class="secthead" style="margin-top:26px;align-items:flex-end"><div><span class="tagpill">Размещение</span><h1 style="margin-top:18px">Площадки</h1><p class="lead">Где размещён каждый объект. Нажмите на площадку в шапке таблицы, чтобы увидеть объекты, которых там ещё нет.</p></div>
   ${token?`<button class="pill sm ${platEdit?"":"light"}" data-act="platedit">${platEdit?"Готово":"Отмечать галочками"}<span class="ar">${platEdit?ICON.check:ICON.pencil}</span></button>`:""}</div>
   ${pm?`<div class="pfilter">Показаны объекты, которых нет на «${esc(pm.name)}»: ${list.length} <button class="btn" data-act="platall">Показать все</button></div>`:""}
-  <div class="ptable-wrap"><table class="ptable"><thead><tr><th class="po">Объект</th>${ps.map(p=>{const n=base.filter(o=>listing(o,p.key)).length;return `<th><button class="ph${platMissing===p.key?" act":""}" data-pmiss="${esc(p.key)}" title="Показать объекты без «${esc(p.name)}»">${platBadge(p,true)}<span class="pn">${esc(p.name)}</span><span class="pc">${n} из ${base.length}</span></button></th>`}).join("")}<th class="pt">Всего</th></tr></thead>
-  <tbody>${list.map(o=>`<tr><td class="po"><a href="#${esc(o.id)}"><b>${esc(o.name)}</b><span>№ ${esc(o.num)}</span></a></td>${ps.map(p=>{const l=listing(o,p.key);const u=l&&safeUrl(l.url);
+  <div class="ptable-wrap"><table class="ptable"><thead><tr><th class="po"><span class="pol">Объект</span><span class="pos">№</span></th>${ps.map(p=>{const n=base.filter(o=>listing(o,p.key)).length;return `<th><button class="ph${platMissing===p.key?" act":""}" data-pmiss="${esc(p.key)}" title="Показать объекты без «${esc(p.name)}»">${platBadge(p,true)}<span class="pn">${esc(p.name)}</span><span class="pc">${n} из ${base.length}</span></button></th>`}).join("")}<th class="pt">Всего</th></tr></thead>
+  <tbody>${list.map(o=>`<tr><td class="po"><a href="#${esc(o.id)}" title="${esc(o.name)}"><b>${esc(o.name)}</b><span><i class="pnum">№ </i>${esc(o.num)}</span></a></td>${ps.map(p=>{const l=listing(o,p.key);const u=l&&safeUrl(l.url);
     const inner=l?`<span class="pyes">${ICON.check}</span>`:`<span class="pno"></span>`;
     return `<td>${platEdit?`<button class="pcell" data-pcell="${esc(o.id)}|${esc(p.key)}" aria-pressed="${!!l}" aria-label="${esc(o.name)} — ${esc(p.name)}">${inner}</button>`:u?`<a class="pcell" href="${esc(u)}" target="_blank" rel="noopener" title="Открыть объявление">${inner}<i>↗</i></a>`:`<span class="pcell">${inner}</span>`}</td>`}).join("")}<td class="pt">${platCount(o)}</td></tr>`).join("")}</tbody></table></div>
   ${platEdit?`<p class="status" style="margin-top:12px">Галочки сохраняются автоматически. Ссылки на объявления добавляются в правке объекта.</p>`:""}`;
@@ -1563,6 +1573,7 @@ function render(keepScroll){
   else{$("#view").innerHTML=editing?renderEdit(editing&&!draft?plainOf(o):o):renderObject(o);if(!editing){bindDrop();bindGal(o)}}
   if(keepScroll)scrollTo(0,y);
 }
+document.addEventListener("scroll",e=>{const w=e.target;if(w&&w.classList&&w.classList.contains("ptable-wrap"))w.classList.toggle("collapsed",w.scrollLeft>12)},true);
 let routed=false;
 function route(){
   const h=decodeURIComponent((location.hash||"").slice(1));
