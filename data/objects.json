@@ -2664,7 +2664,13 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-26/1793383367234-128.jpg",
+    "caption": "128",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 26,
   "secretFilled": [
    "access"
