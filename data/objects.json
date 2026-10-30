@@ -1202,7 +1202,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-11/1793366032903-chatgpt-image-21-2026-20-12-01.jpg",
+    "caption": "ChatGPT Image 21 февр. 2026 г., 20_12_01",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-11/1793366035144-chatgpt-image-21-2026-20-27-52.jpg",
+    "caption": "ChatGPT Image 21 февр. 2026 г., 20_27_52",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-11/1793366037701-chatgpt-image-21-2026-20-48-45.jpg",
+    "caption": "ChatGPT Image 21 февр. 2026 г., 20_48_45",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-11/1793366040368-chatgpt-image-21-2026-20-55-00.jpg",
+    "caption": "ChatGPT Image 21 февр. 2026 г., 20_55_00",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-11/1793366042729-45.jpg",
+    "caption": "45",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 11,
   "secretFilled": [
    "access"
