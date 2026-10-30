@@ -8066,7 +8066,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-82/1793399867764-20260514dsc06425.jpg",
+    "caption": "20260514DSC06425",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-82/1793399869895-41d3f9eb-db40-4e58-89ae-b1ea6bee813f.jpg",
+    "caption": "41d3f9eb-db40-4e58-89ae-b1ea6bee813f",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-82/1793399871932-ee452580-0f32-4179-8c58-58b2eed873b2.jpg",
+    "caption": "ee452580-0f32-4179-8c58-58b2eed873b2",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-82/1793399873861-fa91d76f-d726-4d18-a6c5-44a4602c48ad.jpg",
+    "caption": "fa91d76f-d726-4d18-a6c5-44a4602c48ad",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-82/1793399876224-32410bbf-b64f-4857-9535-284937c4ef2c.jpg",
+    "caption": "32410bbf-b64f-4857-9535-284937c4ef2c",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 82,
   "apt": "",
   "launch": "",
