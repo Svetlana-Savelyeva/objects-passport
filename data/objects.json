@@ -2001,6 +2001,11 @@
   ],
   "photos": [
    {
+    "path": "files/o-19/1793373133373-20230516dsc01054.jpg",
+    "caption": "Гостиная",
+    "type": "image/jpeg"
+   },
+   {
     "path": "files/o-19/1793373128077-20230516dsc00978-hdr.jpg",
     "caption": "Спальня",
     "type": "image/jpeg"
@@ -2008,11 +2013,6 @@
    {
     "path": "files/o-19/1793373130823-20230516dsc00973.jpg",
     "caption": "Спальня",
-    "type": "image/jpeg"
-   },
-   {
-    "path": "files/o-19/1793373133373-20230516dsc01054.jpg",
-    "caption": "Гостиная",
     "type": "image/jpeg"
    },
    {
