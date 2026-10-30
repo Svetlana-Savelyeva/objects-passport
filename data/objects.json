@@ -5806,7 +5806,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-59/1793395011623-20240825dsc04876-enhanced-nr-hdr.jpg",
+    "caption": "20240825DSC04876-Enhanced-NR-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-59/1793395016028-20240825dsc04902.jpg",
+    "caption": "20240825DSC04902",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-59/1793395018551-20240825dsc04889-hdr.jpg",
+    "caption": "20240825DSC04889-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-59/1793395020737-20240825dsc04823-hdr.jpg",
+    "caption": "20240825DSC04823-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-59/1793395023206-20240825dsc04908-enhanced-nr.jpg",
+    "caption": "20240825DSC04908-Enhanced-NR",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 59,
   "secretFilled": [
    "access"
