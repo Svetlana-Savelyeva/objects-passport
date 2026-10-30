@@ -822,7 +822,13 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-07/1793364337884-001.jpg",
+    "caption": "001",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 7,
   "secretFilled": [
    "access"
