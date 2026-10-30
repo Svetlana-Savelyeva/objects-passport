@@ -917,7 +917,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-08/1793365545624-9.jpg",
+    "caption": "9",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-08/1793365548226-2.jpg",
+    "caption": "2",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-08/1793365550591-6.jpg",
+    "caption": "6",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-08/1793365552998-10.jpg",
+    "caption": "10",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-08/1793365555400-35.jpg",
+    "caption": "35",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 8,
   "secretFilled": [
    "access"
