@@ -2571,6 +2571,11 @@
   ],
   "photos": [
    {
+    "path": "files/o-25/1793382779101-file.jpg",
+    "caption": "Солнечная гостиная с городским муралом",
+    "type": "image/jpeg"
+   },
+   {
     "path": "files/o-25/1793376366837-b1ee911c-59a5-45cc-9d8a-7348b9769335.jpg",
     "caption": "b1ee911c-59a5-45cc-9d8a-7348b9769335",
     "type": "image/jpeg"
@@ -2578,11 +2583,6 @@
    {
     "path": "files/o-25/1793382579989-file.jpg",
     "caption": "Уютная гостиная с солнечным светом и муралом",
-    "type": "image/jpeg"
-   },
-   {
-    "path": "files/o-25/1793382779101-file.jpg",
-    "caption": "Солнечная гостиная с городским муралом",
     "type": "image/jpeg"
    },
    {
