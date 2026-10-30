@@ -2569,7 +2569,13 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-25/1793376366837-b1ee911c-59a5-45cc-9d8a-7348b9769335.jpg",
+    "caption": "b1ee911c-59a5-45cc-9d8a-7348b9769335",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 25,
   "secretFilled": [
    "access"
