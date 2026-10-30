@@ -7281,7 +7281,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-74/1793398210428-dsc00958-hdr.jpg",
+    "caption": "DSC00958-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-74/1793398214449-dsc00964-hdr.jpg",
+    "caption": "DSC00964-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-74/1793398217005-dsc00880.jpg",
+    "caption": "DSC00880",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-74/1793398219307-2026-04-11-10-53-03.jpg",
+    "caption": "2026-04-11 10.53.03",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-74/1793398221746-dsc00945-hdr.jpg",
+    "caption": "DSC00945-HDR",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 74,
   "secretFilled": [
    "access"
