@@ -435,11 +435,11 @@
   "extraLink": "",
   "area": "",
   "rooms": "",
-  "beds": "",
-  "guests": "",
-  "ceiling": "",
+  "beds": "4",
+  "guests": "4",
+  "ceiling": "2,7",
   "floorsTotal": "",
-  "view": "",
+  "view": "Во двор. Двор закрыт от посторонних",
   "amenities": {},
   "provider": "",
   "contract": "",
@@ -507,8 +507,8 @@
   "order": 4,
   "apt": "",
   "launch": "",
-  "checkIn": "",
-  "checkOut": "",
+  "checkIn": "15:00",
+  "checkOut": "12:00",
   "payer": "",
   "netNotes": "",
   "ukName": "",
@@ -529,7 +529,10 @@
    }
   },
   "tasks": [],
-  "sleep": {},
+  "sleep": {
+   "bed160": 1,
+   "sofa": 1
+  },
   "secretFilled": [
    "access"
   ],
