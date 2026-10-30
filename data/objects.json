@@ -3069,7 +3069,28 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-30/1793384963946-file.jpg",
+    "caption": "Солнечный уголок с европейским видом",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-30/1793384966332-file.jpg",
+    "caption": "Солнечное утро в уютной кухне",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-30/1793384968386-chatgpt-image-7-2026-19-09-10.jpg",
+    "caption": "ChatGPT Image 7 апр. 2026 г., 19_09_10",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-30/1793384970515-file.jpg",
+    "caption": "Современная ванная с элегантными деталями",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 30,
   "secretFilled": [
    "access"
