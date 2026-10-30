@@ -2854,7 +2854,28 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-28/1793384154304-20230114-dsc7739-hdr.jpg",
+    "caption": "20230114_DSC7739-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-28/1793384173202-20230114dsc07847.jpg",
+    "caption": "20230114DSC07847",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-28/1793384176179-20230114dsc07801-hdr.jpg",
+    "caption": "20230114DSC07801-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-28/1793384178812-20230114dsc07892.jpg",
+    "caption": "20230114DSC07892",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 28,
   "secretFilled": [
    "access"
