@@ -3949,7 +3949,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-39/1793387446502-20230915-dsc7080-enhanced-nr.jpg",
+    "caption": "20230915_DSC7080-Enhanced-NR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-39/1793387449343-20230915-dsc6990-enhanced-nr.jpg",
+    "caption": "20230915_DSC6990-Enhanced-NR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-39/1793387453033-20230915-dsc6986-enhanced-nr.jpg",
+    "caption": "20230915_DSC6986-Enhanced-NR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-39/1793387456307-20230915-dsc7026.jpg",
+    "caption": "20230915_DSC7026",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-39/1793387460412-20230915-dsc7002.jpg",
+    "caption": "20230915_DSC7002",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 39,
   "secretFilled": [
    "access"
