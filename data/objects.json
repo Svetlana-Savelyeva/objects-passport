@@ -4329,7 +4329,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-43/1793388295823-9da8541c-fa33-4539-8adb-a6a62b8a40ae.jpg",
+    "caption": "9da8541c-fa33-4539-8adb-a6a62b8a40ae",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-43/1793388299399-20260429dsc06386.jpg",
+    "caption": "20260429DSC06386",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-43/1793388302913-20260429dsc06333-hdr.jpg",
+    "caption": "20260429DSC06333-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-43/1793388306476-20260429dsc06342-hdr.jpg",
+    "caption": "20260429DSC06342-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-43/1793388309989-20260429dsc06307.jpg",
+    "caption": "20260429DSC06307",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 43,
   "secretFilled": [
    "access"
