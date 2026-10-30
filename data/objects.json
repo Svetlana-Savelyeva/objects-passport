@@ -6186,7 +6186,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-63/1793395742348-20251221dsc01675-hdr.jpg",
+    "caption": "20251221DSC01675-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-63/1793395745071-20251221dsc01681.jpg",
+    "caption": "20251221DSC01681",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-63/1793395747503-20251221dsc01689.jpg",
+    "caption": "20251221DSC01689",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-63/1793395750169-20251221dsc01719.jpg",
+    "caption": "20251221DSC01719",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-63/1793395752510-20251221dsc01781.jpg",
+    "caption": "20251221DSC01781",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 63,
   "apt": "",
   "launch": "",
