@@ -1999,7 +1999,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-19/1793373128077-20230516dsc00978-hdr.jpg",
+    "caption": "20230516DSC00978-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-19/1793373130823-20230516dsc00973.jpg",
+    "caption": "20230516DSC00973-редакт",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-19/1793373133373-20230516dsc01054.jpg",
+    "caption": "20230516DSC01054",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-19/1793373135923-20230516dsc01060.jpg",
+    "caption": "20230516DSC01060",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-19/1793373138873-20230516dsc01195.jpg",
+    "caption": "20230516DSC01195",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 19,
   "secretFilled": [
    "access"
