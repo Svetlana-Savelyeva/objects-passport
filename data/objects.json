@@ -8471,7 +8471,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-87/1793910388632-103.jpg",
+    "caption": "103 гостиная ИИ",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-87/1793910391666-200.jpg",
+    "caption": "200 спальня ИИ ❤️",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-87/1793910394083-300.jpg",
+    "caption": "300 кабинет ИИ ❤️",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-87/1793910396237-400.jpg",
+    "caption": "400 прихожая ИИ ❤️",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-87/1793910398601-500.jpg",
+    "caption": "500 ванная комната",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 87,
   "secretFilled": [
    "access"
