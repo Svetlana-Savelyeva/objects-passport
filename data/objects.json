@@ -8756,7 +8756,33 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/msk-01/1793911010808-chatgpt-image-6-2026-16-15-55.jpg",
+    "caption": "ChatGPT Image 6 сент. 2026 г., 16_15_55",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/msk-01/1793911013207-b397a5ed-ea8f-4641-92df-3c0c4f3bf887.jpg",
+    "caption": "b397a5ed-ea8f-4641-92df-3c0c4f3bf887",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/msk-01/1793911015374-chatgpt-image-6-2026-18-48-42.jpg",
+    "caption": "ChatGPT Image 6 сент. 2026 г., 18_48_42",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/msk-01/1793911017488-chatgpt-image-6-2026-16-18-37.jpg",
+    "caption": "ChatGPT Image 6 сент. 2026 г., 16_18_37",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/msk-01/1793911019726-chatgpt-image-6-2026-19-21-52.jpg",
+    "caption": "ChatGPT Image 6 сент. 2026 г., 19_21_52",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 1001,
   "secretFilled": [],
   "enc": ""
