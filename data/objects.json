@@ -8661,7 +8661,18 @@
     "value": ""
    }
   ],
-  "photos": [],
+  "photos": [
+   {
+    "path": "files/o-89/1793910843047-20261016dsc04085-hdr.jpg",
+    "caption": "20261016DSC04085-HDR",
+    "type": "image/jpeg"
+   },
+   {
+    "path": "files/o-89/1793910847304-20261016dsc04245.jpg",
+    "caption": "20261016DSC04245",
+    "type": "image/jpeg"
+   }
+  ],
   "order": 89,
   "secretFilled": [
    "access"
